@@ -1,0 +1,106 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
+
+require 'typekit'
+require 'optparse'
+require 'pp'
+
+class Controller
+  def initialize options
+    @client = Typekit::Client.new options
+  end
+
+  def process command
+    action, arguments = command[0], command[1..-1]
+    case action
+    when 'show'
+      pp @client.get arguments
+    when 'create'
+    when 'update'
+    when 'delete'
+    when 'exit'
+      return false
+    when 'help'
+      help
+    else
+      puts %{The action '#{ action }' is unknown.}
+    end
+    true
+  rescue Exception => e
+    puts e
+    true
+  end
+
+  def help
+    puts <<-HELP
+Usage: [action] [resource] [parameters]
+
+Possible actions:
+    show
+    create
+    update
+    delete
+
+Examples:
+    show kits
+    show kits bas4cfe
+    show kits bas4cfe families
+    show kits bas4cfe families vcsm
+HELP
+  end
+end
+
+options = { version: 1, format: :json }
+
+parser = OptionParser.new do |o|
+  o.banner = 'Usage: typekit [options] [command]'
+
+  o.separator ''
+  o.separator 'Required options:'
+
+  o.on('-t', '--token TOKEN', 'Set the API token') do |value|
+    options[:token] = value
+  end
+
+  o.separator ''
+  o.separator 'Other options:'
+
+  o.on('-v', '--version VERSION', 'Set the API version') do |value|
+    options[:version] = value
+  end
+
+  o.on('-f', '--format FORMAT', 'Set the data format') do |value|
+    options[:format] = value
+  end
+
+  o.on_tail('-h', '--help', 'Show this message') do
+    puts o
+    exit
+  end
+end
+
+command = parser.parse!
+controller = Controller.new options
+
+unless command.empty?
+  controller.process command
+  exit
+end
+
+puts %{Type 'help' for help and 'exit' to exit.}
+
+loop do
+  begin
+    print '> '
+    command = $stdin.gets.chomp.split /\s+/
+    next if command.empty?
+    break unless controller.process command
+  rescue Interrupt
+    break
+  end
+end
+
+puts 'Bye.'
+
+# vim: set ft=ruby

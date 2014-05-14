@@ -6,7 +6,7 @@ module Typekit
       403 => 'Your application has been rate limited.',
       404 => 'You are requesting a resource that does not exist.',
       500 => 'Typekit’s servers are unable to process the request.',
-      503 => 'The Typekit API is offline for maintenance.'
+      503 => 'Typekit’s API is offline for maintenance.'
     }
 
     def initialize options

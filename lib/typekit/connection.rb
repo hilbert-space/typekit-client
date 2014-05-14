@@ -37,6 +37,8 @@ module Typekit
 
       response = http.request http_request
       Response.new code: response.code.to_i, content: response.body
+    rescue SocketError
+      raise 'Unable to connect to Typekit’s API.'
     end
   end
 end

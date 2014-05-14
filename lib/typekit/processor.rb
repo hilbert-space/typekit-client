@@ -1,10 +1,10 @@
 module Typekit
   class Processor
     def initialize options
-      parser = options[:format].to_s.upcase
-      extend Parser.const_get parser
+      format = options[:format]
+      extend Parser.const_get format.to_s.upcase
     rescue NameError
-      raise "The parser '#{ parser }' cannot be found."
+      raise "The is no parser for the format '#{ format }'."
     end
 
     def process response
