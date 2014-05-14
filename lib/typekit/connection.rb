@@ -1,5 +1,6 @@
 require 'net/https'
 require 'uri'
+require 'rack/utils'
 
 module Typekit
   class Connection
@@ -19,18 +20,12 @@ module Typekit
     protected
 
     def request method, uri, parameters = {}
-      case method
-      when :get
-        unless parameters.empty?
-          uri = "#{ uri }?#{ URI.encode_www_form parameters }"
-        end
-        http_request = Net::HTTP::Get.new URI(uri)
-      else
-        klass = Net::HTTP.const_get method.to_s.capitalize
-        http_request = klass.new URI(uri)
-        http_request.set_form_data parameters unless parameters.empty?
+      unless parameters.empty?
+        uri = "#{ uri }?#{ Rack::Utils.build_nested_query parameters }"
       end
 
+      klass = Net::HTTP.const_get method.to_s.capitalize
+      http_request = klass.new URI(uri)
       http_request['X-Typekit-Token'] = @token
 
       http = Net::HTTP.new http_request.uri.host, http_request.uri.port
