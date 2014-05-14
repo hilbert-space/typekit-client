@@ -31,24 +31,17 @@ class Controller
     puts <<-HELP
 Usage: <action> <resource> [parameters]
 
-<action> is one of the following:
-    show
-    create
-    update
-    delete
-
-<resource> is a white-space-separated list:
-    kits
-    kits bas4cfe
-    kits bas4cfe families vcsm
-
-[parameters] is a JSON-encoded hash:
-    { "name": "Megakit", "domains": "localhost" }
+    <action>        show, create, update, or delete
+    <resource>      a list separated by white spaces
+    [parameters]    a JSON-encoded hash (optional)
 
 Examples:
+    show kits
     show kits bas4cfe families vcsm
-    create kits { name: "Megakit", "domains": "localhost" }
-    update kits bas4cfe { name: "Ultrakit" }
+    show families vcsm i9
+    show libraries trial { "page": 10, "per_page": 5 }
+    create kits { "name": "Megakit", "domains": "localhost" }
+    update kits bas4cfe { "name": "Ultrakit" }
     delete kits bas4cfe
 HELP
   end
