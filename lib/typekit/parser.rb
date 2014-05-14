@@ -4,7 +4,7 @@ module Typekit
       def self.extended base
         require 'json'
       rescue LoadError
-        raise 'The JSON parser cannot be loaded.'
+        raise LoadError, 'The JSON parser cannot be loaded.'
       end
 
       def parse data
@@ -16,7 +16,7 @@ module Typekit
       def self.extended base
         require 'yaml'
       rescue LoadError
-        raise 'The YAML parser cannot be loaded.'
+        raise LoadError, 'The YAML parser cannot be loaded.'
       end
 
       def parse data

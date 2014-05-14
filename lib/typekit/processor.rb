@@ -4,11 +4,11 @@ module Typekit
       format = options[:format]
       extend Parser.const_get format.to_s.upcase
     rescue NameError
-      raise "The is no parser for the format '#{ format }'."
+      raise NameError, "The is no parser for the format '#{ format }'."
     end
 
     def process response
-      return parse(response.content) if response.success?
+      return parse response.content if response.success?
 
       begin
         result = parse response.content
@@ -17,8 +17,7 @@ module Typekit
       end
 
       if result.include? 'errors'
-        raise Error.new code: response.code,
-          message: Array(result['errors']).join(', ')
+        raise Error.new code: response.code, message: result['errors']
       else
         raise Error.new code: response.code
       end

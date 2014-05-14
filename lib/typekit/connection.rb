@@ -6,7 +6,8 @@ module Typekit
     METHODS = [ :get, :post, :delete ]
 
     def initialize options
-      @token = options[:token]
+      @token = options[:token] || ''
+      raise ArgumentError, 'The API token is required.' if @token.empty?
     end
 
     METHODS.each do |method|
@@ -21,7 +22,7 @@ module Typekit
       case method
       when :get
         unless parameters.empty?
-          uri = [ uri, URI.encode_www_form(parameters) ].join('?')
+          uri = "#{ uri }?#{ URI.encode_www_form parameters }"
         end
         http_request = Net::HTTP::Get.new URI(uri)
       else
@@ -38,7 +39,7 @@ module Typekit
       response = http.request http_request
       Response.new code: response.code.to_i, content: response.body
     rescue SocketError
-      raise 'Unable to connect to Typekit’s API.'
+      raise SocketError, 'Unable to connect to Typekit’s API.'
     end
   end
 end
