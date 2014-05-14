@@ -4,7 +4,7 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
 require 'typekit'
 require 'optparse'
-require 'pp'
+require 'json'
 
 class Controller
   def initialize options
@@ -12,42 +12,78 @@ class Controller
   end
 
   def process command
-    action, arguments = command[0], command[1..-1]
+    action, resource, parameters = parse command
     case action
     when 'show'
-      pp @client.get arguments
-    when 'create'
-    when 'update'
+      print @client.get resource, parameters
+    when 'create', 'update'
+      print @client.post resource, parameters
     when 'delete'
-    when 'exit'
-      return false
-    when 'help'
-      help
+      print @client.delete resource, parameters
     else
-      puts %{The action '#{ action }' is unknown.}
+      raise 'The given action is unknown.'
     end
-    true
   rescue Exception => e
     puts e
-    true
   end
 
   def help
     puts <<-HELP
-Usage: [action] [resource] [parameters]
+Usage: <action> <resource> [parameters]
 
-Possible actions:
+<action> is one of the following:
     show
     create
     update
     delete
 
+<resource> is a white-space-separated list:
+    kits
+    kits bas4cfe
+    kits bas4cfe families vcsm
+
+[parameters] is a JSON-encoded hash:
+    { "name": "Megakit", "domains": "localhost" }
+
 Examples:
-    show kits
-    show kits bas4cfe
-    show kits bas4cfe families
     show kits bas4cfe families vcsm
+    create kits { name: "Megakit", "domains": "localhost" }
+    update kits bas4cfe { name: "Ultrakit" }
+    delete kits bas4cfe
 HELP
+  end
+
+  protected
+
+  def print output
+    puts JSON.pretty_generate output
+  end
+
+  def parse command
+    if command =~ /({.*})\s*$/
+      begin
+        parameters = JSON.parse $1
+        raise unless parameters.is_a? Hash
+        command = command.gsub /{.*}/, ''
+      rescue
+        raise 'Unable to parse the specified parameters.'
+      end
+    else
+      parameters = {}
+    end
+
+    chunks = command.split(/\s+/).compact.reject &:empty?
+    action, resource = chunks[0], chunks[1..-1]
+
+    raise 'The action name is missing.' if action.nil?
+    raise 'The action name is invalid.' unless action =~ /^\w+$/
+
+    raise 'The resource name is missing.' if resource.empty?
+    unless resource.all?{ |chunk| chunk =~ /^[\w\d]+$/ }
+      raise 'The resource name is invalid.'
+    end
+
+    [ action, resource, parameters ]
   end
 end
 
@@ -80,8 +116,14 @@ parser = OptionParser.new do |o|
   end
 end
 
-command = parser.parse!
-controller = Controller.new options
+command = parser.parse!.join ' '
+
+begin
+  controller = Controller.new options
+rescue Exception => e
+  puts e
+  exit
+end
 
 unless command.empty?
   controller.process command
@@ -93,9 +135,16 @@ puts %{Type 'help' for help and 'exit' to exit.}
 loop do
   begin
     print '> '
-    command = $stdin.gets.chomp.split /\s+/
+    command = $stdin.gets.strip
     next if command.empty?
-    break unless controller.process command
+    case command
+    when 'exit'
+      exit
+    when 'help'
+      controller.help
+    else
+      controller.process command
+    end
   rescue Interrupt
     break
   end
