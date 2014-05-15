@@ -7,7 +7,7 @@ describe Typekit::Connection do
   let(:token) { 'arbitrary' }
   let(:subject) { Typekit::Connection.new token: token }
 
-  it 'the HTTP methods supported by Typekit' do
+  it 'has the HTTP methods supported by Typekit' do
     HTTP_METHODS.each do |method|
       expect(subject).to respond_to(method)
     end
