@@ -132,7 +132,7 @@ loop do
     next if command.empty?
     case command
     when 'exit'
-      exit
+      break
     when 'help'
       controller.help
     else
