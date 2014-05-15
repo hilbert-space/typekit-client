@@ -104,15 +104,13 @@ parser = OptionParser.new do |o|
   end
 
   o.on_tail('-h', '--help', 'Show this message') do
-    puts o
-    exit
+    raise
   end
 end
 
 begin
   parser.parse!
-rescue Exception => e
-  puts e
+rescue
   puts parser
   exit
 end
