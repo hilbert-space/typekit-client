@@ -110,7 +110,7 @@ parser = OptionParser.new do |o|
 end
 
 begin
-  command = parser.parse!.join ' '
+  parser.parse!
 rescue Exception => e
   puts e
   puts parser
@@ -124,8 +124,8 @@ rescue Exception => e
   exit
 end
 
-unless command.empty?
-  controller.process command
+unless ARGV.empty?
+  controller.process ARGV.join(' ')
   exit
 end
 
