@@ -10,8 +10,8 @@ module Typekit
     }
 
     def initialize options
-      if options.include? :message
-        super Array(options[:message]).join(', ')
+      if options.include? :messages
+        super Array(options[:messages]).join(', ')
       elsif MESSAGES.include? options[:code]
         super MESSAGES[options[:code]]
       else

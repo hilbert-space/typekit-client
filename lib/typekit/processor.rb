@@ -17,7 +17,7 @@ module Typekit
       end
 
       if result.include? 'errors'
-        raise Error.new code: response.code, message: result['errors']
+        raise Error.new code: response.code, messages: result['errors']
       else
         raise Error.new code: response.code
       end
