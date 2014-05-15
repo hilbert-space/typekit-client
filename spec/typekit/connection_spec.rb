@@ -24,7 +24,44 @@ describe Typekit::Connection do
 
       it 'instantiates an appropriate HTML request' do
         expect(klass).to receive(:new).and_call_original
-        subject.send method, 'https://typekit.com/api/bla-bla'
+        subject.send method, 'https://typekit.com/api'
+      end
+
+      it 'handles parameters whose values are ordinary lists' do
+        query = 'domains[]=example.com&domains[]=example.net'
+        expect(klass).to receive(:new).
+          with{ |uri| uri.query == query }.and_call_original
+        subject.send method, 'https://typekit.com/api',
+          { domains: [ 'example.com', 'example.net' ] }
+      end
+
+      it 'handles parameters whose values are object lists' do
+        queries = [
+          'families[0][id]=gkmg&families[1][id]=asdf',
+          'families[1][id]=asdf&families[0][id]=gkmg'
+        ]
+        expect(klass).to receive(:new).
+          with{ |uri| queries.include? uri.query }.and_call_original
+        subject.send method, 'https://typekit.com/api',
+          { families: { 0 => { id: 'gkmg' }, 1 => { id: 'asdf' } } }
+      end
+
+      it 'passes integers as decimal strings' do
+        expect(klass).to receive(:new).
+          with{ |uri| uri.query == 'page=42' }.and_call_original
+        subject.send method, 'https://typekit.com/api', { page: 42 }
+      end
+
+      it 'passes the logical true as the string true' do
+        expect(klass).to receive(:new).
+          with{ |uri| uri.query == 'budge=true' }.and_call_original
+        subject.send method, 'https://typekit.com/api', { budge: true }
+      end
+
+      it 'passes the logical false as the string false' do
+        expect(klass).to receive(:new).
+          with{ |uri| uri.query == 'budge=false' }.and_call_original
+        subject.send method, 'https://typekit.com/api', { budge: false }
       end
     end
   end
