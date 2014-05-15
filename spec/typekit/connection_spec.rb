@@ -22,7 +22,7 @@ describe Typekit::Connection do
     describe "##{ method }" do
       let(:klass) { Net::HTTP::const_get method.to_s.capitalize }
 
-      it 'instantiates an appropriate HTML request' do
+      it 'instantiates an appropriate HTTP request' do
         expect(klass).to receive(:new).and_call_original
         subject.send method, 'https://typekit.com/api'
       end
