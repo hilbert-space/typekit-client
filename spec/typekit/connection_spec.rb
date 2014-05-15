@@ -27,6 +27,17 @@ describe Typekit::Connection do
         subject.send method, 'https://typekit.com/api'
       end
 
+      it 'handles orginary parameters' do
+        queries = [
+          'name=Megakit&domains=localhost',
+          'domains=localhost&name=Megakit'
+        ]
+        expect(klass).to receive(:new).
+          with{ |uri| queries.include? uri.query }.and_call_original
+        subject.send method, 'https://typekit.com/api',
+          { name: 'Megakit', domains: 'localhost' }
+      end
+
       it 'handles parameters whose values are ordinary lists' do
         query = 'domains[]=example.com&domains[]=example.net'
         expect(klass).to receive(:new).
