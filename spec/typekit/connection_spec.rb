@@ -76,14 +76,14 @@ describe Typekit::Connection do
 
       it 'passes the logical true as the string true' do
         expect(klass).to receive(:new).
-          with{ |uri| uri.query == 'budge=true' }.and_call_original
-        subject.send method, 'https://typekit.com/api', { budge: true }
+          with{ |uri| uri.query == 'badge=true' }.and_call_original
+        subject.send method, 'https://typekit.com/api', { badge: true }
       end
 
       it 'passes the logical false as the string false' do
         expect(klass).to receive(:new).
-          with{ |uri| uri.query == 'budge=false' }.and_call_original
-        subject.send method, 'https://typekit.com/api', { budge: false }
+          with{ |uri| uri.query == 'badge=false' }.and_call_original
+        subject.send method, 'https://typekit.com/api', { badge: false }
       end
     end
   end
