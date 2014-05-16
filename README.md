@@ -16,6 +16,7 @@ Alternatively, one can directly clone the repository:
 ```
 $ git clone https://github.com/IvanUkhov/typekit
 $ cd typekit
+$ bundle install
 ```
 
 ## Usage
