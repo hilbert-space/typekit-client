@@ -1,5 +1,5 @@
 module Typekit
-  class Error < ::Exception
+  class Error < ::StandardError
     MESSAGES = {
       400 => 'There are errors in the data provided by your application.',
       401 => 'Authentication is needed to access the requested endpoint.',
