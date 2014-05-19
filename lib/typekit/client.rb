@@ -1,10 +1,9 @@
 module Typekit
   class Client
-    def initialize options
-      options = { version: 1, format: :json }.merge options
-      @router = Router.new options
-      @connection = Connection.new options
-      @processor = Processor.new options
+    def initialize(version: 1, format: :json, token:)
+      @router = Router.new version: version, format: format
+      @connection = Connection.new token: token
+      @processor = Processor.new format: format
     end
 
     Connection::METHODS.each do |method|

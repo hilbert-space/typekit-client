@@ -7,11 +7,11 @@ require 'optparse'
 require 'json'
 
 class Controller
-  def initialize options
-    @client = Typekit::Client.new options
+  def initialize(**options)
+    @client = Typekit::Client.new **options
   end
 
-  def process command
+  def process(command)
     action, resource, parameters = parse command
     case action
     when 'show'
@@ -48,11 +48,11 @@ HELP
 
   protected
 
-  def print output
+  def print(output)
     puts JSON.pretty_generate output
   end
 
-  def parse command
+  def parse(command)
     if command =~ /({.*})\s*$/
       begin
         parameters = JSON.parse $1
@@ -80,7 +80,7 @@ HELP
   end
 end
 
-options = { version: 1, format: :json }
+options = {}
 
 parser = OptionParser.new do |o|
   o.banner = 'Usage: typekit [options] [command]'

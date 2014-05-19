@@ -9,11 +9,11 @@ module Typekit
       503 => 'Typekit’s API is offline for maintenance.'
     }
 
-    def initialize options
-      if options.include? :messages
-        super Array(options[:messages]).join(', ')
-      elsif MESSAGES.include? options[:code]
-        super MESSAGES[options[:code]]
+    def initialize(code:, messages: nil)
+      if messages
+        super Array(messages).join(', ')
+      elsif MESSAGES.include? code
+        super MESSAGES[code]
       else
         super 'An unknown error has occurred.'
       end

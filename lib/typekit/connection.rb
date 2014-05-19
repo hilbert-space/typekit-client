@@ -6,9 +6,8 @@ module Typekit
   class Connection
     METHODS = [ :get, :post, :delete ]
 
-    def initialize options
-      @token = options[:token] || ''
-      raise ArgumentError, 'The API token is required.' if @token.empty?
+    def initialize(token:)
+      @token = token
     end
 
     METHODS.each do |method|
@@ -19,7 +18,7 @@ module Typekit
 
     protected
 
-    def request method, uri, parameters = {}
+    def request(method, uri, parameters = {})
       unless parameters.empty?
         parameters = self.class.prepare_parameters parameters
         uri = "#{ uri }?#{ Rack::Utils.build_nested_query parameters }"
@@ -38,7 +37,7 @@ module Typekit
       raise SocketError, 'Unable to connect to Typekit’s API.'
     end
 
-    def self.prepare_parameters parameters
+    def self.prepare_parameters(parameters)
       #
       # FIXME: https://github.com/rack/rack/issues/557
       #

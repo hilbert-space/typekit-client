@@ -2,9 +2,9 @@ module Typekit
   class Response
     attr_reader :code, :content
 
-    def initialize options
-      @code = options[:code]
-      @content = options[:content]
+    def initialize(code:, content:)
+      @code = code
+      @content = content
     end
 
     def success?
