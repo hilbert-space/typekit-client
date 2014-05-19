@@ -1,12 +1,12 @@
-require 'typekit/version'
+require_relative 'typekit/version'
 
-require 'typekit/router'
+require_relative 'typekit/router'
 
-require 'typekit/response'
-require 'typekit/connection'
+require_relative 'typekit/response'
+require_relative 'typekit/connection'
 
-require 'typekit/error'
-require 'typekit/parser'
-require 'typekit/processor'
+require_relative 'typekit/error'
+require_relative 'typekit/parser'
+require_relative 'typekit/processor'
 
-require 'typekit/client'
+require_relative 'typekit/client'
