@@ -53,17 +53,7 @@ HELP
   end
 
   def parse(command)
-    if command =~ /({.*})\s*$/
-      begin
-        parameters = JSON.parse($1)
-        raise unless parameters.is_a?(Hash)
-        command = command.gsub(/{.*}/, '')
-      rescue
-        raise 'Unable to parse the specified parameters.'
-      end
-    else
-      parameters = {}
-    end
+    parameters = extract_parameters!(command)
 
     chunks = command.split(/\s+/).compact.reject(&:empty?)
     action, resource = chunks[0], chunks[1..-1]
@@ -77,6 +67,19 @@ HELP
     end
 
     [ action, resource, parameters ]
+  end
+
+  def extract_parameters!(command)
+    if command =~ /(?<parameters>{.*})\s*$/
+      parameters = JSON.parse(Regexp.last_match(:parameters))
+      raise unless parameters.is_a?(Hash)
+      command.gsub!(/{.*}/, '')
+      parameters
+    else
+      {}
+    end
+  rescue
+    raise 'Unable to parse the specified parameters.'
   end
 end
 
