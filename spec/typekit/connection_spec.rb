@@ -14,7 +14,7 @@ describe Typekit::Connection do
   end
 
   before do
-    response = double body: '{}', code: '200'
+    response = double(body: '{}', code: '200')
     Net::HTTP.any_instance.stub(:request).and_return(response)
   end
 
@@ -33,7 +33,7 @@ describe Typekit::Connection do
           'domains=localhost&name=Megakit'
         ]
         expect(klass).to receive(:new).
-          with{ |uri| queries.include?(uri.query) }.and_call_original
+          with { |uri| queries.include?(uri.query) }.and_call_original
         subject.send(method, 'https://typekit.com/api',
           { name: 'Megakit', domains: 'localhost' })
       end
@@ -41,7 +41,7 @@ describe Typekit::Connection do
       it 'passes parameters whose values are ordinary lists' do
         query = 'domains[]=example.com&domains[]=example.net'
         expect(klass).to receive(:new).
-          with{ |uri| uri.query == query }.and_call_original
+          with { |uri| uri.query == query }.and_call_original
         subject.send(method, 'https://typekit.com/api',
           { domains: [ 'example.com', 'example.net' ] })
       end
@@ -52,14 +52,14 @@ describe Typekit::Connection do
           'families[1][id]=asdf&families[0][id]=gkmg'
         ]
         expect(klass).to receive(:new).
-          with{ |uri| queries.include?(uri.query) }.and_call_original
+          with { |uri| queries.include?(uri.query) }.and_call_original
         subject.send(method, 'https://typekit.com/api',
           { families: { 0 => { id: 'gkmg' }, 1 => { id: 'asdf' } } })
       end
 
       it 'passes integers as decimal strings' do
         expect(klass).to receive(:new).
-          with{ |uri| uri.query == 'page=42' }.and_call_original
+          with { |uri| uri.query == 'page=42' }.and_call_original
         subject.send(method, 'https://typekit.com/api', { page: 42 })
       end
 
@@ -69,20 +69,20 @@ describe Typekit::Connection do
           'primes[1][value]=3&primes[0][value]=2'
         ]
         expect(klass).to receive(:new).
-          with{ |uri| queries.include?(uri.query) }.and_call_original
+          with { |uri| queries.include?(uri.query) }.and_call_original
         subject.send(method, 'https://typekit.com/api',
           { primes: { 0 => { value: 2 }, 1 => { value: 3 } } })
       end
 
       it 'passes the logical true as the string true' do
         expect(klass).to receive(:new).
-          with{ |uri| uri.query == 'badge=true' }.and_call_original
+          with { |uri| uri.query == 'badge=true' }.and_call_original
         subject.send(method, 'https://typekit.com/api', { badge: true })
       end
 
       it 'passes the logical false as the string false' do
         expect(klass).to receive(:new).
-          with{ |uri| uri.query == 'badge=false' }.and_call_original
+          with { |uri| uri.query == 'badge=false' }.and_call_original
         subject.send(method, 'https://typekit.com/api', { badge: false })
       end
     end

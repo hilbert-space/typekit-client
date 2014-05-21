@@ -17,14 +17,14 @@ describe Typekit::Processor do
   end
 
   it 'does not support XML' do
-    expect{ Typekit::Processor.new(format: :xml) }.to raise_error
+    expect { Typekit::Processor.new(format: :xml) }.to raise_error
   end
 
   it 'raises an appropriate exception when a request fails' do
     parser = Typekit::Processor.new(format: :json)
     response = double(success?: false, code: 401,
       content: '{ "errors": [ "Not authorized" ] }')
-    expect{ parser.process(response) }.to \
+    expect { parser.process(response) }.to \
       raise_error(Typekit::Error, 'Not authorized')
   end
 end
