@@ -8,7 +8,7 @@ module Typekit
       end
 
       def parse(data)
-        ::JSON.parse data
+        ::JSON.parse(data)
       end
     end
 
@@ -20,7 +20,7 @@ module Typekit
       end
 
       def parse(data)
-        ::YAML.load data
+        ::YAML.load(data)
       end
     end
   end

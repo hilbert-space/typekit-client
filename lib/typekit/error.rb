@@ -12,7 +12,7 @@ module Typekit
     def initialize(code:, messages: nil)
       if messages
         super Array(messages).join(', ')
-      elsif MESSAGES.include? code
+      elsif MESSAGES.include?(code)
         super MESSAGES[code]
       else
         super 'An unknown error has occurred.'

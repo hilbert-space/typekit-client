@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-$LOAD_PATH.unshift File.expand_path('../lib', __dir__)
+$LOAD_PATH.unshift(File.expand_path('../lib', __dir__))
 
 require 'typekit'
 require 'optparse'
@@ -8,18 +8,18 @@ require 'json'
 
 class Controller
   def initialize(**options)
-    @client = Typekit::Client.new **options
+    @client = Typekit::Client.new(**options)
   end
 
   def process(command)
-    action, resource, parameters = parse command
+    action, resource, parameters = parse(command)
     case action
     when 'show'
-      print @client.get resource, parameters
+      print @client.get(resource, parameters)
     when 'create', 'update'
-      print @client.post resource, parameters
+      print @client.post(resource, parameters)
     when 'delete'
-      print @client.delete resource, parameters
+      print @client.delete(resource, parameters)
     else
       raise 'The given action is unknown.'
     end
@@ -49,15 +49,15 @@ HELP
   protected
 
   def print(output)
-    puts JSON.pretty_generate output
+    puts JSON.pretty_generate(output)
   end
 
   def parse(command)
     if command =~ /({.*})\s*$/
       begin
-        parameters = JSON.parse $1
-        raise unless parameters.is_a? Hash
-        command = command.gsub /{.*}/, ''
+        parameters = JSON.parse($1)
+        raise unless parameters.is_a?(Hash)
+        command = command.gsub(/{.*}/, '')
       rescue
         raise 'Unable to parse the specified parameters.'
       end
@@ -65,7 +65,7 @@ HELP
       parameters = {}
     end
 
-    chunks = command.split(/\s+/).compact.reject &:empty?
+    chunks = command.split(/\s+/).compact.reject(&:empty?)
     action, resource = chunks[0], chunks[1..-1]
 
     raise 'The action name is missing.' if action.nil?
@@ -116,14 +116,14 @@ rescue
 end
 
 begin
-  controller = Controller.new options
+  controller = Controller.new(options)
 rescue Exception => e
   puts e
   exit
 end
 
 unless ARGV.empty?
-  controller.process ARGV.join(' ')
+  controller.process(ARGV.join(' '))
   exit
 end
 
@@ -140,7 +140,7 @@ loop do
     when 'help'
       controller.help
     else
-      controller.process command
+      controller.process(command)
     end
   rescue Interrupt
     break

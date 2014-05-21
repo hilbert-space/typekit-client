@@ -5,7 +5,7 @@ describe Typekit::Client do
   RESTFULL_METHODS = [ :get, :post, :delete ]
 
   let(:token) { 'arbitrary' }
-  let(:subject) { Typekit::Client.new token: token }
+  let(:subject) { Typekit::Client.new(token: token) }
 
   it 'has the RESTfull methods supported by Typekit' do
     RESTFULL_METHODS.each do |method|
