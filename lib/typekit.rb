@@ -1,5 +1,8 @@
 require_relative 'typekit/version'
 
+require_relative 'typekit/resource'
+require_relative 'typekit/routing'
+
 require_relative 'typekit/router'
 
 require_relative 'typekit/response'
