@@ -1,0 +1,16 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://typekit.com/api/v1/json/kits
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Status:
+      - 200 OK
+    body:
+      encoding: UTF-8
+      string: '{"kits":[{"id":"bas4cfe","link":"/api/v1/json/kits/bas4cfe"},{"id":"sfh6bkj","link":"/api/v1/json/kits/sfh6bkj"},{"id":"kof8zcn","link":"/api/v1/json/kits/kof8zcn"},{"id":"muq6mxx","link":"/api/v1/json/kits/muq6mxx"}]}'
+  recorded_at: Fri, 23 May 2014 00:00:00 GMT
