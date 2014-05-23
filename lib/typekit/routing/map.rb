@@ -6,7 +6,7 @@ module Typekit
       end
 
       def define_resources(name, scope: [], &block)
-        path = [ *Array(scope), name ].map(&:to_sym)
+        path = [ *Array(scope), name ]
         path.inject(@resources) { |h, k| h[k] ||= {} }
         return unless block_given?
         mapper = Mapper.new(self, scope: path)

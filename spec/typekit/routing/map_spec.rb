@@ -15,11 +15,6 @@ describe Typekit::Routing::Map do
   end
 
   describe '#resources' do
-    it 'return the declared resources as symbols' do
-      subject.define_resources 'kits'
-      expect(subject.resources).to include(:kits)
-    end
-
     it 'does not jeopardize the integrity of the declared resources' do
       subject.define_resources :kits
       subject.resources.clear

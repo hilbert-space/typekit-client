@@ -23,11 +23,6 @@ describe Typekit::Resource::Base do
       expect(klass.attributes).to include(:id, :name)
     end
 
-    it 'returns the declared attributes as symbols' do
-      klass = Class.new(subject_class) { define_attributes 'name' }
-      expect(klass.attributes).to include(:name)
-    end
-
     it 'does not jeopardize the integrity of the attributes' do
       klass = Class.new(subject_class) { define_attributes :name }
       klass.attributes.clear

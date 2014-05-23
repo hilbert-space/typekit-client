@@ -10,7 +10,7 @@ module Typekit
 
       def self.define_attributes(*names)
         @attributes ||= []
-        new_names = names.map(&:to_sym) - @attributes
+        new_names = names - @attributes
         @attributes.push(*new_names)
         attr_reader *new_names
       end
