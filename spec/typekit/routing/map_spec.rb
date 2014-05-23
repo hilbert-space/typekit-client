@@ -2,35 +2,35 @@ require 'spec_helper'
 require 'typekit'
 
 describe Typekit::Routing::Map do
-  describe '#define_resources' do
+  describe '#define_collection' do
     it 'declares new resources' do
-      subject.define_resources :kits
-      expect(subject.resources).to include(:kits)
+      subject.define_collection(:kits)
+      expect(subject.collections).to include(:kits)
     end
 
     it 'declares nested resources' do
-      subject.define_resources :families, scope: :kits
-      expect(subject.resources[:kits]).to include(:families)
+      subject.define_collection(:families, scope: :kits)
+      expect(subject.collections[:kits]).to include(:families)
     end
   end
 
-  describe '#resources' do
+  describe '#collections' do
     it 'does not jeopardize the integrity of the declared resources' do
-      subject.define_resources :kits
-      subject.resources.clear
-      expect(subject.resources).to include(:kits)
+      subject.define_collection(:kits)
+      subject.collections.clear
+      expect(subject.collections).to include(:kits)
     end
   end
 
-  describe '#draw' do
-    it 'allows one to define a new resource' do
-      subject.draw { resources :kits }
-      expect(subject.resources).to include(:kits)
+  describe '#define' do
+    it 'allows one to declare new resources' do
+      subject.define { collection(:kits) }
+      expect(subject.collections).to include(:kits)
     end
 
-    it 'allows one to define a nested resource' do
-      subject.draw { resources(:kits) { resources :families } }
-      expect(subject.resources[:kits]).to include(:families)
+    it 'allows one to declare nested resources' do
+      subject.define { collection(:kits) { collection(:families) } }
+      expect(subject.collections[:kits]).to include(:families)
     end
   end
 end

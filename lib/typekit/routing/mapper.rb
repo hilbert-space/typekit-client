@@ -6,8 +6,8 @@ module Typekit
         @scope = scope
       end
 
-      def resources name, &block
-        @map.define_resources name, scope: @scope, &block
+      def collection(name, &block)
+        @map.define_collection(name, scope: @scope, &block)
       end
     end
   end

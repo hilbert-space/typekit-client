@@ -2,23 +2,24 @@ module Typekit
   module Routing
     class Map
       def initialize
-        @resources = {}
+        @collections = {}
       end
 
-      def define_resources(name, scope: [], &block)
-        path = [ *Array(scope), name ]
-        path.inject(@resources) { |h, k| h[k] ||= {} }
-        return unless block_given?
-        mapper = Mapper.new(self, scope: path)
-        mapper.instance_eval(&block)
+      def define_collection(collection, scope: [], &block)
+        path = [ *Array(scope), collection ]
+        path.inject(@collections) { |h, k| h[k] ||= {} }
+        if block_given?
+          mapper = Mapper.new(self, scope: path)
+          mapper.instance_eval(&block)
+        end
       end
 
-      def resources
+      def collections
         # TODO: find a better way of deep cloning?
-        Marshal.load(Marshal.dump(@resources))
+        Marshal.load(Marshal.dump(@collections))
       end
 
-      def draw(&block)
+      def define(&block)
         mapper = Mapper.new(self)
         mapper.instance_eval(&block)
       end
