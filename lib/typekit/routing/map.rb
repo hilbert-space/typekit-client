@@ -1,4 +1,6 @@
+require_relative 'node'
 require_relative 'collection'
+require_relative 'singleton'
 require_relative 'proxy'
 
 module Typekit
@@ -25,6 +27,11 @@ module Typekit
           proxy = Proxy.new(self, path: child.trace)
           proxy.instance_eval(&block)
         end
+      end
+
+      def define_singleton(action, name, path:, **options)
+        child = Singleton.new(name, action: action, **options)
+        @root.find(*path).append(child)
       end
 
       def define_scope(path, **options, &block)

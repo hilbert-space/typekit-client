@@ -25,6 +25,18 @@ describe Typekit::Routing::Map do
       expect(request.address).to \
         eq('version/1/format/json/kits/xxx/families/yyy')
     end
+
+    it 'allows to declare custom show actions on members' do
+      subject.define { resources(:kits) { show(:published, on: :member) } }
+      request = subject.request(:show, :kits, 'xxx', :published)
+      expect(request.address).to eq('kits/xxx/published')
+    end
+
+    it 'allows to declare custom update actions on members' do
+      subject.define { resources(:kits) { update(:publish, on: :member) } }
+      request = subject.request(:update, :kits, 'xxx', :publish)
+      expect(request.address).to eq('kits/xxx/publish')
+    end
   end
 
   describe '#request' do

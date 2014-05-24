@@ -2,39 +2,20 @@ require 'spec_helper'
 require 'typekit'
 
 describe Typekit::Routing::Collection do
-  def create(name = nil, parent = nil, **options)
-    collection = Typekit::Routing::Collection.new(name, **options)
-    parent.append(collection) if parent
-    collection
-  end
+  let(:subject_class) { Typekit::Routing::Collection }
 
   def create_tree(*path)
-    root = create
-    leaf = path.inject(root) { |parent, name| create(name, parent) }
+    root = subject_class.new
+    leaf = path.inject(root) do |parent, name|
+      collection = subject_class.new(name)
+      parent.append(collection)
+      collection
+    end
     [ root, leaf ]
   end
 
   def double_request(action = :index)
     double('Request', :<< => nil, :action => action)
-  end
-
-  describe '#find' do
-    it 'looks up nested Collections' do
-      root, families = create_tree(:kits, :families)
-      expect(root.find(:kits, :families)).to eq(families)
-    end
-
-    it 'returns the root when no arguments are given' do
-      root, _ = create_tree(:kits, :families)
-      expect(root.find).to eq(root)
-    end
-  end
-
-  describe '#trace' do
-    it 'returns paths of Collections' do
-      _, families = create_tree(:kits, :families)
-      expect(families.trace).to eq([ :kits, :families ])
-    end
   end
 
   describe '#assemble' do
@@ -53,7 +34,7 @@ describe Typekit::Routing::Collection do
     end
 
     it 'raises exceptions when encounters forbidden actions' do
-      kits = create(:kits, only: :index)
+      kits = subject_class.new(:kits, only: :index)
       expect { kits.assemble(double_request(:show), 'xxx') }.to \
         raise_error(Typekit::RoutingError, /Not permitted/i)
     end
