@@ -25,12 +25,6 @@ describe Typekit::Element::Base do
       klass = create_class(:id, :name)
       expect(klass.attributes).to include(:id, :name)
     end
-
-    it 'does not jeopardize the integrity of the attributes' do
-      klass = create_class(:name)
-      klass.attributes.clear
-      expect(klass.attributes).to include(:name)
-    end
   end
 
   describe '#new' do

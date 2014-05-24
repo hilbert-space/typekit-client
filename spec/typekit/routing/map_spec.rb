@@ -14,14 +14,6 @@ describe Typekit::Routing::Map do
     end
   end
 
-  describe '#collections' do
-    it 'does not jeopardize the integrity of the declared resources' do
-      subject.define_collection(:kits)
-      subject.collections.clear
-      expect(subject.collections).to include(:kits)
-    end
-  end
-
   describe '#define' do
     it 'allows one to declare new resources' do
       subject.define { collection(:kits) }

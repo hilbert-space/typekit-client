@@ -7,13 +7,13 @@ module Typekit
         end
       end
 
-      def self.define_attributes(*attributes)
-        (@attributes ||= []).push(*attributes)
-        attr_reader *attributes
+      def self.define_attributes(*names)
+        attributes.push(*names)
+        attr_reader *names
       end
 
       def self.attributes
-        (@attributes ||= []).clone
+        @attributes ||= []
       end
     end
   end

@@ -1,8 +1,11 @@
 module Typekit
   module Routing
     class Map
-      def initialize
+      attr_reader :collections
+
+      def initialize &block
         @collections = {}
+        define(&block) if block_given?
       end
 
       def define_collection(collection, scope: [], &block)
@@ -12,11 +15,6 @@ module Typekit
           mapper = Mapper.new(self, scope: path)
           mapper.instance_eval(&block)
         end
-      end
-
-      def collections
-        # TODO: find a better way of deep cloning?
-        Marshal.load(Marshal.dump(@collections))
       end
 
       def define(&block)
