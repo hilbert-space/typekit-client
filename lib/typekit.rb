@@ -2,8 +2,10 @@ require_relative 'typekit/version'
 
 require_relative 'typekit/helper'
 
-require_relative 'typekit/element'
+require_relative 'typekit/request'
 require_relative 'typekit/routing'
+
+require_relative 'typekit/element'
 
 require_relative 'typekit/router'
 

@@ -1,25 +1,30 @@
+require_relative 'collection'
+require_relative 'proxy'
+
 module Typekit
   module Routing
     class Map
-      attr_reader :collections
-
-      def initialize &block
-        @collections = {}
+      def initialize(&block)
+        @root = Collection.new
         define(&block) if block_given?
       end
 
-      def define_collection(collection, scope: [], &block)
-        path = [ *Array(scope), collection ]
-        path.inject(@collections) { |h, k| h[k] ||= {} }
-        if block_given?
-          mapper = Mapper.new(self, scope: path)
-          mapper.instance_eval(&block)
-        end
+      def define(&block)
+        proxy = Proxy.new(self)
+        proxy.instance_eval(&block)
       end
 
-      def define(&block)
-        mapper = Mapper.new(self)
-        mapper.instance_eval(&block)
+      def request(action, *trace)
+        @root.assemble(Request.new(action: action), *trace)
+      end
+
+      def define_collection(name, path: [], **options, &block)
+        child = Collection.new(name, **options)
+        @root.find(*path).append(child)
+        if block_given?
+          proxy = Proxy.new(self, path: child.trace)
+          proxy.instance_eval(&block)
+        end
       end
     end
   end
