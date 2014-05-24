@@ -26,6 +26,11 @@ module Typekit
           proxy.instance_eval(&block)
         end
       end
+
+      def define_scope(path, **options, &block)
+        proxy = Proxy.new(self, scope: path, **options)
+        proxy.instance_eval(&block)
+      end
     end
   end
 end

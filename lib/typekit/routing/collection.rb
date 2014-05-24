@@ -5,9 +5,10 @@ module Typekit
 
       attr_reader :name
 
-      def initialize(name = nil, only: nil)
+      def initialize(name = nil, only: nil, scope: [])
         @name = name
         @actions = only && Array(only) || ACTIONS
+        @scope = Array(scope)
 
         @parent = nil
         @children = {}
@@ -30,6 +31,7 @@ module Typekit
       end
 
       def assemble(request, *path)
+        @scope.each { |chunk| request << chunk }
         request << @name unless dummy?
         return authorize(request) if path.empty?
         request << path.shift unless dummy?

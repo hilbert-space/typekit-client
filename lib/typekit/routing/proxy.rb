@@ -9,6 +9,10 @@ module Typekit
       def resources(name, **options, &block)
         @map.define_collection(name, **@options, **options, &block)
       end
+
+      def scope(path, &block)
+        @map.define_scope(path, **@options, &block)
+      end
     end
   end
 end
