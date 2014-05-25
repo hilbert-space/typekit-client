@@ -11,8 +11,8 @@ module Typekit
         proxy.instance_eval(&block)
       end
 
-      def request(action, *path)
-        @root.assemble(Request.new(action: action), *path)
+      def trace(request, *path)
+        @root.assemble(request, *path)
       end
 
       def define_scope(path, parent: @root, &block)
