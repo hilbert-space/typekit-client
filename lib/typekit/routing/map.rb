@@ -2,7 +2,7 @@ module Typekit
   module Routing
     class Map
       def initialize(&block)
-        @root = Root.new
+        @root = Node::Root.new
         define(&block) if block_given?
       end
 
@@ -16,7 +16,7 @@ module Typekit
       end
 
       def define_collection(name, parent: @root, **options, &block)
-        child = Collection.new(name, **options)
+        child = Node::Collection.new(name, **options)
         parent.append(child)
         return unless block_given?
         proxy = Proxy.new(self, parent: child)
@@ -24,12 +24,12 @@ module Typekit
       end
 
       def define_singleton(action, name, parent:, **options)
-        child = Singleton.new(name, action: action, **options)
+        child = Node::Singleton.new(name, action: action, **options)
         parent.append(child)
       end
 
       def define_scope(path, parent: @root, &block)
-        child = Scope.new(path)
+        child = Node::Scope.new(path)
         parent.append(child)
         proxy = Proxy.new(self, parent: child)
         proxy.instance_eval(&block)

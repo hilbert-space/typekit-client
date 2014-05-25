@@ -2,10 +2,12 @@ require 'spec_helper'
 require 'typekit'
 
 describe Typekit::Routing::Node do
+  let(:subject_module) { Typekit::Routing::Node }
+
   def create_tree(*path)
-    root = Typekit::Routing::Root.new
+    root = subject_module::Root.new
     path.inject(root) do |parent, name|
-      node = Typekit::Routing::Collection.new(name)
+      node = subject_module::Collection.new(name)
       parent.append(node)
       node
     end
@@ -32,7 +34,7 @@ describe Typekit::Routing::Node do
     end
 
     it 'raises exceptions when encounters forbidden actions' do
-      kits = Typekit::Routing::Collection.new(:kits, only: :index)
+      kits = subject_module::Collection.new(:kits, only: :index)
       expect { kits.assemble(double_request(:show), 'xxx') }.to \
         raise_error(Typekit::RoutingError, /Not permitted/i)
     end

@@ -1,6 +1,8 @@
 module Typekit
   module Routing
-    class Root < Node
+    module Node
+      class Root < Base
+      end
     end
   end
 end
