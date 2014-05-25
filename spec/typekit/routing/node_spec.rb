@@ -14,21 +14,19 @@ describe Typekit::Routing::Node do
     root
   end
 
-  def double_request(action = :index)
-    double('Request', :<< => nil, :action => action)
-  end
-
   describe 'Base#assemble' do
     it 'builds up index Requests' do
       root = create_tree(:kits, :families)
-      request = double_request(:index)
+      request = double('Request', :<< => nil, :action => :index,
+        :path => [ :kits, 'xxx', :families ])
       root.assemble(request, :kits, 'xxx', :families)
       expect(request).to have_received(:<<).exactly(3).times
     end
 
     it 'builds up show Requests' do
       root = create_tree(:kits, :families)
-      request = double_request(:show)
+      request = double('Request', :<< => nil, :action => :show,
+        :path => [ :kits, 'xxx', :families, 'yyy' ])
       root.assemble(request, :kits, 'xxx', :families, 'yyy')
       expect(request).to have_received(:<<).exactly(4).times
     end
