@@ -10,7 +10,11 @@ module Typekit
       end
 
       def match(name)
-        @name == name
+        if @name.is_a?(String) && @name =~ /^:/
+          true
+        else
+          @name == name
+        end
       end
 
       def process(request, path)

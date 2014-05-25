@@ -3,19 +3,19 @@ require 'typekit'
 
 describe Typekit::Routing::Map do
   describe '#define' do
-    it 'allows to declare new resources' do
+    it 'declares new resources' do
       subject.define { resources(:kits) }
       request = subject.request(:index, :kits)
       expect(request.address).to eq('kits')
     end
 
-    it 'allows to declare nested resources' do
+    it 'declares nested resources' do
       subject.define { resources(:kits) { resources(:families) } }
       request = subject.request(:show, :kits, 'xxx', :families, 'yyy')
       expect(request.address).to eq('kits/xxx/families/yyy')
     end
 
-    it 'allows to declare scoped resources' do
+    it 'declares scoped resources' do
       subject.define do
         scope [ 'version', 1, 'format', :json ] do
           resources(:kits) { resources(:families) }
@@ -26,16 +26,22 @@ describe Typekit::Routing::Map do
         eq('version/1/format/json/kits/xxx/families/yyy')
     end
 
-    it 'allows to declare custom show actions on members' do
+    it 'declares custom actions' do
       subject.define { resources(:kits) { show(:published, on: :member) } }
       request = subject.request(:show, :kits, 'xxx', :published)
       expect(request.address).to eq('kits/xxx/published')
     end
 
-    it 'allows to declare custom update actions on members' do
-      subject.define { resources(:kits) { update(:publish, on: :member) } }
-      request = subject.request(:update, :kits, 'xxx', :publish)
-      expect(request.address).to eq('kits/xxx/publish')
+    it 'declared custom actions with variable names' do
+      subject.define do
+        resources :kits do
+          resources :families do
+            show ':variant', on: :member
+          end
+        end
+      end
+      request = subject.request(:show, :kits, 'xxx', :families, 'yyy', 'zzz')
+      expect(request.address).to eq('kits/xxx/families/yyy/zzz')
     end
   end
 

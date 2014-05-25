@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'typekit'
 
-describe Typekit::Routing::Collection do
+describe Typekit::Routing::Node do
   def create_tree(*path)
     root = Typekit::Routing::Root.new
     path.inject(root) do |parent, name|
