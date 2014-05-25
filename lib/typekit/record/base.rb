@@ -1,5 +1,5 @@
 module Typekit
-  module Element
+  module Record
     class Base
       def initialize(options = {})
         (self.class.attributes & options.keys).each do |key|

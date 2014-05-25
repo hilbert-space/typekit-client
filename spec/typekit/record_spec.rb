@@ -1,9 +1,9 @@
 require 'spec_helper'
 require 'typekit'
 
-describe Typekit::Element::Base do
+describe Typekit::Record do
   def create_class(*names)
-    klass = Class.new(Typekit::Element::Base) { define_attributes(*names) }
+    klass = Class.new(Typekit::Record::Base) { define_attributes(*names) }
     klass
   end
 
