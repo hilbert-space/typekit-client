@@ -17,11 +17,16 @@ module Typekit
         def process(request, path)
           request << path.shift # @name
           return request if path.empty?
-          request << path.shift
+          request << path.shift # id
         end
 
         def permitted?(request)
-          @actions.include?(request.action)
+          return false unless @actions.include?(request.action)
+
+          id_present = request.path.last != @name
+          member_action = Helper.member_action?(request.action)
+
+          id_present == member_action
         end
       end
     end

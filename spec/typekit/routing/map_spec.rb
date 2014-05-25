@@ -48,9 +48,37 @@ describe Typekit::Routing::Map do
   end
 
   describe '#request' do
-    it 'raises exceptions when encounters unknown resources' do
+    before(:each) do
+      subject.define do
+        resources :kits do
+          resources :families, only: [ :show, :update, :delete ]
+          show :published, on: :member
+        end
+      end
+    end
+
+    it 'raises exceptions for unknown resources' do
       expect { subject.request(:show, :kittens) }.to \
         raise_error(Typekit::Routing::Error, /Not found/i)
+    end
+
+    [ :show, :update, :delete ].each do |action|
+      it "raises exceptions for #{ action } actions to collections" do
+        expect { subject.request(action, :kits) }.to \
+          raise_error(Typekit::Routing::Error, /Not permitted/i)
+      end
+    end
+
+    [ :index, :create ].each do |action|
+      it "raises exceptions for #{ action } actions to members" do
+        expect { subject.request(action, :kits, 'xxx') }.to \
+          raise_error(Typekit::Routing::Error, /Not permitted/i)
+      end
+    end
+
+    it 'raises exceptions for forbidden actions' do
+      expect { subject.request(:index, :kits, 'xxx', :families) }.to \
+        raise_error(Typekit::Routing::Error, /Not permitted/i)
     end
   end
 end

@@ -2,6 +2,19 @@ require 'rack/utils'
 
 module Typekit
   module Helper
+    Error = Class.new(Typekit::Error)
+
+    def self.member_action?(action)
+      case action
+      when :show, :update, :delete
+        true
+      when :index, :create
+        false
+      else
+        raise Error, 'Unknown action'
+      end
+    end
+
     def self.build_query(parameters)
       Rack::Utils.build_nested_query(prepare_parameters(parameters))
     end

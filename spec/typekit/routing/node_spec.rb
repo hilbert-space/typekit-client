@@ -32,11 +32,5 @@ describe Typekit::Routing::Node do
       root.assemble(request, :kits, 'xxx', :families, 'yyy')
       expect(request).to have_received(:<<).exactly(4).times
     end
-
-    it 'raises exceptions when encounters forbidden actions' do
-      kits = subject_module::Collection.new(:kits, only: :index)
-      expect { kits.assemble(double_request(:show), 'xxx') }.to \
-        raise_error(Typekit::Routing::Error, /Not permitted/i)
-    end
   end
 end
