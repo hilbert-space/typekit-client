@@ -18,7 +18,7 @@ describe Typekit::Routing::Node do
     double('Request', :<< => nil, :action => action)
   end
 
-  describe '#assemble' do
+  describe 'Base#assemble' do
     it 'builds up index Requests' do
       root = create_tree(:kits, :families)
       request = double_request(:index)
