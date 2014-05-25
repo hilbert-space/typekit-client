@@ -1,7 +1,7 @@
 module Typekit
   module Routing
     module Node
-      class Singleton < Base
+      class Operation < Base
         def initialize(name, action:, on:, **options)
           unless Config.actions.include?(action) && on == :member # dummy
             raise RoutingError, 'Not supported'

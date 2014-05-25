@@ -1,5 +1,5 @@
 require_relative 'node/base'
 require_relative 'node/root'
-require_relative 'node/collection'
-require_relative 'node/singleton'
 require_relative 'node/scope'
+require_relative 'node/collection'
+require_relative 'node/operation'

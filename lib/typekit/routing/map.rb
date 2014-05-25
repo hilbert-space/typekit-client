@@ -15,6 +15,13 @@ module Typekit
         @root.assemble(Request.new(action: action), *path)
       end
 
+      def define_scope(path, parent: @root, &block)
+        child = Node::Scope.new(path)
+        parent.append(child)
+        proxy = Proxy.new(self, parent: child)
+        proxy.instance_eval(&block)
+      end
+
       def define_collection(name, parent: @root, **options, &block)
         child = Node::Collection.new(name, **options)
         parent.append(child)
@@ -23,16 +30,9 @@ module Typekit
         proxy.instance_eval(&block)
       end
 
-      def define_singleton(action, name, parent:, **options)
-        child = Node::Singleton.new(name, action: action, **options)
+      def define_operation(action, name, parent:, **options)
+        child = Node::Operation.new(name, action: action, **options)
         parent.append(child)
-      end
-
-      def define_scope(path, parent: @root, &block)
-        child = Node::Scope.new(path)
-        parent.append(child)
-        proxy = Proxy.new(self, parent: child)
-        proxy.instance_eval(&block)
       end
     end
   end
