@@ -6,7 +6,7 @@ module Typekit
           @name = name
           @actions = only && Array(only) || Config.actions
           unless (@actions - Config.actions).empty?
-            raise RoutingError, 'Not supported'
+            raise Routing::Error, 'Not supported'
           end
         end
 

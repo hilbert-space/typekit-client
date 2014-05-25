@@ -1,9 +1,5 @@
 module Typekit
-  class Error < ::StandardError
-  end
-
-  class RoutingError < Error
-  end
+  Error = Class.new(StandardError)
 
   class ConnectionError < Error
     MESSAGES = {

@@ -32,11 +32,11 @@ module Typekit
         end
 
         def lookup!(name)
-          lookup(name) or raise RoutingError, 'Not found'
+          lookup(name) or raise Routing::Error, 'Not found'
         end
 
         def authorize!(request)
-          raise RoutingError, 'Not permitted' unless permitted?(request)
+          raise Routing::Error, 'Not permitted' unless permitted?(request)
           request
         end
       end

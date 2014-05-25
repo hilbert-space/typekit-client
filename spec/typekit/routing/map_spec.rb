@@ -48,7 +48,7 @@ describe Typekit::Routing::Map do
   describe '#request' do
     it 'raises exceptions when encounters unknown resources' do
       expect { subject.request(:show, :kittens) }.to \
-        raise_error(Typekit::RoutingError, /Not found/i)
+        raise_error(Typekit::Routing::Error, /Not found/i)
     end
   end
 end

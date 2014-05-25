@@ -36,7 +36,7 @@ describe Typekit::Routing::Node do
     it 'raises exceptions when encounters forbidden actions' do
       kits = subject_module::Collection.new(:kits, only: :index)
       expect { kits.assemble(double_request(:show), 'xxx') }.to \
-        raise_error(Typekit::RoutingError, /Not permitted/i)
+        raise_error(Typekit::Routing::Error, /Not permitted/i)
     end
   end
 end
