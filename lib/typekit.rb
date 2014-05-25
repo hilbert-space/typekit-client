@@ -7,8 +7,6 @@ require_relative 'typekit/routing'
 
 require_relative 'typekit/element'
 
-require_relative 'typekit/router'
-
 require_relative 'typekit/response'
 require_relative 'typekit/connection'
 
