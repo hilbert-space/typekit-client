@@ -11,6 +11,7 @@ module Typekit
       end
 
       def resources(name, **options, &block)
+        # NOTE: https://bugs.ruby-lang.org/issues/9776
         @map.define_collection(name, **options, **@options, &block)
       end
 

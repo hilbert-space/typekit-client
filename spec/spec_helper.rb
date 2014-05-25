@@ -1,3 +1,4 @@
+require_relative 'support/rest_helper'
 require 'webmock/rspec'
 require 'vcr'
 

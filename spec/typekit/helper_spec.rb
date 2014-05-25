@@ -2,23 +2,38 @@ require 'spec_helper'
 require 'typekit'
 
 describe Typekit::Helper do
+  extend RESTHelper
+
   let(:subject_module) { Typekit::Helper }
 
   describe '.member_action?' do
-    it 'returns true for RESTful actions operating on members' do
-      [ :show, :update, :delete ].each do |action|
+    restful_member_actions.each do |action|
+      it "returns true for the #{ action } member action" do
         expect(subject_module.member_action?(action)).to be_true
       end
     end
 
-    it 'returns false for RESTful actions operating on collections' do
-      [ :index, :create ].each do |action|
+    restful_collection_actions.each do |action|
+      it "returns false for the #{ action } collection action" do
         expect(subject_module.member_action?(action)).to be_false
       end
     end
 
     it 'raises exceptions when encounters unknown actions' do
       expect { subject_module.member_action?(:rock) }.to \
+        raise_error(Typekit::Helper::Error, /Unknown action/i)
+    end
+  end
+
+  describe '.translate_action' do
+    rest_http_dictionary.each do |action, method|
+      it "returns the #{ method } verb for the #{ action } action" do
+        expect(subject_module.translate_action(action)).to eq(method)
+      end
+    end
+
+    it 'raises exceptions when encounters unknown actions' do
+      expect { subject_module.translate_action(:rock) }.to \
         raise_error(Typekit::Helper::Error, /Unknown action/i)
     end
   end

@@ -15,6 +15,19 @@ module Typekit
       end
     end
 
+    def self.translate_action(action)
+      case action
+      when :index, :show
+        :get
+      when :create, :update
+        :post
+      when :delete
+        :delete
+      else
+        raise Error, 'Unknown action'
+      end
+    end
+
     def self.build_query(parameters)
       Rack::Utils.build_nested_query(prepare_parameters(parameters))
     end
