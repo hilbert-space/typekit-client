@@ -3,8 +3,9 @@ module Typekit
     module Node
       class Operation < Base
         def initialize(name, action:, on:, **options)
-          unless Config.actions.include?(action) && on == :member # dummy
-            raise Routing::Error, 'Not supported'
+          # TODO: how about on == :collection?
+          unless Config.actions.include?(action) && on == :member
+            raise Error, 'Not supported'
           end
           @name = name
           @action = action
