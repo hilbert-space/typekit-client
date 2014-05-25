@@ -2,18 +2,6 @@ require 'rack/utils'
 
 module Typekit
   module Helper
-    def self.pluralize(string)
-      # TODO: generalize?
-      case string
-      when /s$/
-        string
-      when /y$/
-        string.sub(/y$/, 'ies')
-      else
-        "#{ string }s"
-      end
-    end
-
     def self.build_query(parameters)
       Rack::Utils.build_nested_query(prepare_parameters(parameters))
     end

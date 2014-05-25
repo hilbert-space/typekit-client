@@ -4,21 +4,6 @@ require 'typekit'
 describe Typekit::Helper do
   let(:subject_class) { Typekit::Helper }
 
-  describe '#pluralize' do
-    it 'knows some important words' do
-      {
-        'kit' => 'kits',
-        'kits' => 'kits',
-        'family' => 'families',
-        'families' => 'families',
-        'library' => 'libraries',
-        'libraries' => 'libraries'
-      }.each do |input, output|
-        expect(subject_class.pluralize(input)).to eq(output)
-      end
-    end
-  end
-
   describe '#build_query' do
     it 'handels ordinary parameters' do
       queries = [
