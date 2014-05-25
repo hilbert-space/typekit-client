@@ -3,7 +3,7 @@ module Typekit
     module Node
       class Scope < Base
         def initialize(path)
-          @path = path
+          @path = Array(path)
         end
 
         def match(name)
