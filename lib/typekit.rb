@@ -1,5 +1,5 @@
 require_relative 'typekit/version'
-
+require_relative 'typekit/config'
 require_relative 'typekit/helper'
 
 require_relative 'typekit/request'

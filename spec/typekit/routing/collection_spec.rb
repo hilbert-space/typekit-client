@@ -2,16 +2,14 @@ require 'spec_helper'
 require 'typekit'
 
 describe Typekit::Routing::Collection do
-  let(:subject_class) { Typekit::Routing::Collection }
-
   def create_tree(*path)
-    root = subject_class.new
-    leaf = path.inject(root) do |parent, name|
-      collection = subject_class.new(name)
-      parent.append(collection)
-      collection
+    root = Typekit::Routing::Root.new
+    path.inject(root) do |parent, name|
+      node = Typekit::Routing::Collection.new(name)
+      parent.append(node)
+      node
     end
-    [ root, leaf ]
+    root
   end
 
   def double_request(action = :index)
@@ -20,21 +18,21 @@ describe Typekit::Routing::Collection do
 
   describe '#assemble' do
     it 'builds up index Requests' do
-      root, _ = create_tree(:kits, :families)
+      root = create_tree(:kits, :families)
       request = double_request(:index)
       root.assemble(request, :kits, 'xxx', :families)
       expect(request).to have_received(:<<).exactly(3).times
     end
 
     it 'builds up show Requests' do
-      root, _ = create_tree(:kits, :families)
+      root = create_tree(:kits, :families)
       request = double_request(:show)
       root.assemble(request, :kits, 'xxx', :families, 'yyy')
       expect(request).to have_received(:<<).exactly(4).times
     end
 
     it 'raises exceptions when encounters forbidden actions' do
-      kits = subject_class.new(:kits, only: :index)
+      kits = Typekit::Routing::Collection.new(:kits, only: :index)
       expect { kits.assemble(double_request(:show), 'xxx') }.to \
         raise_error(Typekit::RoutingError, /Not permitted/i)
     end

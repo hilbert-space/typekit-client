@@ -1,63 +1,42 @@
 module Typekit
   module Routing
     class Node
-      ACTIONS = [ :index, :show, :update, :delete ]
-
-      attr_accessor :name
-
-      def initialize(name = nil, only: nil, scope: [])
-        @name = name
-        @actions = only && Array(only) || ACTIONS
-        @scope = Array(scope)
-
-        @parent = nil
-        @children = {}
-      end
-
       def append(child)
-        @children[child.name] = child
-        child.prepend(self)
+        children << child
       end
 
-      def find(*path)
-        return self if path.empty?
-        find_child(path.shift).find(*path)
+      def assemble(request, *path)
+        process(request, path)
+        return authorize!(request) if path.empty?
+        lookup!(path.first).assemble(request, *path)
       end
 
-      def trace(path = [])
-        path.unshift(@name) unless dummy?
-        return path if root?
-        @parent.trace(path)
+      def match(name)
       end
 
-      def assemble
+      def process(request, path)
+      end
+
+      def permitted?(request)
       end
 
       protected
 
-      def dummy?
-        @name.nil?
+      def children
+        @children ||= []
       end
 
-      def root?
-        @parent.nil?
+      def lookup(name)
+        children.find { |c| c.match(name) }
       end
 
-      def find_child(name)
-        @children[name] or raise RoutingError, 'Not found'
+      def lookup!(name)
+        lookup(name) or raise RoutingError, 'Not found'
       end
 
-      def prepend(parent)
-        @parent = parent
-      end
-
-      def authorize(request)
-        raise RoutingError, 'Not permitted' unless permitted?(request.action)
+      def authorize!(request)
+        raise RoutingError, 'Not permitted' unless permitted?(request)
         request
-      end
-
-      def permitted?(action)
-        @actions.include?(action)
       end
     end
   end

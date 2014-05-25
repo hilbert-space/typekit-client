@@ -2,14 +2,23 @@ module Typekit
   module Routing
     class Singleton < Node
       def initialize(name, action:, on:, **options)
-        raise RoutingError, 'Not supported' unless on == :member # dummy
-        super(name, only: action, **options)
+        unless Config.actions.include?(action) && on == :member # dummy
+          raise RoutingError, 'Not supported'
+        end
+        @name = name
+        @action = action
       end
 
-      def assemble(request)
-        @scope.each { |chunk| request << chunk }
-        request << @name unless dummy?
-        authorize(request)
+      def match(name)
+        @name == name
+      end
+
+      def process(request, path)
+        request << path.shift # @name
+      end
+
+      def permitted?(request)
+        @action == request.action
       end
     end
   end

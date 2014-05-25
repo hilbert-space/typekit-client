@@ -14,7 +14,7 @@ module Typekit
         @map.define_scope(path, **@options, &block)
       end
 
-      [ :show, :update ].each do |action|
+      Config.actions.each do |action|
         define_method action do |name, **options|
           @map.define_singleton(action, name, **@options, **options)
         end

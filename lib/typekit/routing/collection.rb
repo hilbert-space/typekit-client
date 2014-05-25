@@ -1,13 +1,26 @@
 module Typekit
   module Routing
     class Collection < Node
-      def assemble(request, *path)
-        @scope.each { |chunk| request << chunk }
-        request << @name unless dummy?
-        return authorize(request) if path.empty?
-        request << path.shift unless dummy? # id
-        return authorize(request) if path.empty?
-        find_child(path.shift).assemble(request, *path)
+      def initialize(name, only: nil)
+        @name = name
+        @actions = only && Array(only) || Config.actions
+        unless (@actions - Config.actions).empty?
+          raise RoutingError, 'Not supported'
+        end
+      end
+
+      def match(name)
+        @name == name
+      end
+
+      def process(request, path)
+        request << path.shift # @name
+        return request if path.empty?
+        request << path.shift
+      end
+
+      def permitted?(request)
+        @actions.include?(request.action)
       end
     end
   end

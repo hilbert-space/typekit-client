@@ -1,13 +1,8 @@
-require_relative 'node'
-require_relative 'collection'
-require_relative 'singleton'
-require_relative 'proxy'
-
 module Typekit
   module Routing
     class Map
       def initialize(&block)
-        @root = Collection.new
+        @root = Root.new
         define(&block) if block_given?
       end
 
@@ -16,26 +11,27 @@ module Typekit
         proxy.instance_eval(&block)
       end
 
-      def request(action, *trace)
-        @root.assemble(Request.new(action: action), *trace)
+      def request(action, *path)
+        @root.assemble(Request.new(action: action), *path)
       end
 
-      def define_collection(name, path: [], **options, &block)
+      def define_collection(name, parent: @root, **options, &block)
         child = Collection.new(name, **options)
-        @root.find(*path).append(child)
-        if block_given?
-          proxy = Proxy.new(self, path: child.trace)
-          proxy.instance_eval(&block)
-        end
+        parent.append(child)
+        return unless block_given?
+        proxy = Proxy.new(self, parent: child)
+        proxy.instance_eval(&block)
       end
 
-      def define_singleton(action, name, path:, **options)
+      def define_singleton(action, name, parent:, **options)
         child = Singleton.new(name, action: action, **options)
-        @root.find(*path).append(child)
+        parent.append(child)
       end
 
-      def define_scope(path, **options, &block)
-        proxy = Proxy.new(self, scope: path, **options)
+      def define_scope(path, parent: @root, &block)
+        child = Scope.new(path)
+        parent.append(child)
+        proxy = Proxy.new(self, parent: child)
         proxy.instance_eval(&block)
       end
     end
