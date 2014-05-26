@@ -26,7 +26,7 @@ describe Typekit::Connection::Dispatcher do
 
         it 'returns Responses' do
           stub_http_request(method, address).
-            to_return(status: 200, body: 'Hej!')
+            to_return(code: '200', body: 'Hej!')
           response = subject.deliver(create_request(action))
           expect([ response.code, response.content ]).to eq([ 200, 'Hej!' ])
         end

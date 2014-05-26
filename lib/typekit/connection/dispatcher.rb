@@ -10,10 +10,9 @@ module Typekit
 
       def deliver(request)
         method = Helper.translate_action(request.action)
-        address = request.address
-        parameters = request.parameters
-        headers = { 'X-Typekit-Token' => @token }
-        Response.new(@adaptor.process(method, address, parameters, headers))
+        code, _, body = @adaptor.process(method, request.address,
+          request.parameters, 'X-Typekit-Token' => @token)
+        Response.new(code: code.to_i, content: body)
       end
     end
   end
