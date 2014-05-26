@@ -7,13 +7,13 @@ module Typekit
         end
       end
 
-      def self.define_attributes(*names)
-        attributes.push(*names)
-        attr_reader *names
-      end
-
-      def self.attributes
+      def self.attributes(*names)
         @attributes ||= []
+        unless names.empty?
+          @attributes.push(*names)
+          attr_reader *names
+        end
+        @attributes
       end
     end
   end
