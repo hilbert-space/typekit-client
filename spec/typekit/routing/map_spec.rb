@@ -2,6 +2,8 @@ require 'spec_helper'
 require 'typekit'
 
 describe Typekit::Routing::Map do
+  extend RESTHelper
+
   def create_request(action)
     # TODO: mock?
     Typekit::Request.new(action: action)
@@ -67,28 +69,28 @@ describe Typekit::Routing::Map do
       end
     end
 
-    [ :show, :update, :delete ].each do |action|
+    restful_member_actions.each do |action|
       it "assembles addresses of #{ action } Requests" do
         request = subject.trace(create_request(action), :kits, 'xxx')
         expect(request.address).to eq('kits/xxx')
       end
     end
 
-    [ :index, :create ].each do |action|
+    restful_collection_actions.each do |action|
       it "assembles addresses of #{ action } Requests" do
         request = subject.trace(create_request(action), :kits)
         expect(request.address).to eq('kits')
       end
     end
 
-    [ :show, :update, :delete ].each do |action|
+    restful_member_actions.each do |action|
       it "raises exceptions for #{ action } actions to collections" do
         expect { subject.trace(create_request(action), :kits) }.to \
           raise_error(Typekit::Routing::Error, /Not permitted/i)
       end
     end
 
-    [ :index, :create ].each do |action|
+    restful_collection_actions.each do |action|
       it "raises exceptions for #{ action } actions to members" do
         expect { subject.trace(create_request(action), :kits, 'xxx') }.to \
           raise_error(Typekit::Routing::Error, /Not permitted/i)
