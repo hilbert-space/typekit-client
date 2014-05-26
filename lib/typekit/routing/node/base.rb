@@ -6,10 +6,10 @@ module Typekit
           children << child
         end
 
-        def assemble(request, *path)
+        def assemble(request, path)
           process(request, path)
           return authorize!(request) if path.empty?
-          lookup!(path.first).assemble(request, *path)
+          lookup!(path.first).assemble(request, path)
         end
 
         def match(name)

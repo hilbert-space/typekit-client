@@ -19,7 +19,7 @@ describe Typekit::Routing::Node do
       root = create_tree(:kits, :families)
       request = double('Request', :<< => nil, :action => :index,
         :path => [ :kits, 'xxx', :families ])
-      root.assemble(request, :kits, 'xxx', :families)
+      root.assemble(request, [ :kits, 'xxx', :families ])
       expect(request).to have_received(:<<).exactly(3).times
     end
 
@@ -27,7 +27,7 @@ describe Typekit::Routing::Node do
       root = create_tree(:kits, :families)
       request = double('Request', :<< => nil, :action => :show,
         :path => [ :kits, 'xxx', :families, 'yyy' ])
-      root.assemble(request, :kits, 'xxx', :families, 'yyy')
+      root.assemble(request, [ :kits, 'xxx', :families, 'yyy' ])
       expect(request).to have_received(:<<).exactly(4).times
     end
   end
