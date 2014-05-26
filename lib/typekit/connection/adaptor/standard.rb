@@ -4,8 +4,8 @@ require 'uri'
 module Typekit
   module Connection
     module Adaptor
-      module Standard
-        def self.process(method, address, parameters = {}, headers = {})
+      class Standard
+        def process(method, address, parameters = {}, headers = {})
           klass = Net::HTTP.const_get(method.to_s.capitalize)
           request = klass.new(build_uri(address, parameters))
           headers.each { |k, v| request[k] = v }
@@ -21,7 +21,7 @@ module Typekit
 
         private
 
-        def self.build_uri(address, parameters)
+        def build_uri(address, parameters)
           chunks = [ address ]
           chunks << Helper.build_query(parameters) unless parameters.empty?
           URI(chunks.join('?'))
