@@ -21,7 +21,7 @@ module Typekit
     def self.build(name, **options)
       self.const_get(name.to_s.capitalize).new(**options)
     rescue NameError
-      raise Error, 'Not found'
+      raise Error, 'Unknown configuration'
     rescue ArgumentError => e
       raise Error, 'Not enough arguments'
     end

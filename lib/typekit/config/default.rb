@@ -1,21 +1,9 @@
 module Typekit
   module Config
     class Default < Base
-      def map
-        @map ||= draw
-      end
-
-      def connection
-        @connection ||= Connection.new(token: token)
-      end
-
-      def processor
-        @processor ||= Processor.new(format: format)
-      end
-
       private
 
-      def draw
+      def build_map
         context = [ Config.address, "v#{ version }", format ]
         Routing::Map.new do
           scope context do
@@ -32,6 +20,14 @@ module Typekit
             resources :libraries, only: [ :index, :show ]
           end
         end
+      end
+
+      def build_dispatcher
+        Connection::Dispatcher.new(adaptor: :standard, token: token)
+      end
+
+      def build_processor
+        Processor.new(format: format)
       end
     end
   end

@@ -8,6 +8,14 @@ module Typekit
         @format = format
         @token = token
       end
+
+      [ :map, :dispatcher, :processor ].each do |component|
+        class_eval <<-METHOD, __FILE__, __LINE__ + 1
+          def #{ component }
+            @#{ component } ||= build_#{ component }
+          end
+        METHOD
+      end
     end
   end
 end

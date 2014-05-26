@@ -11,10 +11,6 @@ module Typekit
       def success?
         @code == 200
       end
-
-      def failed?
-        !success?
-      end
     end
   end
 end
