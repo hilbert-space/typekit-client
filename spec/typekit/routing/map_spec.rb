@@ -26,7 +26,7 @@ describe Typekit::Routing::Map do
     it 'declares scoped resources' do
       subject.define do
         scope 'https://typekit.com/api' do
-          scope [ 'version', 1, 'format', :json ] do
+          scope [ 'v1', :json ] do
             resources(:kits) { resources(:families) }
           end
         end
@@ -34,7 +34,7 @@ describe Typekit::Routing::Map do
       request = subject.trace(create_request(:show),
         :kits, 'xxx', :families, 'yyy')
       expect(request.address).to eq(
-        'https://typekit.com/api/version/1/format/json/kits/xxx/families/yyy')
+        'https://typekit.com/api/v1/json/kits/xxx/families/yyy')
     end
 
     it 'declares custom operations' do

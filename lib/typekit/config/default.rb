@@ -16,7 +16,7 @@ module Typekit
       private
 
       def draw
-        context = [ Config.address, 'version', version, 'format', format ]
+        context = [ Config.address, "v#{ version }", format ]
         Routing::Map.new do
           scope context do
             resources :families, only: :show do
