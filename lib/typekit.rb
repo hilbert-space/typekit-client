@@ -1,6 +1,6 @@
 require_relative 'typekit/version'
+require_relative 'typekit/core'
 
-require_relative 'typekit/error'
 require_relative 'typekit/helper'
 require_relative 'typekit/config'
 

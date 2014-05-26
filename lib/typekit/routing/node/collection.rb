@@ -4,8 +4,8 @@ module Typekit
       class Collection < Base
         def initialize(name, only: nil)
           @name = name
-          @actions = only && Array(only) || Config.actions
-          unless (@actions - Config.actions).empty?
+          @actions = only && Array(only) || Typekit.actions
+          unless (@actions - Typekit.actions).empty?
             raise Error, 'Not supported'
           end
         end

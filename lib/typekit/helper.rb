@@ -5,9 +5,9 @@ module Typekit
     Error = Class.new(Typekit::Error)
 
     def self.member_action?(action)
-      if Config.member_actions.include?(action)
+      if Typekit.member_actions.include?(action)
         true
-      elsif Config.collection_actions.include?(action)
+      elsif Typekit.collection_actions.include?(action)
         false
       else
         raise Error, 'Unknown action'
@@ -15,7 +15,7 @@ module Typekit
     end
 
     def self.translate_action(action)
-      Config.action_dictionary[action] or raise Error, 'Unknown action'
+      Typekit.action_dictionary[action] or raise Error, 'Unknown action'
     end
 
     def self.build_query(parameters)

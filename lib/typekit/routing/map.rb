@@ -30,7 +30,7 @@ module Typekit
         proxy.instance_eval(&block)
       end
 
-      Config.actions.each do |action|
+      Typekit.actions.each do |action|
         define_method "define_#{ action }" do |name, parent:, **options|
           child = Node::Operation.new(name, action: action, **options)
           parent.append(child)

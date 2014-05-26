@@ -4,7 +4,7 @@ module Typekit
       class Operation < Base
         def initialize(name, action:, on:, **options)
           # TODO: how about on == :collection?
-          unless Config.actions.include?(action) && on == :member
+          unless Typekit.actions.include?(action) && on == :member
             raise Error, 'Not supported'
           end
           @name = name
