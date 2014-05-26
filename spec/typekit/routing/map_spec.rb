@@ -6,7 +6,7 @@ describe Typekit::Routing::Map do
 
   def create_request(action)
     # TODO: mock?
-    Typekit::Request.new(action: action)
+    Typekit::Connection::Request.new(action: action)
   end
 
   describe '#define' do
