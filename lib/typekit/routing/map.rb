@@ -22,7 +22,7 @@ module Typekit
         proxy.instance_eval(&block)
       end
 
-      def define_collection(name, parent: @root, **options, &block)
+      def define_resources(name, parent: @root, **options, &block)
         child = Node::Collection.new(name, **options)
         parent.append(child)
         return unless block_given?
@@ -30,9 +30,11 @@ module Typekit
         proxy.instance_eval(&block)
       end
 
-      def define_operation(action, name, parent:, **options)
-        child = Node::Operation.new(name, action: action, **options)
-        parent.append(child)
+      Config.actions.each do |action|
+        define_method "define_#{ action }" do |name, parent:, **options|
+          child = Node::Operation.new(name, action: action, **options)
+          parent.append(child)
+        end
       end
     end
   end

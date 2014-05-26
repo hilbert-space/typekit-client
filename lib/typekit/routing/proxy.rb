@@ -1,24 +1,16 @@
 module Typekit
   module Routing
     class Proxy
-      def initialize(map, **options)
-        @map = map
+      def initialize(owner, **options)
+        @owner = owner
         @options = options
       end
 
-      def scope(path, &block)
-        @map.define_scope(path, **@options, &block)
-      end
-
-      def resources(name, **options, &block)
+      def method_missing(name, *arguments, **options, &block)
+        name = :"define_#{ name }"
+        return super unless @owner.respond_to?(name)
         # NOTE: https://bugs.ruby-lang.org/issues/9776
-        @map.define_collection(name, **options, **@options, &block)
-      end
-
-      Config.actions.each do |action|
-        define_method action do |name, **options|
-          @map.define_operation(action, name, **options, **@options)
-        end
+        @owner.send(name, *arguments, **options, **@options, &block)
       end
     end
   end
