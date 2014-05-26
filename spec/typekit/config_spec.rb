@@ -21,7 +21,7 @@ describe Typekit::Config do
 
     it 'raises exceptions when encouters unknown registeries' do
       expect { build(:awesome, token: 'nekot') }.to \
-        raise_error(subject_module::Error, /Unknown configuration/i)
+        raise_error(subject_module::Error, /Unknown specification/i)
     end
   end
 

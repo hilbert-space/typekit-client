@@ -12,7 +12,7 @@ module Typekit
       end
 
       def trace(request, path)
-        @root.assemble(request, path)
+        @root.assemble(request, Array(path))
       end
 
       def define_scope(path, parent: @root, &block)
