@@ -1,27 +1,14 @@
+require_relative 'parser/json'
+require_relative 'parser/yaml'
+
 module Typekit
   module Parser
-    module JSON
-      def self.extended(base)
-        require 'json'
-      rescue LoadError
-        raise LoadError, 'The JSON parser cannot be loaded.'
-      end
+    Error = Class.new(Typekit::Error)
 
-      def parse(data)
-        ::JSON.parse(data)
-      end
-    end
-
-    module YAML
-      def self.extended(base)
-        require 'yaml'
-      rescue LoadError
-        raise LoadError, 'The YAML parser cannot be loaded.'
-      end
-
-      def parse(data)
-        ::YAML.load(data)
-      end
+    def self.build(format)
+      self.const_get(format.to_s.upcase).new
+    rescue NameError
+      raise Error, 'Unknown format'
     end
   end
 end
