@@ -1,30 +1,35 @@
 require 'spec_helper'
 require 'typekit'
 
-describe Typekit::Connection do
-  HTTP_METHODS = [ :get, :post, :delete ]
+describe Typekit::Connection::Dispatcher do
+  extend RESTHelper
 
   let(:token) { 'arbitrary' }
-  let(:subject) { Typekit::Connection.new(token: token) }
+  let(:address) { 'https://typekit.com/api/v1/json/kits' }
+  let(:subject) { Typekit::Connection::Dispatcher.new(token: token) }
 
-  it 'has the HTTP methods supported by Typekit' do
-    HTTP_METHODS.each do |method|
-      expect(subject).to respond_to(method)
-    end
+  def create_request(action)
+    double('Request', action: action, address: address, parameters: {})
   end
 
-  before do
-    response = double(body: '{}', code: '200')
-    Net::HTTP.any_instance.stub(:request).and_return(response)
-  end
+  describe '#deliver' do
+    restful_actions.each do |action|
+      method = rest_http_dictionary[action]
 
-  HTTP_METHODS.each do |method|
-    describe "##{ method }" do
-      let(:klass) { Net::HTTP::const_get(method.to_s.capitalize) }
+      context "when sending #{ action } Requests" do
+        it 'sets the token header' do
+          stub = stub_http_request(method, address)
+          response = subject.deliver(create_request(action))
+          expect(stub).to have_requested(method, address).
+            with(:headers => { 'X-Typekit-Token' => token })
+        end
 
-      it 'instantiates an appropriate HTTP request' do
-        expect(klass).to receive(:new).and_call_original
-        subject.send(method, 'https://typekit.com/api')
+        it 'returns Responses' do
+          stub_http_request(method, address).
+            to_return(status: 200, body: 'Hej!')
+          response = subject.deliver(create_request(action))
+          expect([ response.code, response.content ]).to eq([ 200, 'Hej!' ])
+        end
       end
     end
   end
