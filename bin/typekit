@@ -27,7 +27,7 @@ Usage: <action> <resource> [parameters]
     [parameters]    a JSON-encoded hash (optional)
 
 Examples:
-    show kits
+    index kits
     show kits bas4cfe families vcsm
     show families vcsm i9
     show libraries trial { "page": 10, "per_page": 5 }
