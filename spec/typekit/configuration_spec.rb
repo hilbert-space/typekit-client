@@ -1,8 +1,8 @@
 require 'spec_helper'
 require 'typekit'
 
-describe Typekit::Config do
-  let(:subject_module) { Typekit::Config }
+describe Typekit::Configuration do
+  let(:subject_module) { Typekit::Configuration }
 
   def build(name, **options)
     subject_module.build(name, **options)

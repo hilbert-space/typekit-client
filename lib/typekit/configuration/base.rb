@@ -1,5 +1,5 @@
 module Typekit
-  module Config
+  module Configuration
     class Base
       attr_reader :version, :format, :token
 

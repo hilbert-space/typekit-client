@@ -1,8 +1,8 @@
-require_relative 'config/base'
-require_relative 'config/default'
+require_relative 'configuration/base'
+require_relative 'configuration/default'
 
 module Typekit
-  module Config
+  module Configuration
     Error = Class.new(Typekit::Error)
 
     def self.build(spec, **options)

@@ -9,7 +9,7 @@ module Typekit
     private def_delegator :processor, :process
 
     def initialize(spec: :default, **options)
-      @config = Config.build(spec, **options)
+      @config = Configuration.build(spec, **options)
     end
 
     def perform(action, path, parameters = {})
