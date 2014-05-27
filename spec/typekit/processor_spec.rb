@@ -26,7 +26,7 @@ describe Typekit::Processor do
 
   it 'raises an appropriate exception when a request fails' do
     parser = create(:json)
-    response = double(success?: false, code: 401,
+    response = double(success?: false, redirect?: false, code: 401,
       content: '{ "errors": [ "Not authorized" ] }')
     expect { parser.process(response) }.to \
       raise_error(Typekit::Error, 'Not authorized')
