@@ -8,7 +8,7 @@ module Typekit
 
         def assemble(request, path)
           process(request, path)
-          return authorize!(request) if path.empty?
+          return authorize(request) if path.empty?
           lookup!(path.first).assemble(request, path)
         end
 
@@ -35,7 +35,7 @@ module Typekit
           lookup(name) or raise Error, 'Not found'
         end
 
-        def authorize!(request)
+        def authorize(request)
           raise Error, 'Not permitted' unless permitted?(request)
           request
         end
