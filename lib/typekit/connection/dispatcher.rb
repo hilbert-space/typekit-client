@@ -3,9 +3,7 @@ module Typekit
     class Dispatcher
       def initialize(adaptor: :standard, token:)
         @token = token
-        @adaptor = Adaptor.const_get(adaptor.to_s.capitalize).new
-      rescue NameError
-        raise Error, 'Unknown connection adaptor'
+        @adaptor = Adaptor.build(adaptor)
       end
 
       def deliver(request)

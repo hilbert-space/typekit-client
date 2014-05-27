@@ -5,8 +5,8 @@ module Typekit
   module Configuration
     Error = Class.new(Typekit::Error)
 
-    def self.build(config, **options)
-      self.const_get(config.to_s.capitalize).new(**options)
+    def self.build(name, **options)
+      self.const_get(name.to_s.capitalize).new(**options)
     rescue NameError
       raise Error, 'Unknown configuration'
     rescue ArgumentError => e
