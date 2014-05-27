@@ -19,7 +19,7 @@ module Typekit
         process_success(response, data)
       else
         data = @parser.process(response.content) rescue {}
-        process_error(response, data)
+        process_failure(response, data)
       end
     end
 
@@ -29,7 +29,8 @@ module Typekit
       data
     end
 
-    def process_error(request, data)
+    def process_failure(request, data)
+      return data if request.redirect?
       message = data['errors'] || ERRORS[request.code] || 'Unknown server error'
       raise Error, Array(message).join(', ')
     end

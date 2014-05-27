@@ -11,6 +11,10 @@ module Typekit
       def success?
         @code == 200
       end
+
+      def redirect?
+        @code == 302
+      end
     end
   end
 end

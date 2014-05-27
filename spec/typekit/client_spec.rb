@@ -23,5 +23,14 @@ describe Typekit::Client do
           raise_error(Typekit::Error, /(authentication|authorized)/i)
       end
     end
+
+    context 'when found' do
+      options = { vcr: { cassette_name: 'show_families_calluna_found' } }
+
+      it 'returns the Response as is', options do
+        expect { subject.show([ :families, 'calluna' ]) }.not_to \
+          raise_error
+      end
+    end
   end
 end
