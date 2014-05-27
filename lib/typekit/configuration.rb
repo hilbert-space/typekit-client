@@ -5,10 +5,10 @@ module Typekit
   module Configuration
     Error = Class.new(Typekit::Error)
 
-    def self.build(spec, **options)
-      self.const_get(spec.to_s.capitalize).new(**options)
+    def self.build(config, **options)
+      self.const_get(config.to_s.capitalize).new(**options)
     rescue NameError
-      raise Error, 'Unknown specification'
+      raise Error, 'Unknown configuration'
     rescue ArgumentError => e
       raise Error, 'Not enough arguments'
     end
