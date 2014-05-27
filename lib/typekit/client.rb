@@ -12,24 +12,25 @@ module Typekit
       @config = Configuration.build(config, **options)
     end
 
-    def perform(action, path, parameters = {})
-      process(deliver(trace(action, path, parameters)))
+    def perform(*arguments)
+      process(deliver(trace(*arguments)))
     end
 
     Typekit.actions.each do |action|
-      define_method(action) do |path, parameters = {}|
-        perform(action, path, parameters)
+      define_method(action) do |*arguments|
+        perform(action, *arguments)
       end
     end
 
     private
 
-    def prepare(action, path, parameters)
-      [ action.to_sym, Array(path).map(&:to_sym), parameters ]
+    def prepare(action, *path)
+      parameters = path.last.is_a?(Hash) ? path.pop : {}
+      [ action.to_sym, path.flatten.map(&:to_sym), parameters ]
     end
 
-    def trace(action, path, parameters)
-      action, path, parameters = prepare(action, path, parameters)
+    def trace(*arguments)
+      action, path, parameters = prepare(*arguments)
       request = Connection::Request.new(action: action, parameters: parameters)
       map.trace(request, path)
     end

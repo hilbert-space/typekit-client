@@ -23,7 +23,7 @@ class Controller
 Usage: <action> <resource> [parameters]
 
     <action>        show, create, update, or delete
-    <resource>      a list separated by white spaces
+    <resource>      a list separated by whitespaces
     [parameters]    a JSON-encoded hash (optional)
 
 Examples:

@@ -3,19 +3,19 @@ A Ruby library for accessing the [Typekit API](https://typekit.com/docs/api).
 
 ## Installation
 `Ruby >= 2.1` is required. Make sure you have it installed:
-``` bash
+```bash
 $ ruby -v
 ruby 2.1.2p95 (2014-05-08 revision 45877) [x86_64-darwin13.0]
 ```
 
 In case you don’t:
-``` bash
+```bash
 $ curl -sSL https://get.rvm.io | bash
 $ rvm install 2.1
 ```
 
 Add the gem into your `Gemfile` and run `bundler`:
-``` bash
+```bash
 $ echo "gem 'typekit'" >> Gemfile
 $ bundle
 ```
@@ -23,21 +23,26 @@ $ bundle
 In order to interact with the Typekit API, one should have a valid API token.
 You can generate such a token [here](https://typekit.com/account/tokens).
 For convenience, let us create a shortcut for it:
-``` bash
-$ export tk_token=<YOUR_TOKEN_GOES_HERE>
+```bash
+$ export tk_token=YOUR_TOKEN_GOES_HERE
 ```
 
 ## Usage
 Here is the basic setup in a Ruby script:
-``` ruby
+```ruby
 require 'typekit'
 
 client = Typekit::Client.new(token: ENV['tk_token'])
 ```
 
-Let us now go through some typical use cases. For clarity, the code below
-makes use of the following function:
-``` ruby
+And here is how to run it, assuming you name your script `app.rb`:
+```bash
+$ bundle exec ruby app.rb
+```
+
+Let us now have a look at some typical use cases. For clarity, the code
+below makes use of the following function:
+```ruby
 def p(data)
   puts JSON.pretty_generate(data)
 end
@@ -45,12 +50,12 @@ end
 
 ### Show all kits
 Command:
-``` ruby
+```ruby
 p client.index(:kits)
 ```
 
 Output:
-```
+```json
 {
   "kits": [
     {
@@ -64,12 +69,12 @@ Output:
 
 ### Show the description of a variant of a font family
 Command:
-``` ruby
-p client.show(%w{families vcsm i9})
+```ruby
+p client.show(:families, 'vcsm', 'i9')
 ```
 
 Output:
-```
+```json
 {
   "variation": {
     "id": "vcsm:i9",
@@ -89,12 +94,12 @@ Output:
 
 ### Show the font families in the trial library with pagination
 Command:
-``` ruby
-p client.show(%w{libraries trial}, page: 10, per_page: 5)
+```ruby
+p client.show(:libraries, 'trial', page: 10, per_page: 5)
 ```
 
 Output:
-```
+```json
 {
   "library": {
     "id": "trial",
@@ -126,13 +131,13 @@ Output:
 
 ### Create a new kit
 Command:
-``` ruby
-p result = client.create(:kits, name: "Megakit", domains: "localhost")
+```ruby
+p result = client.create(:kits, name: 'Megakit', domains: 'localhost')
 kit_id = result['kit']['id']
 ```
 
 Output:
-```
+```json
 {
   "kit": {
     "id": "izw0qiq",
@@ -151,12 +156,12 @@ Output:
 
 ### Disable the badge of a kit
 Command:
-``` ruby
-p client.update([ :kits, kit_id ], badge: false)
+```ruby
+p client.update(:kits, kit_id, badge: false)
 ```
 
 Output:
-```
+```json
 {
   "kit": {
     "id": "izw0qiq",
@@ -175,13 +180,13 @@ Output:
 
 ### Look up the id of Proxima Nova by its slug
 Command:
-``` ruby
-p result = client.show([ :families, 'proxima-nova' ])
+```ruby
+p result = client.show(:families, 'proxima-nova')
 family_id = result['family']['id']
 ```
 
 Output:
-```
+```json
 {
   "family": {
     "id": "vcsm",
@@ -192,13 +197,12 @@ Output:
 
 ### Add Proxima Nova into a kit
 Command:
-``` ruby
-p result = client.update([ :kits, kit_id ],
-  families: { "0" => { id: family_id } })
+```ruby
+p client.update(:kits, kit_id, families: { "0" => { id: family_id } })
 ```
 
 Output:
-```
+```json
 {
   "kit": {
     "id": "nys8sny",
@@ -225,12 +229,12 @@ Output:
 ```
 
 ### Delete a kit
-``` ruby
-p client.delete([ :kits, kit_id ])
+```ruby
+p client.delete(:kits, kit_id)
 ```
 
 Output:
-```
+```json
 {
   "ok": true
 }
@@ -241,7 +245,7 @@ There is a simple CLI provided in order to demonstrate the usage of the
 library and to give the ability to perform basic operations without writing
 any code. The following command will install the CLI in the `bin` directory
 of your project:
-``` bash
+```bash
 $ bundle binstubs typekit
 ```
 
@@ -284,7 +288,7 @@ Type 'help' for help and 'exit' to exit.
 Usage: <action> <resource> [parameters]
 
     <action>        index, show, create, update, or delete
-    <resource>      a list separated by white spaces
+    <resource>      a list separated by whitespaces
     [parameters]    a JSON-encoded hash (optional)
 
 Examples:
