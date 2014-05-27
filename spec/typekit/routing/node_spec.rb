@@ -2,6 +2,8 @@ require 'spec_helper'
 require 'typekit'
 
 describe Typekit::Routing::Node do
+  extend RESTHelper
+
   let(:subject_module) { Typekit::Routing::Node }
 
   def create_tree(*path)
@@ -15,20 +17,24 @@ describe Typekit::Routing::Node do
   end
 
   describe 'Base#assemble' do
-    it 'builds up index Requests' do
-      root = create_tree(:kits, :families)
-      request = double('Request', :<< => nil, :action => :index,
-        :path => [ :kits, 'xxx', :families ])
-      root.assemble(request, [ :kits, 'xxx', :families ])
-      expect(request).to have_received(:<<).exactly(3).times
+    let(:root) { create_tree(:kits, :families) }
+
+    restful_collection_actions.each do |action|
+      it "builds up #{ action } Requests" do
+        request = double('Request', :<< => nil, :action => action,
+          :path => [ :kits, 'xxx', :families ])
+        root.assemble(request, [ :kits, 'xxx', :families ])
+        expect(request).to have_received(:<<).exactly(3).times
+      end
     end
 
-    it 'builds up show Requests' do
-      root = create_tree(:kits, :families)
-      request = double('Request', :<< => nil, :action => :show,
-        :path => [ :kits, 'xxx', :families, 'yyy' ])
-      root.assemble(request, [ :kits, 'xxx', :families, 'yyy' ])
-      expect(request).to have_received(:<<).exactly(4).times
+    restful_member_actions.each do |action|
+      it "builds up #{ action } Requests" do
+        request = double('Request', :<< => nil, :action => action,
+          :path => [ :kits, 'xxx', :families, 'yyy' ])
+        root.assemble(request, [ :kits, 'xxx', :families, 'yyy' ])
+        expect(request).to have_received(:<<).exactly(4).times
+      end
     end
   end
 end

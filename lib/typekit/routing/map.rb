@@ -12,7 +12,7 @@ module Typekit
       end
 
       def trace(request, path)
-        @root.assemble(request, Array(path))
+        @root.assemble(request, Array(path).map(&:to_sym))
       end
 
       def define_scope(path, parent: @root, &block)

@@ -97,6 +97,11 @@ describe Typekit::Routing::Map do
       end
     end
 
+    it 'handles resource names given as strings' do
+      expect { subject.trace(create_request(:show), %w{kits xxx}) }.not_to \
+        raise_error
+    end
+
     it 'raises exceptions for forbidden actions' do
       expect do
         subject.trace(create_request(:index), [ :kits, 'xxx', :families ])
