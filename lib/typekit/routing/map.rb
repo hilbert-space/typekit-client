@@ -1,6 +1,12 @@
+require 'forwardable'
+
 module Typekit
   module Routing
     class Map
+      extend Forwardable
+
+      def_delegator :@root, :assemble, :trace
+
       def initialize(&block)
         @root = Node::Root.new
         define(&block) if block_given?
@@ -9,10 +15,6 @@ module Typekit
       def define(&block)
         proxy = Proxy.new(self)
         proxy.instance_eval(&block)
-      end
-
-      def trace(request, path)
-        @root.assemble(request, Array(path).map(&:to_sym))
       end
 
       def define_scope(path, parent: @root, &block)
