@@ -49,12 +49,12 @@ HELP
     chunks = command.split(/\s+/).compact.reject(&:empty?)
     action, path = chunks[0], chunks[1..-1]
 
-    raise 'The action name is missing.' if action.nil?
-    raise 'The action name is invalid.' unless action =~ /^\w+$/
+    raise 'Missing action name' if action.nil?
+    raise 'Invalid action name' unless action =~ /^\w+$/
 
-    raise 'The resource name is missing.' if path.empty?
-    unless path.all?{ |chunk| chunk =~ /^[\w\d]+$/ }
-      raise 'The resource name is invalid.'
+    raise 'Missing resource name' if path.empty?
+    unless path.all?{ |chunk| chunk =~ /^[-\w\d]+$/ }
+      raise 'Invalid resource name'
     end
 
     [ action, path, parameters ]
@@ -70,7 +70,7 @@ HELP
       {}
     end
   rescue
-    raise 'Unable to parse the specified parameters.'
+    raise 'Invalid parameters'
   end
 end
 
