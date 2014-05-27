@@ -224,32 +224,6 @@ Output:
 }
 ```
 
-### Show the font families in a kit
-Command:
-``` ruby
-p client.index([ :kits, kit_id, :families ])
-```
-
-Output:
-```
-{
-  "families": [
-    {
-      "id": "vcsm",
-      "name": "Proxima Nova",
-      "slug": "proxima-nova",
-      "css_names": [
-        "proxima-nova-1",
-        "proxima-nova-2"
-      ],
-      "css_stack": "\"proxima-nova-1\",\"proxima-nova-2\",sans-serif",
-      "subset": "default",
-      ...
-    }
-  ]
-}
-```
-
 ### Delete a kit
 ``` ruby
 p client.delete([ :kits, kit_id ])

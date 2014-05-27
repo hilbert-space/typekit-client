@@ -12,7 +12,7 @@ module Typekit
             end
 
             resources :kits do
-              resources :families
+              resources :families, only: [ :show, :update, :delete ]
               show :published, on: :member
               update :publish, on: :member
             end
