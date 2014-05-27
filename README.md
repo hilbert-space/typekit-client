@@ -40,8 +40,29 @@ And here is how to run it, assuming you name your script `app.rb`:
 $ bundle exec ruby app.rb
 ```
 
-Let us now have a look at some typical use cases. For clarity, the code
-below makes use of the following function:
+The main method of `client` is `perform(action, *path, parameters = {})`.
+The arguments are as follows:
+* `action` is the action that you would like to perform on a resource, and
+  it can be one of `:index`, `:show`, `:create`, `:update`, or `:delete`;
+* `*path` refers to an arbitrary number of arguments needed to identify
+  the desired resource (a plenty of examples are given below), and it
+  always begins with one of `:families`, `:kits`, or `:libraries`;
+* `parameters` is a hash of parameters needed to perform the action.
+
+`perform` has aliases for each of the actions: `index(*path, parameters = {})`,
+`show(*path, parameters = {})`, `create(*path, parameters = {})`, and so on.
+The result of a method call is returned as a hash, and its content is exactly
+what the Typekit API sends back to `client`. The only exception is when
+the API returns an error, in which case an appropriate exception is being
+raised.
+
+Before sending the actual request to the Typekit API, the library checks
+whether the resource given by `*path` makes sense and, if it does, whether
+`action` can be performed on that resource. So, if you receive an exception,
+check out the [API reference](https://typekit.com/docs/api/).
+
+Now, let us have a look at some typical use cases. For clarity, the code
+below makes use of the following auxiliary function:
 ```ruby
 def p(data)
   puts JSON.pretty_generate(data)
@@ -178,7 +199,7 @@ Output:
 }
 ```
 
-### Look up the id of Proxima Nova by its slug
+### Look up the id of a font family by its slug
 Command:
 ```ruby
 p result = client.show(:families, 'proxima-nova')
@@ -195,7 +216,7 @@ Output:
 }
 ```
 
-### Add Proxima Nova into a kit
+### Add a font family into a kit
 Command:
 ```ruby
 p client.update(:kits, kit_id, families: { "0" => { id: family_id } })
