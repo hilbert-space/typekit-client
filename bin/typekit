@@ -12,17 +12,8 @@ class Controller
   end
 
   def process(command)
-    action, resource, parameters = parse(command)
-    case action
-    when 'show'
-      print @client.get(resource, parameters)
-    when 'create', 'update'
-      print @client.post(resource, parameters)
-    when 'delete'
-      print @client.delete(resource, parameters)
-    else
-      raise 'The given action is unknown.'
-    end
+    action, path, parameters = parse(command)
+    print @client.perform(action, path, parameters)
   rescue Exception => e
     puts e
   end
@@ -56,17 +47,17 @@ HELP
     parameters = extract_parameters!(command)
 
     chunks = command.split(/\s+/).compact.reject(&:empty?)
-    action, resource = chunks[0], chunks[1..-1]
+    action, path = chunks[0], chunks[1..-1]
 
     raise 'The action name is missing.' if action.nil?
     raise 'The action name is invalid.' unless action =~ /^\w+$/
 
-    raise 'The resource name is missing.' if resource.empty?
-    unless resource.all?{ |chunk| chunk =~ /^[\w\d]+$/ }
+    raise 'The resource name is missing.' if path.empty?
+    unless path.all?{ |chunk| chunk =~ /^[\w\d]+$/ }
       raise 'The resource name is invalid.'
     end
 
-    [ action, resource, parameters ]
+    [ action, path, parameters ]
   end
 
   def extract_parameters!(command)
