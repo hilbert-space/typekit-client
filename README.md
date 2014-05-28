@@ -267,7 +267,7 @@ There is a simple CLI provided in order to demonstrate the usage of the
 library and to give the ability to perform basic operations without writing
 any code. The tool is called `typekit`, and it should get installed along
 with the gem. Try running:
-```bash
+```
 $ typekit -h
 Usage: typekit [options] [command]
 
