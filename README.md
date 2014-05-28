@@ -49,7 +49,7 @@ The arguments are as follows:
   always begins with one of `:families`, `:kits`, or `:libraries`;
 * `parameters` is a hash of parameters needed to perform the action.
 
-`perform` has aliases for each of the actions: `index(*path, parameters = {})`,
+`perform` has an alias for each of the actions: `index(*path, parameters = {})`,
 `show(*path, parameters = {})`, `create(*path, parameters = {})`, and so on.
 The result of a method call is returned as a hash, and its content is exactly
 what the Typekit API sends back to `client`. The only exception is when
@@ -70,7 +70,7 @@ end
 ```
 
 ### Show all kits
-Command:
+Code:
 ```ruby
 p client.index(:kits)
 ```
@@ -89,7 +89,7 @@ Output:
 ```
 
 ### Show the description of a variant of a font family
-Command:
+Code:
 ```ruby
 p client.show(:families, 'vcsm', 'i9')
 ```
@@ -114,7 +114,7 @@ Output:
 ```
 
 ### Show the font families in the trial library with pagination
-Command:
+Code:
 ```ruby
 p client.show(:libraries, 'trial', page: 10, per_page: 5)
 ```
@@ -151,7 +151,7 @@ Output:
 ```
 
 ### Create a new kit
-Command:
+Code:
 ```ruby
 p result = client.create(:kits, name: 'Megakit', domains: 'localhost')
 kit_id = result['kit']['id']
@@ -176,7 +176,7 @@ Output:
 ```
 
 ### Disable the badge of a kit
-Command:
+Code:
 ```ruby
 p client.update(:kits, kit_id, badge: false)
 ```
@@ -200,7 +200,7 @@ Output:
 ```
 
 ### Look up the id of a font family by its slug
-Command:
+Code:
 ```ruby
 p result = client.show(:families, 'proxima-nova')
 family_id = result['family']['id']
@@ -217,7 +217,7 @@ Output:
 ```
 
 ### Add a font family into a kit
-Command:
+Code:
 ```ruby
 p client.update(:kits, kit_id, families: { "0" => { id: family_id } })
 ```
@@ -250,6 +250,7 @@ Output:
 ```
 
 ### Delete a kit
+Command:
 ```ruby
 p client.delete(:kits, kit_id)
 ```
