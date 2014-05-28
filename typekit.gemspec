@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'typekit/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'Typekit'
+  spec.name          = 'typekit'
   spec.version       = Typekit::VERSION
   spec.authors       = [ 'Ivan Ukhov' ]
   spec.email         = [ 'ivan.ukhov@gmail.com' ]
@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.description   = 'A Ruby library for performing create, read, ' \
                        'update, and delete operations on the resources ' \
                        'provided by the Typekit service.'
-  spec.homepage      = 'https://github.com/IvanUkhov/Typekit'
+  spec.homepage      = 'https://github.com/IvanUkhov/typekit'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0")
