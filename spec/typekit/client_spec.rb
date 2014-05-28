@@ -9,7 +9,7 @@ describe Typekit::Client do
     context 'when successful' do
       options = { vcr: { cassette_name: 'index_kits_ok' } }
 
-      it 'returns hashs', options do
+      it 'returns hashes', options do
         result = subject.index(:kits)
         expect(result).to be_kind_of(Hash)
       end
