@@ -16,7 +16,7 @@ $ rvm install 2.1
 
 Add the gem into your `Gemfile` and run `bundler`:
 ```bash
-$ echo "gem 'typekit'" >> Gemfile
+$ echo "gem 'typekit', git: 'https://github.com/IvanUkhov/typekit'" >> Gemfile
 $ bundle
 ```
 
@@ -265,15 +265,10 @@ Output:
 ## Command-line Interface (CLI)
 There is a simple CLI provided in order to demonstrate the usage of the
 library and to give the ability to perform basic operations without writing
-any code. The following command will install the CLI in the `bin` directory
-of your project:
+any code. The tool is called `typekit`, and it should get installed along
+with the gem. Try running:
 ```bash
-$ bundle binstubs typekit
-```
-
-Now:
-```
-$ ./bin/typekit -h
+$ typekit -h
 Usage: typekit [options] [command]
 
 Required options:
@@ -285,10 +280,16 @@ Other options:
     -h, --help                       Show this message
 ```
 
+Alternatively, you can install `typekit` in the `bin` directory of your
+project using the following command:
+```bash
+$ bundle binstubs typekit
+```
+
 The tool has two modes: normal and interactive. If `command` is provided,
 the tool executes only that particular command and terminates:
 ```
-$ ./bin/typekit -t $tk_token index kits
+$ typekit -t $tk_token index kits
 {
   "kits": [
     {
@@ -304,7 +305,7 @@ $
 If `command` is not provided, the tool gives a command prompt wherein one
 can enter multiple commands:
 ```
-$ ./bin/typekit -t $tk_token
+$ typekit -t $tk_token
 Type 'help' for help and 'exit' to exit.
 > help
 Usage: <action> <resource> [parameters]
