@@ -14,9 +14,13 @@ $ curl -sSL https://get.rvm.io | bash
 $ rvm install 2.1
 ```
 
-Add the gem into your `Gemfile` and run `bundler`:
+Add the gem into your `Gemfile`:
+```ruby
+gem 'typekit', git: 'https://github.com/IvanUkhov/typekit', tag: 'v0.0.2'
+```
+
+Then run `bundler`:
 ```bash
-$ echo "gem 'typekit', git: 'https://github.com/IvanUkhov/typekit'" >> Gemfile
 $ bundle
 ```
 
