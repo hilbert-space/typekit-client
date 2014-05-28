@@ -1,4 +1,4 @@
-# Typekit
+# Typekit Client
 A Ruby library for accessing the [Typekit API](https://typekit.com/docs/api).
 
 ## Installation
@@ -16,7 +16,7 @@ $ rvm install 2.1
 
 Add the gem into your `Gemfile`:
 ```ruby
-gem 'typekit', git: 'https://github.com/IvanUkhov/typekit', tag: 'v0.0.2'
+gem 'typekit-client', require: 'typekit'
 ```
 
 Then run `bundler`:
@@ -343,7 +343,7 @@ $
 
 ## Contributing
 
-1. Fork it ( https://github.com/IvanUkhov/typekit/fork )
+1. Fork it ( https://github.com/IvanUkhov/typekit-client/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
