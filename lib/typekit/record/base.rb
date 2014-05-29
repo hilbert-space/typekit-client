@@ -12,12 +12,13 @@ module Typekit
         @attributes ||= []
       end
 
-      def self.attribute?(name)
-        attributes.include?(name)
-      end
-
       def self.has_attributes(*names)
-        attributes.push(*(names - attributes))
+        names = names - attributes
+        attributes.push(*names)
+        names.each do |name|
+          define_method(name) { @attributes[name] }
+          define_method("#{ name }=") { |value| @attributes[name] = value }
+        end
       end
 
       def self.filter_attributes(assignments)
@@ -26,17 +27,6 @@ module Typekit
             [ name, assignments[name] ]
           end
         ]
-      end
-
-      def method_missing(name, *arguments)
-        if name.to_s =~ /^(?<name>.*)=$/
-          name = Regexp.last_match(:name).to_sym
-          return super unless self.class.attribute?(name)
-          @attributes.send(:[]=, name, *arguments)
-        else
-          return super unless self.class.attribute?(name)
-          @attributes.send(:[], name, *arguments)
-        end
       end
     end
   end
