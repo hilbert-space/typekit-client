@@ -59,48 +59,106 @@ describe Typekit::Routing::Map do
   end
 
   describe '#trace' do
-    before(:each) do
-      subject.define do
-        resources :families, only: :show
-        resources :kits do
-          resources :families, only: [ :show, :update, :delete ]
-          show :published, on: :member
+    shared_examples 'adequate resource tracer' do
+      restful_member_actions.each do |action|
+        it "assembles addresses of #{ action } Requests" do
+          request = subject.trace(create_request(action),
+            [ *subject_path, 'xxx' ])
+          expect(request.address).to eq("#{ subject_address }/xxx")
+        end
+      end
+
+      restful_collection_actions.each do |action|
+        it "assembles addresses of #{ action } Requests" do
+          request = subject.trace(create_request(action), subject_path)
+          expect(request.address).to eq(subject_address)
+        end
+      end
+
+      restful_member_actions.each do |action|
+        it "raises exceptions for #{ action } actions to collections" do
+          expect do
+            subject.trace(create_request(action), subject_path)
+          end.to raise_error(Typekit::Routing::Error, /Not permitted/i)
+        end
+      end
+
+      restful_collection_actions.each do |action|
+        it "raises exceptions for #{ action } actions to members" do
+          expect do
+            subject.trace(create_request(action), [ *subject_path, 'xxx' ])
+          end.to raise_error(Typekit::Routing::Error, /Not permitted/i)
         end
       end
     end
 
-    restful_member_actions.each do |action|
-      it "assembles addresses of #{ action } Requests" do
-        request = subject.trace(create_request(action), [ :kits, 'xxx' ])
-        expect(request.address).to eq('kits/xxx')
+    context 'when working with plain collections' do
+      before(:each) do
+        subject.define { resources(:kits) }
+      end
+
+      let(:subject_path) { [ :kits ] }
+      let(:subject_address) { 'kits' }
+
+      it_behaves_like 'adequate resource tracer'
+    end
+
+    context 'when working with nested collections' do
+      before(:each) do
+        subject.define do
+          resources :kits do
+            resources :families
+          end
+        end
+      end
+
+      let(:subject_path) { [ :kits, 'yyy', :families ] }
+      let(:subject_address) { 'kits/yyy/families' }
+
+      it_behaves_like 'adequate resource tracer'
+    end
+
+    FAMILY_ACTIONS = [ :show, :update, :delete ]
+
+    context "when only #{ FAMILY_ACTIONS.join(', ') } are allowed" do
+      before(:each) do
+        subject.define do
+          resources :kits do
+            resources :families, only: FAMILY_ACTIONS
+          end
+        end
+      end
+
+      (restful_collection_actions - FAMILY_ACTIONS).each do |action|
+        it "raises expections for #{ action } actions" do
+          expect do
+            subject.trace(create_request(action),
+              [ :kits, 'xxx', :families ])
+          end.to raise_error(Typekit::Routing::Error, /Not permitted/i)
+        end
+      end
+
+      (restful_member_actions - FAMILY_ACTIONS).each do |action|
+        it "raises expections for #{ action } actions" do
+          expect do
+            subject.trace(create_request(action),
+              [ :kits, 'xxx', :families, 'yyy' ])
+          end.to raise_error(Typekit::Routing::Error, /Not permitted/i)
+        end
       end
     end
 
-    restful_collection_actions.each do |action|
-      it "assembles addresses of #{ action } Requests" do
-        request = subject.trace(create_request(action), [ :kits ])
-        expect(request.address).to eq('kits')
+    restful_actions.each do |action|
+      it "assembles addresses for custom #{ action } actions" do
+        subject.define do
+          resources :kits do
+            send(action, :havefun, on: :member)
+          end
+        end
+        request = subject.trace(create_request(action),
+          [ :kits, 'xxx', :havefun ])
+        expect(request.address).to eq('kits/xxx/havefun')
       end
-    end
-
-    restful_member_actions.each do |action|
-      it "raises exceptions for #{ action } actions to collections" do
-        expect { subject.trace(create_request(action), [ :kits ]) }.to \
-          raise_error(Typekit::Routing::Error, /Not permitted/i)
-      end
-    end
-
-    restful_collection_actions.each do |action|
-      it "raises exceptions for #{ action } actions to members" do
-        expect { subject.trace(create_request(action), [ :kits, 'xxx' ]) }.to \
-          raise_error(Typekit::Routing::Error, /Not permitted/i)
-      end
-    end
-
-    it 'raises exceptions for forbidden actions' do
-      expect do
-        subject.trace(create_request(:index), [ :kits, 'xxx', :families ])
-      end.to raise_error(Typekit::Routing::Error, /Not permitted/i)
     end
   end
 end
