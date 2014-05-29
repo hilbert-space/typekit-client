@@ -4,6 +4,11 @@ require 'typekit'
 describe Typekit::Routing::Node do
   extend RESTHelper
 
+  def create_request(action)
+    # TODO: mock?
+    Typekit::Connection::Request.new(action: action)
+  end
+
   let(:subject_module) { Typekit::Routing::Node }
 
   def create_tree(*path)
@@ -21,19 +26,17 @@ describe Typekit::Routing::Node do
 
     restful_collection_actions.each do |action|
       it "builds up #{ action } Requests" do
-        request = double('Request', :<< => nil, :action => action,
-          :path => [ :kits, 'xxx', :families ])
+        request = create_request(action)
+        expect(request).to receive(:<<).exactly(3).times.and_call_original
         root.assemble(request, [ :kits, 'xxx', :families ])
-        expect(request).to have_received(:<<).exactly(3).times
       end
     end
 
     restful_member_actions.each do |action|
       it "builds up #{ action } Requests" do
-        request = double('Request', :<< => nil, :action => action,
-          :path => [ :kits, 'xxx', :families, 'yyy' ])
+        request = create_request(action)
+        expect(request).to receive(:<<).exactly(4).times.and_call_original
         root.assemble(request, [ :kits, 'xxx', :families, 'yyy' ])
-        expect(request).to have_received(:<<).exactly(4).times
       end
     end
   end
