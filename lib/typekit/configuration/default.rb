@@ -4,7 +4,7 @@ module Typekit
       private
 
       def build_map
-        context = [ Typekit.address, "v#{ version }", format ]
+        context = build_context
         Routing::Map.new do
           scope context do
             resources :families, only: :show do
@@ -28,6 +28,10 @@ module Typekit
 
       def build_processor
         Processor.new(format: format)
+      end
+
+      def build_context
+        [ Typekit.address, "v#{ version }", format ]
       end
     end
   end
