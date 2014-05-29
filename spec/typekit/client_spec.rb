@@ -9,9 +9,9 @@ describe Typekit::Client do
     context 'when successful' do
       options = { vcr: { cassette_name: 'index_kits_ok' } }
 
-      it 'returns hashes', options do
+      pending 'returns Records', options do
         result = subject.index(:kits)
-        expect(result).to be_kind_of(Hash)
+        expect(result.map(&:class).uniq).to eq([ Typekit::Record::Kit ])
       end
     end
 
