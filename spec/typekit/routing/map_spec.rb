@@ -160,5 +160,18 @@ describe Typekit::Routing::Map do
         expect(request.address).to eq('kits/xxx/havefun')
       end
     end
+
+    it 'does not support reopening of resource declarations' do
+      subject.define do
+        resources :kits
+        resources :kits do
+          resources :families
+        end
+      end
+      expect do
+        subject.trace(create_request(:show),
+          [ :kits, 'xxx', :families, 'yyy' ])
+      end.to raise_error(Typekit::Routing::Error, /Not found/i)
+    end
   end
 end
