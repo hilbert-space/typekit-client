@@ -7,40 +7,47 @@ describe Typekit::Record::Base do
     klass
   end
 
+  let(:klass) { create_class(:id, :name) }
+
   describe '.has_attributes' do
     it 'declares new attributes' do
-      klass = create_class(:name)
       expect(klass.new).to respond_to(:name)
     end
 
     it 'does not affect the attributes of sibling classes' do
-      klass1 = create_class(:one)
-      klass2 = create_class(:two)
-      expect(klass1.new).not_to respond_to(:two)
+      another_klass = create_class(:surname)
+      expect(klass.new).not_to respond_to(:surname)
     end
   end
 
   describe '.has_many' do
-    pending 'declares relations with other Records' do
+    pending 'declares relations with other sibling classes' do
     end
   end
 
   describe '.attributes' do
-    it 'returns attribute names' do
-      klass = create_class(:id, :name)
+    it 'returns the names of the declared attributes' do
       expect(klass.attributes).to include(:id, :name)
     end
   end
 
   describe '#new' do
-    let(:klass) { create_class(:name) }
-
-    it 'assigns values to attributes' do
+    it 'assigns values to the declared attributes' do
       expect(klass.new(name: 'Awesome').name).to eq('Awesome')
     end
 
     it 'ignores unknown attributes' do
       expect { klass.new(surname: 'Awesome') }.not_to raise_error
+    end
+  end
+
+  describe '#attributes' do
+    pending 'returns the declared attributes' do
+    end
+  end
+
+  describe '#raw_attributes' do
+    pending 'returns all attributes passed to the constructor' do
     end
   end
 end
