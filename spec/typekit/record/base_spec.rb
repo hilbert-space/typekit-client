@@ -38,6 +38,10 @@ describe Typekit::Record::Base do
     it 'ignores unknown attributes' do
       expect { klass.new(surname: 'Awesome') }.not_to raise_error
     end
+
+    it 'handles attribute names given as strings' do
+      expect(klass.new('name' => 'Awesome').name).to eq('Awesome')
+    end
   end
 
   context 'when an instance has been created with messy assignments' do

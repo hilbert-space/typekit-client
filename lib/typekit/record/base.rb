@@ -1,9 +1,15 @@
+require 'forwardable'
+
 module Typekit
   module Record
     class Base
+      extend Forwardable
+
       attr_reader :attributes, :raw_attributes
+      def_delegator :attributes, :to_json
 
       def initialize(attributes = {})
+        attributes = Hash[attributes.map { |k, v| [ k.to_sym, v ] }]
         @attributes = self.class.filter_attributes(attributes)
         @raw_attributes = attributes.freeze
       end
