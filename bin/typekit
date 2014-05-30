@@ -42,6 +42,8 @@ HELP
 
   def print(output)
     puts JSON.pretty_generate(output)
+  rescue JSON::GeneratorError
+    puts output.inspect # neither hash nor array
   end
 
   def parse(command)
