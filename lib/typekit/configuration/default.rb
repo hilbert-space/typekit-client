@@ -3,9 +3,9 @@ module Typekit
     class Default < Base
       private
 
-      def build_map
+      def build_mapper
         context = build_context
-        Routing::Map.new do
+        Routing::Mapper.new do
           scope context do
             resources :families, only: :show do
               show ':variant', on: :member

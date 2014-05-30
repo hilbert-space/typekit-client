@@ -4,7 +4,7 @@ module Typekit
   class Client
     extend Forwardable
 
-    def_delegators :@config, :map, :dispatcher, :translator
+    def_delegators :@config, :mapper, :dispatcher, :translator
     private def_delegator :dispatcher, :process, :dispatch
     private def_delegator :translator, :process, :translate
 
@@ -32,7 +32,7 @@ module Typekit
     def trace(*arguments)
       action, path, parameters = prepare(*arguments)
       request = Connection::Request.new(action: action, parameters: parameters)
-      map.trace(request, path)
+      mapper.trace(request, path)
     end
   end
 end

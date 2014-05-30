@@ -2,7 +2,7 @@ require 'forwardable'
 
 module Typekit
   module Routing
-    class Map
+    class Mapper
       extend Forwardable
 
       def_delegator :@root, :assemble, :trace

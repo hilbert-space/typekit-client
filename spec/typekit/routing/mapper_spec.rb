@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'typekit'
 
-describe Typekit::Routing::Map do
+describe Typekit::Routing::Mapper do
   extend RESTHelper
 
   def create_request(action)
