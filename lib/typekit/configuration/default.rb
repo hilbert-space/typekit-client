@@ -27,7 +27,7 @@ module Typekit
       end
 
       def build_translator
-        Translator.new(format: format)
+        Processing::Translator.new(format: format)
       end
 
       def build_context
