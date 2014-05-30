@@ -5,34 +5,24 @@ module Typekit
     class Base
       extend Forwardable
 
-      attr_reader :attributes, :raw_attributes
+      attr_reader :attributes
       def_delegator :attributes, :to_json
 
       def initialize(attributes = {})
-        attributes = Hash[attributes.map { |k, v| [ k.to_sym, v ] }]
-        @attributes = self.class.filter_attributes(attributes)
-        @raw_attributes = attributes.freeze
+        @attributes = Hash[attributes.map { |k, v| [ k.to_sym, v ] }]
       end
 
-      def self.attributes
-        @attributes ||= []
-      end
-
-      def self.has_attributes(*names)
-        names = names - attributes
-        attributes.push(*names)
-        names.each do |name|
-          define_method(name) { @attributes[name] }
-          define_method("#{ name }=") { |value| @attributes[name] = value }
+      def method_missing(name, *arguments)
+        if name.to_s =~ /^(?<name>.*)=$/
+          name = Regexp.last_match(:name).to_sym
+          return super unless arguments.length == 1
+          return super unless @attributes.key?(name)
+          @attributes[name] = arguments.first
+        else
+          return super unless arguments.length.zero?
+          return super unless @attributes.key?(name)
+          @attributes[name]
         end
-      end
-
-      def self.filter_attributes(assignments)
-        Hash[
-          (attributes & assignments.keys).map do |name|
-            [ name, assignments[name] ]
-          end
-        ]
       end
     end
   end
