@@ -22,6 +22,13 @@ describe Typekit::Record::Base do
       another_klass = create_class(:surname)
       expect { klass.new.surname }.to raise_error(NoMethodError)
     end
+
+    it 'can be called several times' do
+      klass.class_eval { has_attributes(:surname) }
+      subject = klass.new(id: 'Rock', name: "'n'", surname: 'Roll')
+      expect([ subject.id, subject.name, subject.surname ].join).to \
+        eq("Rock'n'Roll")
+    end
   end
 
   describe '.attributes' do
