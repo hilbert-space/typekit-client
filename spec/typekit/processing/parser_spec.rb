@@ -18,6 +18,6 @@ describe Typekit::Processing::Parser do
 
   it 'does not support XML' do
     expect { subject_class.build(:xml) }.to \
-      raise_error(subject_class::Error)
+      raise_error(Typekit::Processing::Error, /Unknown format/i)
   end
 end

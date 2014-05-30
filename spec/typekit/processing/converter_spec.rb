@@ -15,7 +15,7 @@ describe Typekit::Processing::Converter do
 
     it 'raises expections when encounteres unknown objects' do
       expect { subject_class.build('kittens') }.to \
-        raise_error(subject_class::Error)
+        raise_error(Typekit::Processing::Error, /Unknown converter/i)
     end
   end
 end

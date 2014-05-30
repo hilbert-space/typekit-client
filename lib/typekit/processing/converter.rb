@@ -5,8 +5,6 @@ end
 module Typekit
   module Processing
     module Converter
-      Error = Class.new(Typekit::Error)
-
       def self.build(name)
         self.const_get(name.to_s.capitalize).new
       rescue NameError

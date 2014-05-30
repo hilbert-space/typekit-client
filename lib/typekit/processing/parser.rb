@@ -4,8 +4,6 @@ require_relative 'parser/yaml'
 module Typekit
   module Processing
     module Parser
-      Error = Class.new(Typekit::Error)
-
       def self.build(format)
         self.const_get(format.to_s.upcase).new
       rescue NameError

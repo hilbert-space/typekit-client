@@ -20,7 +20,7 @@ describe Typekit::Client do
 
       it 'raises exceptions', options do
         expect { subject.index(:kits) }.to \
-          raise_error(Typekit::Error, /(authentication|authorized)/i)
+          raise_error(Typekit::Processing::Error, /Not authorized/i)
       end
     end
 
