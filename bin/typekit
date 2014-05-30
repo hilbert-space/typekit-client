@@ -3,6 +3,7 @@
 $LOAD_PATH.unshift(File.expand_path('../lib', __dir__))
 
 require 'typekit'
+require 'readline'
 require 'optparse'
 require 'json'
 
@@ -22,7 +23,7 @@ class Controller
     puts <<-HELP
 Usage: <action> <resource> [parameters]
 
-    <action>        show, create, update, or delete
+    <action>        index, show, create, update, or delete
     <resource>      a list separated by whitespaces
     [parameters]    a JSON-encoded hash (optional)
 
@@ -123,11 +124,24 @@ end
 
 puts %{Type 'help' for help and 'exit' to exit.}
 
+COMMANDS = %w{families kits libraries published publish} +
+  %w{index show create update delete} + %w{help exit}
+
+Readline.completion_proc = proc do |input|
+  COMMANDS.grep(/^#{ Regexp.escape(input) }/)
+end
+
 loop do
   begin
-    print '> '
-    command = $stdin.gets.strip
+    command = Readline.readline('> ', true)
+    if command.nil? # ^D
+      puts
+      next
+    end
+
+    command.strip!
     next if command.empty?
+
     case command
     when 'exit'
       break
