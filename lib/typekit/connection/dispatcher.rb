@@ -6,7 +6,7 @@ module Typekit
         @adaptor = Adaptor.build(adaptor)
       end
 
-      def deliver(request)
+      def process(request)
         method = Helper.translate_action(request.action)
         code, _, body = @adaptor.process(method, request.address,
           request.parameters, 'X-Typekit-Token' => @token)

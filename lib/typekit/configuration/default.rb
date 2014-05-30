@@ -26,8 +26,8 @@ module Typekit
         Connection::Dispatcher.new(adaptor: :standard, token: token)
       end
 
-      def build_processor
-        Processor.new(format: format)
+      def build_translator
+        Translator.new(format: format)
       end
 
       def build_context

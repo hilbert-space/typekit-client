@@ -9,11 +9,7 @@ module Typekit
       end
 
       def success?
-        @code == 200
-      end
-
-      def redirect?
-        @code == 302
+        [ 200, 302 ].include?(@code)
       end
     end
   end

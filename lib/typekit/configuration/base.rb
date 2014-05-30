@@ -9,7 +9,7 @@ module Typekit
         @token = token
       end
 
-      [ :map, :dispatcher, :processor ].each do |component|
+      [ :map, :dispatcher, :translator ].each do |component|
         class_eval <<-METHOD, __FILE__, __LINE__ + 1
           def #{ component }
             @#{ component } ||= build_#{ component }
