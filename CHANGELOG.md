@@ -1,4 +1,5 @@
 ## Typekit Client (master)
+* Object-restful mapping (families, kits, etc. got proper classes).
 * Command history and tab completion in the CLI.
 
 ## Typekit Client 0.0.2 (May 28, 2014)
