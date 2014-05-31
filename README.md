@@ -55,28 +55,28 @@ The arguments are as follows:
 
 `perform` has an alias for each of the actions: `index(*path, parameters = {})`,
 `show(*path, parameters = {})`, `create(*path, parameters = {})`, and so on.
-The result of a method call is returned as a hash, and its content is exactly
-what the Typekit API sends back to `client`. The only exception is when
-the API returns an error, in which case an appropriate exception is being
-raised.
-
-Before sending the actual request to the Typekit API, the library checks
+Before sending the actual request to the Typekit API, `perform` checks
 whether the resource given by `*path` makes sense and, if it does, whether
 `action` can be performed on that resource. So, if you receive an exception,
-check out the [API reference](https://typekit.com/docs/api/).
+check the [API reference](https://typekit.com/docs/api/).
 
 Now, let us have a look at some typical use cases. For clarity, the code
 below makes use of the following auxiliary function:
 ```ruby
 def p(data)
   puts JSON.pretty_generate(data)
+rescue JSON::GeneratorError
+  puts data.to_s
 end
 ```
 
 ### Show all kits
 Code:
 ```ruby
-p client.index(:kits)
+p kits = client.index(:kits)
+p kits.map(&:class)
+p kits.first.attributes
+p kits.first.link
 ```
 
 Output:
@@ -86,8 +86,25 @@ Output:
     "id": "bas4cfe",
     "link": "/api/v1/json/kits/bas4cfe"
   },
-  ...
+  {
+    "id": "sfh6bkj",
+    "link": "/api/v1/json/kits/sfh6bkj"
+  },
+  {
+    "id": "kof8zcn",
+    "link": "/api/v1/json/kits/kof8zcn"
+  }
 ]
+[
+  "Typekit::Record::Kit",
+  "Typekit::Record::Kit",
+  "Typekit::Record::Kit"
+]
+{
+  "id": "bas4cfe",
+  "link": "/api/v1/json/kits/bas4cfe"
+}
+/api/v1/json/kits/bas4cfe
 ```
 
 ### Show the description of a variant of a font family
@@ -151,8 +168,7 @@ Output:
 ### Create a new kit
 Code:
 ```ruby
-p result = client.create(:kits, name: 'Megakit', domains: 'localhost')
-kit_id = result['kit']['id']
+p kit = client.create(:kits, name: 'Megakit', domains: 'localhost')
 ```
 
 Output:
@@ -174,7 +190,7 @@ Output:
 ### Disable the badge of a kit
 Code:
 ```ruby
-p client.update(:kits, kit_id, badge: false)
+p client.update(:kits, kit.id, badge: false)
 ```
 
 Output:
@@ -196,8 +212,7 @@ Output:
 ### Look up the id of a font family by its slug
 Code:
 ```ruby
-p result = client.show(:families, 'proxima-nova')
-family_id = result['family']['id']
+p family = client.show(:families, 'proxima-nova')
 ```
 
 Output:
@@ -211,7 +226,7 @@ Output:
 ### Add a font family into a kit
 Code:
 ```ruby
-p client.update(:kits, kit_id, families: { "0" => { id: family_id } })
+p client.update(:kits, kit.id, families: { "0" => { id: family.id } })
 ```
 
 Output:
@@ -239,10 +254,44 @@ Output:
 }
 ```
 
+### Publish a kit
+Code:
+```ruby
+p client.update(:kits, kit.id, :publish)
+```
+
+Output:
+```
+2014-05-31T06:34:03+00:00
+```
+
+### Show the description of a published kit
+Code:
+```ruby
+p client.show(:kits, kit.id, :published)
+```
+
+Output:
+```
+{
+  "id": "vzt4lrg",
+  "name": "Megakit",
+  "analytics": false,
+  "badge": false,
+  "domains": [
+    "localhost"
+  ],
+  "families": [
+    ...
+  ],
+  "published": "2014-05-31T06:34:03Z"
+}
+```
+
 ### Delete a kit
 Command:
 ```ruby
-p client.delete(:kits, kit_id)
+p client.delete(:kits, kit.id)
 ```
 
 Output:
