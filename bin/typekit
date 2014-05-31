@@ -8,6 +8,9 @@ require 'optparse'
 require 'json'
 
 class Controller
+  ACTIONS = %w{index show create update delete}
+  KEYWORDS = %w{families kits libraries published publish}
+
   def initialize(**options)
     @client = Typekit::Client.new(**options)
   end
@@ -53,12 +56,8 @@ HELP
     action, path = chunks[0], chunks[1..-1]
 
     raise 'Missing action name' if action.nil?
-    raise 'Invalid action name' unless action =~ /^\w+$/
-
+    raise 'Invalid action name' unless ACTIONS.include?(action)
     raise 'Missing resource name' if path.empty?
-    unless path.all?{ |chunk| chunk =~ /^[-\w\d]+$/ }
-      raise 'Invalid resource name'
-    end
 
     [ action, path, parameters ]
   end
@@ -126,9 +125,7 @@ end
 
 puts %{Type 'help' for help and 'exit' to exit.}
 
-COMMANDS = %w{families kits libraries published publish} +
-  %w{index show create update delete} + %w{help exit}
-
+COMMANDS = Controller::ACTIONS + Controller::KEYWORDS + %w{help exit}
 Readline.completion_proc = proc do |input|
   COMMANDS.grep(/^#{ Regexp.escape(input) }/)
 end
