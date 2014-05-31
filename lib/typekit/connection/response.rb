@@ -1,11 +1,11 @@
 module Typekit
   module Connection
     class Response
-      attr_reader :code, :content
+      attr_reader :code, :body
 
-      def initialize(code:, content:)
+      def initialize(code:, body:)
         @code = code
-        @content = content
+        @body = body
       end
 
       def success?

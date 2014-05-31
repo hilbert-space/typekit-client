@@ -1,9 +1,9 @@
 module Typekit
   module Processing
     module Converter
-      class Published
-        def process(response, date)
-          Time.parse(date)
+      class DateTime
+        def process(response, object)
+          ::DateTime.parse(object)
         end
       end
     end

@@ -1,9 +1,9 @@
 module Typekit
   module Processing
     module Converter
-      class Kit
-        def process(response, attributes)
-          Record::Kit.new(attributes)
+      class Boolean
+        def process(response, object)
+          object # already boolean
         end
       end
     end

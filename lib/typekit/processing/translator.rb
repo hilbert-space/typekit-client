@@ -6,12 +6,8 @@ module Typekit
       end
 
       def process(response)
-        data = @parser.process(response.content) rescue { errors: nil }
-
-        unless data.is_a?(Hash) && data.length == 1
-          raise Error, 'Unknown server response'
-        end
-
+        data = @parser.process(response.body) rescue nil
+        data = { nil => nil } unless data.is_a?(Hash) && data.length == 1
         name, object = *data.first
         Converter.build(name).process(response, object)
       end

@@ -2,20 +2,53 @@ require 'spec_helper'
 require 'typekit'
 
 describe Typekit::Processing::Converter do
-  WORDS = %w{family families kit kits libraries library ok errors}
+  def create(name)
+    Typekit::Processing::Converter.build(name)
+  end
 
-  let(:subject_class) { Typekit::Processing::Converter }
+  let(:request) { double(code: 200) }
 
-  describe '.build' do
-    WORDS.each do |word|
-      it "knows what to do with #{ word }" do
-        expect { subject_class.build(word) }.not_to raise_error
+  describe '.build#process' do
+    %w{family kit library}.each do |name|
+      it "maps '#{ name }' to a Record" do
+        result = create(name).process(request, {})
+        expect(result).to be_kind_of(Typekit::Record::Base)
       end
     end
 
-    it 'raises expections when encounteres unknown objects' do
-      expect { subject_class.build('kittens') }.to \
-        raise_error(Typekit::Processing::Error, /Unknown converter/i)
+    %w{families kits libraries}.each do |name|
+      it "maps '#{ name }' to an array of Records" do
+        result = create(name).process(request, [ {} ])
+        result.each { |r| expect(r).to be_kind_of(Typekit::Record::Base) }
+      end
+    end
+
+    %w{ok}.each do |name|
+      it "maps '#{ name }' to a boolean" do
+        result = create(name).process(request, true)
+        expect(result).to be_kind_of(::TrueClass)
+      end
+    end
+
+    %w{published}.each do |name|
+      it "maps '#{ name }' to a datetime" do
+        result = create(name).process(request, '2010-05-20T21:15:31Z')
+        expect(result).to be_kind_of(::DateTime)
+      end
+    end
+
+    [ nil, 'errors' ].each do |name|
+      it "raises an exception for '#{ name }'" do
+        expect { create(name).process(request, nil) }.to \
+          raise_error(Typekit::Processing::Error)
+      end
+    end
+
+    %w{kittens puppies}.each do |name|
+      it "returns unknowns like '#{ name }' as they are" do
+        result = create(name).process(request, 42)
+        expect(result).to be(42)
+      end
     end
   end
 end
