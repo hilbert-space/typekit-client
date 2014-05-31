@@ -66,7 +66,7 @@ below makes use of the following auxiliary function:
 def p(data)
   puts JSON.pretty_generate(data)
 rescue JSON::GeneratorError
-  puts data.to_s
+  puts data.inspect
 end
 ```
 
@@ -104,7 +104,7 @@ Output:
   "id": "bas4cfe",
   "link": "/api/v1/json/kits/bas4cfe"
 }
-/api/v1/json/kits/bas4cfe
+"/api/v1/json/kits/bas4cfe"
 ```
 
 ### Show the description of a variant of a font family
@@ -262,7 +262,7 @@ p client.update(:kits, kit.id, :publish)
 
 Output:
 ```
-2014-05-31T06:34:03+00:00
+#<DateTime: 2014-05-31T06:45:29+00:00 ((2456809j,24329s,0n),+0s,2299161j)>
 ```
 
 ### Show the description of a published kit
@@ -284,7 +284,7 @@ Output:
   "families": [
     ...
   ],
-  "published": "2014-05-31T06:34:03Z"
+  "published": "2014-05-31T06:45:29Z"
 }
 ```
 
@@ -295,7 +295,7 @@ p client.delete(:kits, kit.id)
 ```
 
 Output:
-```json
+```
 true
 ```
 
