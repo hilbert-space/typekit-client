@@ -25,10 +25,26 @@ describe Typekit::Configuration do
     end
   end
 
-  describe 'Base#map' do
-    it 'returns a Map' do
-      expect(build(:default, token: 'nekot').map).to \
-        be_kind_of(Typekit::Routing::Map)
+  describe 'Base' do
+    describe '#mapper' do
+      it 'returns a Mapper' do
+        expect(build(:default, token: 'nekot').mapper).to \
+          be_kind_of(Typekit::Routing::Mapper)
+      end
+    end
+
+    describe '#dispatcher' do
+      it 'returns a Dispatcher' do
+        expect(build(:default, token: 'nekot').dispatcher).to \
+          be_kind_of(Typekit::Connection::Dispatcher)
+      end
+    end
+
+    describe '#translator' do
+      it 'returns a Translator' do
+        expect(build(:default, token: 'nekot').translator).to \
+          be_kind_of(Typekit::Processing::Translator)
+      end
     end
   end
 end

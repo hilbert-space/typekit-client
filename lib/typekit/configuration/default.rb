@@ -3,9 +3,9 @@ module Typekit
     class Default < Base
       private
 
-      def build_map
+      def build_mapper
         context = build_context
-        Routing::Map.new do
+        Routing::Mapper.new do
           scope context do
             resources :families, only: :show do
               show ':variant', on: :member
@@ -26,8 +26,8 @@ module Typekit
         Connection::Dispatcher.new(adaptor: :standard, token: token)
       end
 
-      def build_processor
-        Processor.new(format: format)
+      def build_translator
+        Processing::Translator.new(format: format)
       end
 
       def build_context

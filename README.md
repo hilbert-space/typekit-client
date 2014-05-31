@@ -55,41 +55,56 @@ The arguments are as follows:
 
 `perform` has an alias for each of the actions: `index(*path, parameters = {})`,
 `show(*path, parameters = {})`, `create(*path, parameters = {})`, and so on.
-The result of a method call is returned as a hash, and its content is exactly
-what the Typekit API sends back to `client`. The only exception is when
-the API returns an error, in which case an appropriate exception is being
-raised.
-
-Before sending the actual request to the Typekit API, the library checks
+Before sending the actual request to the Typekit API, `perform` checks
 whether the resource given by `*path` makes sense and, if it does, whether
 `action` can be performed on that resource. So, if you receive an exception,
-check out the [API reference](https://typekit.com/docs/api/).
+check the [API reference](https://typekit.com/docs/api/).
 
 Now, let us have a look at some typical use cases. For clarity, the code
 below makes use of the following auxiliary function:
 ```ruby
 def p(data)
   puts JSON.pretty_generate(data)
+rescue JSON::GeneratorError
+  puts data.inspect
 end
 ```
 
 ### Show all kits
 Code:
 ```ruby
-p client.index(:kits)
+p kits = client.index(:kits)
+p kits.map(&:class)
+p kits.first.attributes
+p kits.first.link
 ```
 
 Output:
 ```json
+[
+  {
+    "id": "bas4cfe",
+    "link": "/api/v1/json/kits/bas4cfe"
+  },
+  {
+    "id": "sfh6bkj",
+    "link": "/api/v1/json/kits/sfh6bkj"
+  },
+  {
+    "id": "kof8zcn",
+    "link": "/api/v1/json/kits/kof8zcn"
+  }
+]
+[
+  "Typekit::Record::Kit",
+  "Typekit::Record::Kit",
+  "Typekit::Record::Kit"
+]
 {
-  "kits": [
-    {
-      "id": "bas4cfe",
-      "link": "/api/v1/json/kits/bas4cfe"
-    },
-    ...
-  ]
+  "id": "bas4cfe",
+  "link": "/api/v1/json/kits/bas4cfe"
 }
+"/api/v1/json/kits/bas4cfe"
 ```
 
 ### Show the description of a variant of a font family
@@ -101,19 +116,17 @@ p client.show(:families, 'vcsm', 'i9')
 Output:
 ```json
 {
-  "variation": {
-    "id": "vcsm:i9",
-    "name": "Proxima Nova Black Italic",
-    "family": {
-      "id": "vcsm",
-      "link": "/api/v1/json/families/vcsm",
-      "name": "Proxima Nova"
-    },
-    "font_style": "italic",
-    "font_variant": "normal",
-    "font_weight": "900",
-    ...
-  }
+  "id": "vcsm:i9",
+  "name": "Proxima Nova Black Italic",
+  "family": {
+    "id": "vcsm",
+    "link": "/api/v1/json/families/vcsm",
+    "name": "Proxima Nova"
+  },
+  "font_style": "italic",
+  "font_variant": "normal",
+  "font_weight": "900",
+  ...
 }
 ```
 
@@ -126,30 +139,28 @@ p client.show(:libraries, 'trial', page: 10, per_page: 5)
 Output:
 ```json
 {
-  "library": {
-    "id": "trial",
-    "link": "/api/v1/json/libraries/trial",
-    "name": "Trial Library",
-    "families": [
-      {
-        "id": "qnhl",
-        "link": "/api/v1/json/families/qnhl",
-        "name": "Caliban Std"
-      },
-      {
-        "id": "vybr",
-        "link": "/api/v1/json/families/vybr",
-        "name": "Calluna"
-      },
-      ...
-    ],
-    "pagination": {
-      "count": 261,
-      "on": "families",
-      "page": 10,
-      "page_count": 53,
-      "per_page": 5
-    }
+  "id": "trial",
+  "link": "/api/v1/json/libraries/trial",
+  "name": "Trial Library",
+  "families": [
+    {
+      "id": "qnhl",
+      "link": "/api/v1/json/families/qnhl",
+      "name": "Caliban Std"
+    },
+    {
+      "id": "vybr",
+      "link": "/api/v1/json/families/vybr",
+      "name": "Calluna"
+    },
+    ...
+  ],
+  "pagination": {
+    "count": 261,
+    "on": "families",
+    "page": 10,
+    "page_count": 53,
+    "per_page": 5
   }
 }
 ```
@@ -157,113 +168,135 @@ Output:
 ### Create a new kit
 Code:
 ```ruby
-p result = client.create(:kits, name: 'Megakit', domains: 'localhost')
-kit_id = result['kit']['id']
+p kit = client.create(:kits, name: 'Megakit', domains: 'localhost')
 ```
 
 Output:
 ```json
 {
-  "kit": {
-    "id": "izw0qiq",
-    "name": "Megakit",
-    "analytics": false,
-    "badge": true,
-    "domains": [
-      "localhost"
-    ],
-    "families": [
+  "id": "izw0qiq",
+  "name": "Megakit",
+  "analytics": false,
+  "badge": true,
+  "domains": [
+    "localhost"
+  ],
+  "families": [
 
-    ]
-  }
+  ]
 }
 ```
 
 ### Disable the badge of a kit
 Code:
 ```ruby
-p client.update(:kits, kit_id, badge: false)
+p client.update(:kits, kit.id, badge: false)
 ```
 
 Output:
 ```json
 {
-  "kit": {
-    "id": "izw0qiq",
-    "name": "Megakit",
-    "analytics": false,
-    "badge": false,
-    "domains": [
-      "localhost"
-    ],
-    "families": [
+  "id": "izw0qiq",
+  "name": "Megakit",
+  "analytics": false,
+  "badge": false,
+  "domains": [
+    "localhost"
+  ],
+  "families": [
 
-    ]
-  }
+  ]
 }
 ```
 
 ### Look up the id of a font family by its slug
 Code:
 ```ruby
-p result = client.show(:families, 'proxima-nova')
-family_id = result['family']['id']
+p family = client.show(:families, 'proxima-nova')
 ```
 
 Output:
 ```json
 {
-  "family": {
-    "id": "vcsm",
-    "link": "/api/v1/json/families/vcsm"
-  }
+  "id": "vcsm",
+  "link": "/api/v1/json/families/vcsm"
 }
 ```
 
 ### Add a font family into a kit
 Code:
 ```ruby
-p client.update(:kits, kit_id, families: { "0" => { id: family_id } })
+p client.update(:kits, kit.id, families: { "0" => { id: family.id } })
 ```
 
 Output:
 ```json
 {
-  "kit": {
-    "id": "nys8sny",
-    "name": "Megakit",
-    "analytics": false,
-    "badge": false,
-    "domains": [
-      "localhost"
-    ],
-    "families": [
-      {
-        "id": "vcsm",
-        "name": "Proxima Nova",
-        "slug": "proxima-nova",
-        "css_names": [
-          "proxima-nova-1",
-          "proxima-nova-2"
-        ],
-        ...
-      }
-    ]
-  }
+  "id": "nys8sny",
+  "name": "Megakit",
+  "analytics": false,
+  "badge": false,
+  "domains": [
+    "localhost"
+  ],
+  "families": [
+    {
+      "id": "vcsm",
+      "name": "Proxima Nova",
+      "slug": "proxima-nova",
+      "css_names": [
+        "proxima-nova-1",
+        "proxima-nova-2"
+      ],
+      ...
+    }
+  ]
+}
+```
+
+### Publish a kit
+Code:
+```ruby
+p client.update(:kits, kit.id, :publish)
+```
+
+Output:
+```
+#<DateTime: 2014-05-31T06:45:29+00:00 ((2456809j,24329s,0n),+0s,2299161j)>
+```
+
+### Show the description of a published kit
+Code:
+```ruby
+p client.show(:kits, kit.id, :published)
+```
+
+Output:
+```
+{
+  "id": "vzt4lrg",
+  "name": "Megakit",
+  "analytics": false,
+  "badge": false,
+  "domains": [
+    "localhost"
+  ],
+  "families": [
+    ...
+  ],
+  "published": "2014-05-31T06:45:29Z"
 }
 ```
 
 ### Delete a kit
 Command:
 ```ruby
-p client.delete(:kits, kit_id)
+p client.delete(:kits, kit.id)
 ```
 
 Output:
-```json
-{
-  "ok": true
-}
+```
+true
 ```
 
 ## Command-line Interface (CLI)
@@ -294,15 +327,13 @@ The tool has two modes: normal and interactive. If `command` is provided,
 the tool executes only that particular command and terminates:
 ```
 $ typekit -t $tk_token index kits
-{
-  "kits": [
-    {
-      "id": "bas4cfe",
-      "link": "/api/v1/json/kits/bas4cfe"
-    },
-    ...
-  ]
-}
+[
+  {
+    "id": "bas4cfe",
+    "link": "/api/v1/json/kits/bas4cfe"
+  },
+  ...
+]
 $
 ```
 
@@ -327,15 +358,13 @@ Examples:
     update kits bas4cfe { "name": "Ultrakit" }
     delete kits bas4cfe
 > index kits
-{
-  "kits": [
-    {
-      "id": "bas4cfe",
-      "link": "/api/v1/json/kits/bas4cfe"
-    },
-    ...
-  ]
-}
+[
+  {
+    "id": "bas4cfe",
+    "link": "/api/v1/json/kits/bas4cfe"
+  },
+  ...
+]
 > exit
 Bye.
 $

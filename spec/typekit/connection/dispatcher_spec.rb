@@ -12,14 +12,14 @@ describe Typekit::Connection::Dispatcher do
     double('Request', action: action, address: address, parameters: {})
   end
 
-  describe '#deliver' do
+  describe '#process' do
     restful_actions.each do |action|
       method = rest_http_dictionary[action]
 
       context "when sending #{ action } Requests" do
         it 'sets the token header' do
           stub = stub_http_request(method, address)
-          response = subject.deliver(create_request(action))
+          response = subject.process(create_request(action))
           expect(stub).to have_requested(method, address).
             with(:headers => { 'X-Typekit-Token' => token })
         end
@@ -27,8 +27,8 @@ describe Typekit::Connection::Dispatcher do
         it 'returns Responses' do
           stub_http_request(method, address).
             to_return(code: '200', body: 'Hej!')
-          response = subject.deliver(create_request(action))
-          expect([ response.code, response.content ]).to eq([ 200, 'Hej!' ])
+          response = subject.process(create_request(action))
+          expect([ response.code, response.body ]).to eq([ 200, 'Hej!' ])
         end
       end
     end

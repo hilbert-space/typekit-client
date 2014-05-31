@@ -37,6 +37,7 @@ module Typekit
 
         def authorize(request)
           raise Error, 'Not permitted' unless permitted?(request)
+          request.sign(self)
           request
         end
       end

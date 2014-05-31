@@ -1,0 +1,16 @@
+---
+http_interactions:
+- request:
+    method: delete
+    uri: https://typekit.com/api/v1/json/kits/xxx
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Status:
+      - 200 OK
+    body:
+      encoding: UTF-8
+      string: '{"ok":true}'
+  recorded_at: Fri, 30 May 2014 00:00:00 GMT

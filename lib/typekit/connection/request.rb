@@ -5,7 +5,7 @@ module Typekit
     class Request
       extend Forwardable
 
-      attr_reader :action, :parameters, :path
+      attr_reader :action, :parameters, :path, :node
       def_delegators :@path, :<<
 
       def initialize(action:, parameters: {})
@@ -15,8 +15,11 @@ module Typekit
       end
 
       def address
-        # TODO: cache?
         @path.map(&:to_s).join('/')
+      end
+
+      def sign(node)
+        @node = node
       end
     end
   end

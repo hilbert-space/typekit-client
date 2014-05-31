@@ -9,9 +9,9 @@ describe Typekit::Client do
     context 'when successful' do
       options = { vcr: { cassette_name: 'index_kits_ok' } }
 
-      it 'returns hashes', options do
+      it 'returns Records', options do
         result = subject.index(:kits)
-        expect(result).to be_kind_of(Hash)
+        expect(result.map(&:class).uniq).to eq([ Typekit::Record::Kit ])
       end
     end
 
@@ -20,7 +20,7 @@ describe Typekit::Client do
 
       it 'raises exceptions', options do
         expect { subject.index(:kits) }.to \
-          raise_error(Typekit::Error, /(authentication|authorized)/i)
+          raise_error(Typekit::Processing::Error, /Not authorized/i)
       end
     end
 
@@ -31,6 +31,14 @@ describe Typekit::Client do
         expect { subject.show(:families, 'calluna') }.not_to \
           raise_error
       end
+    end
+  end
+
+  describe '#delete' do
+    options = { vcr: { cassette_name: 'delete_kits_xxx_ok' } }
+
+    it 'returns true', options do
+      expect(subject.delete(:kits, 'xxx')).to be(true)
     end
   end
 end
