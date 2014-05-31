@@ -1,7 +1,10 @@
-## Typekit 0.0.2 (May 28, 2014)
-* Renamed the gem into `typekit-client` (still `require 'typekit'`).
-* Rewrote the whole library (refactoring, preparing for new features).
-* Implemented a DSL for describing the resources provided by Typekit.
-* Introduced a client-side verification of user requests.
+## Typekit Client (master)
+* Command history and tab completion in the CLI.
+
+## Typekit Client 0.0.2 (May 28, 2014)
+* New name for the gem (still `require 'typekit'`).
+* Basic DSL for describing RESTful resources.
+* Client-side verification of user requests.
+* Refactoring, preparing for new features.
 
 ## Typekit 0.0.1 (May 16, 2014)
