@@ -272,7 +272,7 @@ p client.show(:kits, kit.id, :published)
 ```
 
 Output:
-```
+```json
 {
   "id": "vzt4lrg",
   "name": "Megakit",
