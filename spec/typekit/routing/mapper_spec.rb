@@ -118,18 +118,18 @@ describe Typekit::Routing::Mapper do
       it_behaves_like 'adequate resource tracer'
     end
 
-    FAMILY_ACTIONS = [ :show, :update, :delete ]
+    family_actions = [ :show, :update, :delete ]
 
-    context "when only #{ FAMILY_ACTIONS.join(', ') } are allowed" do
+    context "when only #{ family_actions.join(', ') } are allowed" do
       before(:each) do
         subject.define do
           resources :kits do
-            resources :families, only: FAMILY_ACTIONS
+            resources :families, only: family_actions
           end
         end
       end
 
-      (restful_collection_actions - FAMILY_ACTIONS).each do |action|
+      (restful_collection_actions - family_actions).each do |action|
         it "raises expections for #{ action } actions" do
           expect do
             subject.trace(create_request(action),
@@ -138,7 +138,7 @@ describe Typekit::Routing::Mapper do
         end
       end
 
-      (restful_member_actions - FAMILY_ACTIONS).each do |action|
+      (restful_member_actions - family_actions).each do |action|
         it "raises expections for #{ action } actions" do
           expect do
             subject.trace(create_request(action),
