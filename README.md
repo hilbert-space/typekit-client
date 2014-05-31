@@ -81,15 +81,13 @@ p client.index(:kits)
 
 Output:
 ```json
-{
-  "kits": [
-    {
-      "id": "bas4cfe",
-      "link": "/api/v1/json/kits/bas4cfe"
-    },
-    ...
-  ]
-}
+[
+  {
+    "id": "bas4cfe",
+    "link": "/api/v1/json/kits/bas4cfe"
+  },
+  ...
+]
 ```
 
 ### Show the description of a variant of a font family
@@ -101,19 +99,17 @@ p client.show(:families, 'vcsm', 'i9')
 Output:
 ```json
 {
-  "variation": {
-    "id": "vcsm:i9",
-    "name": "Proxima Nova Black Italic",
-    "family": {
-      "id": "vcsm",
-      "link": "/api/v1/json/families/vcsm",
-      "name": "Proxima Nova"
-    },
-    "font_style": "italic",
-    "font_variant": "normal",
-    "font_weight": "900",
-    ...
-  }
+  "id": "vcsm:i9",
+  "name": "Proxima Nova Black Italic",
+  "family": {
+    "id": "vcsm",
+    "link": "/api/v1/json/families/vcsm",
+    "name": "Proxima Nova"
+  },
+  "font_style": "italic",
+  "font_variant": "normal",
+  "font_weight": "900",
+  ...
 }
 ```
 
@@ -126,30 +122,28 @@ p client.show(:libraries, 'trial', page: 10, per_page: 5)
 Output:
 ```json
 {
-  "library": {
-    "id": "trial",
-    "link": "/api/v1/json/libraries/trial",
-    "name": "Trial Library",
-    "families": [
-      {
-        "id": "qnhl",
-        "link": "/api/v1/json/families/qnhl",
-        "name": "Caliban Std"
-      },
-      {
-        "id": "vybr",
-        "link": "/api/v1/json/families/vybr",
-        "name": "Calluna"
-      },
-      ...
-    ],
-    "pagination": {
-      "count": 261,
-      "on": "families",
-      "page": 10,
-      "page_count": 53,
-      "per_page": 5
-    }
+  "id": "trial",
+  "link": "/api/v1/json/libraries/trial",
+  "name": "Trial Library",
+  "families": [
+    {
+      "id": "qnhl",
+      "link": "/api/v1/json/families/qnhl",
+      "name": "Caliban Std"
+    },
+    {
+      "id": "vybr",
+      "link": "/api/v1/json/families/vybr",
+      "name": "Calluna"
+    },
+    ...
+  ],
+  "pagination": {
+    "count": 261,
+    "on": "families",
+    "page": 10,
+    "page_count": 53,
+    "per_page": 5
   }
 }
 ```
@@ -164,18 +158,16 @@ kit_id = result['kit']['id']
 Output:
 ```json
 {
-  "kit": {
-    "id": "izw0qiq",
-    "name": "Megakit",
-    "analytics": false,
-    "badge": true,
-    "domains": [
-      "localhost"
-    ],
-    "families": [
+  "id": "izw0qiq",
+  "name": "Megakit",
+  "analytics": false,
+  "badge": true,
+  "domains": [
+    "localhost"
+  ],
+  "families": [
 
-    ]
-  }
+  ]
 }
 ```
 
@@ -188,18 +180,16 @@ p client.update(:kits, kit_id, badge: false)
 Output:
 ```json
 {
-  "kit": {
-    "id": "izw0qiq",
-    "name": "Megakit",
-    "analytics": false,
-    "badge": false,
-    "domains": [
-      "localhost"
-    ],
-    "families": [
+  "id": "izw0qiq",
+  "name": "Megakit",
+  "analytics": false,
+  "badge": false,
+  "domains": [
+    "localhost"
+  ],
+  "families": [
 
-    ]
-  }
+  ]
 }
 ```
 
@@ -213,10 +203,8 @@ family_id = result['family']['id']
 Output:
 ```json
 {
-  "family": {
-    "id": "vcsm",
-    "link": "/api/v1/json/families/vcsm"
-  }
+  "id": "vcsm",
+  "link": "/api/v1/json/families/vcsm"
 }
 ```
 
@@ -229,27 +217,25 @@ p client.update(:kits, kit_id, families: { "0" => { id: family_id } })
 Output:
 ```json
 {
-  "kit": {
-    "id": "nys8sny",
-    "name": "Megakit",
-    "analytics": false,
-    "badge": false,
-    "domains": [
-      "localhost"
-    ],
-    "families": [
-      {
-        "id": "vcsm",
-        "name": "Proxima Nova",
-        "slug": "proxima-nova",
-        "css_names": [
-          "proxima-nova-1",
-          "proxima-nova-2"
-        ],
-        ...
-      }
-    ]
-  }
+  "id": "nys8sny",
+  "name": "Megakit",
+  "analytics": false,
+  "badge": false,
+  "domains": [
+    "localhost"
+  ],
+  "families": [
+    {
+      "id": "vcsm",
+      "name": "Proxima Nova",
+      "slug": "proxima-nova",
+      "css_names": [
+        "proxima-nova-1",
+        "proxima-nova-2"
+      ],
+      ...
+    }
+  ]
 }
 ```
 
@@ -261,9 +247,7 @@ p client.delete(:kits, kit_id)
 
 Output:
 ```json
-{
-  "ok": true
-}
+true
 ```
 
 ## Command-line Interface (CLI)
@@ -294,15 +278,13 @@ The tool has two modes: normal and interactive. If `command` is provided,
 the tool executes only that particular command and terminates:
 ```
 $ typekit -t $tk_token index kits
-{
-  "kits": [
-    {
-      "id": "bas4cfe",
-      "link": "/api/v1/json/kits/bas4cfe"
-    },
-    ...
-  ]
-}
+[
+  {
+    "id": "bas4cfe",
+    "link": "/api/v1/json/kits/bas4cfe"
+  },
+  ...
+]
 $
 ```
 
@@ -327,15 +309,13 @@ Examples:
     update kits bas4cfe { "name": "Ultrakit" }
     delete kits bas4cfe
 > index kits
-{
-  "kits": [
-    {
-      "id": "bas4cfe",
-      "link": "/api/v1/json/kits/bas4cfe"
-    },
-    ...
-  ]
-}
+[
+  {
+    "id": "bas4cfe",
+    "link": "/api/v1/json/kits/bas4cfe"
+  },
+  ...
+]
 > exit
 Bye.
 $
