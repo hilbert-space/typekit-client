@@ -11,7 +11,8 @@ module Typekit
       MAPPING = {
         'ok' => Boolean,
         'errors' => Errors,
-        'published' => DateTime
+        'published' => DateTime,
+        nil => Errors
       }.freeze
 
       def self.build(name)
