@@ -25,11 +25,11 @@ module Typekit
     end
 
     def self.collection?(name)
-      collections.include?(name.to_sym)
+      collections.include?(name.to_s.to_sym)
     end
 
     def self.member?(name)
-      members.include?(name.to_sym)
+      members.include?(name.to_s.to_sym)
     end
   end
 end

@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'typekit'
 
 describe Typekit::Client do
   let(:token) { 'arbitrary' }
@@ -28,8 +27,7 @@ describe Typekit::Client do
       options = { vcr: { cassette_name: 'show_families_calluna_found' } }
 
       it 'returns the Response as is', options do
-        expect { subject.show(:families, 'calluna') }.not_to \
-          raise_error
+        expect { subject.show(:families, 'calluna') }.not_to raise_error
       end
     end
   end

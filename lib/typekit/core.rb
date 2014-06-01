@@ -1,16 +1,29 @@
 module Typekit
   Error = Class.new(StandardError)
 
-  @address = 'https://typekit.com/api'.freeze
+  @defaults = { version: 1, format: :json }.freeze
 
-  @actions = [ :index, :show, :create, :update, :delete ].freeze
-  @collection_actions = [ :index, :create ].freeze
-  @member_actions = [ :show, :update, :delete ].freeze
-  @action_dictionary = { :index => :get, :show => :get,
-    :create => :post, :update => :post, :delete => :delete }.freeze
+  @schema = Proc.new do |version, format|
+    address "https://typekit.com/api/v#{ version }/#{ format }"
+
+    resources :families, only: :show do
+      show ':variant', on: :member
+    end
+
+    resources :kits do
+      resources :families, only: [ :show, :update, :delete ]
+      show :published, on: :member
+      update :publish, on: :member
+    end
+
+    resources :libraries, only: [ :index, :show ]
+  end
+
+  @headers = Proc.new do |token|
+    { 'X-Typekit-Token' => token }
+  end
 
   singleton_class.class_eval do
-    attr_reader :address, :actions, :collection_actions,
-      :member_actions, :action_dictionary
+    attr_reader :defaults, :schema, :headers
   end
 end

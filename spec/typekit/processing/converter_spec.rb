@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'typekit'
 
 describe Typekit::Processing::Converter do
   def create(name)
@@ -47,7 +46,7 @@ describe Typekit::Processing::Converter do
     %w{kittens puppies}.each do |name|
       it "returns unknowns like '#{ name }' as they are" do
         result = create(name).process(request, 42)
-        expect(result).to be(42)
+        expect(result).to eq(name => 42)
       end
     end
   end
