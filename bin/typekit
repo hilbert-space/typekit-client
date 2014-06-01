@@ -91,14 +91,6 @@ parser = OptionParser.new do |o|
   o.separator ''
   o.separator 'Other options:'
 
-  o.on('-v', '--version VERSION', 'Set the API version') do |value|
-    options[:version] = value
-  end
-
-  o.on('-f', '--format FORMAT', 'Set the data format') do |value|
-    options[:format] = value
-  end
-
   o.on_tail('-h', '--help', 'Show this message') do
     raise
   end

@@ -312,8 +312,6 @@ Required options:
     -t, --token TOKEN                Set the API token
 
 Other options:
-    -v, --version VERSION            Set the API version
-    -f, --format FORMAT              Set the data format
     -h, --help                       Show this message
 ```
 
