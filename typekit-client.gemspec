@@ -9,9 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = [ 'Ivan Ukhov' ]
   spec.email         = [ 'ivan.ukhov@gmail.com' ]
   spec.summary       = 'A Ruby library for accessing the Typekit API'
-  spec.description   = 'A Ruby library for performing create, read, ' \
-                       'update, and delete operations on the resources ' \
-                       'provided by the Typekit service.'
+  spec.description   = 'A Ruby library for manipulating the resources ' \
+                       'provided by the Typekit Web service.'
   spec.homepage      = 'https://github.com/IvanUkhov/typekit-client'
   spec.license       = 'MIT'
 
