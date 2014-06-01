@@ -29,8 +29,11 @@ module Typekit
     def build_engine
       version = @options[:version]
       format = @options[:format]
-      headers = Typekit.headers.call(@options[:token])
-      Apitizer::Base.new(headers: headers, **@options) do
+
+      options = @options.merge(dictionary: Typekit.dictionary,
+        headers: Typekit.headers.call(@options[:token]))
+
+      Apitizer::Base.new(**options) do
         instance_exec(version, format, &Typekit.schema)
       end
     end

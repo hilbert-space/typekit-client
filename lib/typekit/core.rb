@@ -19,11 +19,13 @@ module Typekit
     resources :libraries, only: [ :index, :show ]
   end
 
+  @dictionary = { :update => :post }.freeze # not PUT, Typekit’s exception
+
   @headers = Proc.new do |token|
     { 'X-Typekit-Token' => token }
   end
 
   singleton_class.class_eval do
-    attr_reader :defaults, :schema, :headers
+    attr_reader :defaults, :schema, :dictionary, :headers
   end
 end
