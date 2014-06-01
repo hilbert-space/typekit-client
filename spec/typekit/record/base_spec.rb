@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'typekit'
 
 describe Typekit::Record::Base do
   let(:subject_class) { Typekit::Record::Base }

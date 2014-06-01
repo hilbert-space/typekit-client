@@ -1,38 +1,45 @@
-require 'forwardable'
-
 module Typekit
   class Client
     extend Forwardable
 
-    def_delegators :@config, :mapper, :dispatcher, :translator
-    private def_delegator :dispatcher, :process, :dispatch
-    private def_delegator :translator, :process, :translate
+    def_delegator :translator, :process, :translate
 
-    def initialize(config: :default, **options)
-      @config = Configuration.build(config, **options)
+    def initialize(**options)
+      @options = Typekit.defaults.merge(options)
+      raise Error, 'Token is missing' unless @options.key?(:token)
     end
 
-    def perform(*arguments)
-      translate(dispatch(trace(*arguments)))
-    end
-
-    Typekit.actions.each do |action|
-      define_method(action) do |*arguments|
-        perform(action, *arguments)
+    [ :process, :index, :show, :create, :update, :delete ].each do |method|
+      define_method(method) do |*arguments|
+        translate(engine.send(method, *arguments))
       end
     end
+    alias_method :perform, :process
 
     private
 
-    def prepare(action, *path)
-      parameters = path.last.is_a?(Hash) ? path.pop : {}
-      [ action.to_sym, path.flatten.map(&:to_sym), parameters ]
+    [ :engine, :translator ].each do |component|
+      class_eval <<-METHOD, __FILE__, __LINE__ + 1
+        def #{ component }
+          @#{ component } ||= build_#{ component }
+        end
+      METHOD
     end
 
-    def trace(*arguments)
-      action, path, parameters = prepare(*arguments)
-      request = Connection::Request.new(action: action, parameters: parameters)
-      mapper.trace(request, path)
+    def build_engine
+      version = @options[:version]
+      format = @options[:format]
+
+      options = @options.merge(dictionary: Typekit.dictionary,
+        headers: Typekit.headers.call(@options[:token]))
+
+      Apitizer::Base.new(**options) do
+        instance_exec(version, format, &Typekit.schema)
+      end
+    end
+
+    def build_translator
+      Processing::Translator.new
     end
   end
 end

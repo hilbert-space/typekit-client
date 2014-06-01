@@ -3,10 +3,11 @@ module Typekit
     module Converter
       class Unknown
         def initialize(name)
+          @name = name
         end
 
         def process(response, object)
-          object
+          { @name => object }
         end
       end
     end

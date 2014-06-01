@@ -1,3 +1,7 @@
+## Typekit Client 0.0.4 (June 1, 2014)
+* Extracted the general RESTful API logic into a separate gem called
+  [Apitizer](https://github.com/IvanUkhov/apitizer).
+
 ## Typekit Client 0.0.3 (May 31, 2014)
 * Object-restful mapping (families, kits, etc. got proper classes).
 * Command history and tab completion in the CLI.
