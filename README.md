@@ -107,7 +107,7 @@ Output:
 "/api/v1/json/kits/bas4cfe"
 ```
 
-### Show the description of a variant of a font family
+### Show the description of a variation of a font family
 Code:
 ```ruby
 p client.show(:families, 'vcsm', 'i9')
