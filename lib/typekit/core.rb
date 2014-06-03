@@ -7,7 +7,7 @@ module Typekit
     address "https://typekit.com/api/v#{ version }/#{ format }"
 
     resources :families, only: :show do
-      show ':variant', on: :member
+      show ':variation', on: :member
     end
 
     resources :kits do
