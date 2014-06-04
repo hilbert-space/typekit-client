@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Typekit::Helper do
+RSpec.describe Typekit::Helper do
   let(:subject_module) { Typekit::Helper }
 
   describe '.pluralize' do

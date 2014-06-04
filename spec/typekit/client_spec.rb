@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Typekit::Client do
+RSpec.describe Typekit::Client do
   let(:token) { 'arbitrary' }
   let(:subject) { Typekit::Client.new(token: token) }
 

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Typekit::Record::Base do
+RSpec.describe Typekit::Record::Base do
   let(:subject_class) { Typekit::Record::Base }
 
   describe '#new' do

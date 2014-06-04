@@ -4,6 +4,7 @@ require 'vcr'
 require 'typekit'
 
 RSpec.configure do |config|
+  config.disable_monkey_patching!
 end
 
 VCR.configure do |config|

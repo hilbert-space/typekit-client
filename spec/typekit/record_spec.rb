@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Typekit::Record do
+RSpec.describe Typekit::Record do
   let(:subject_module) { Typekit::Record }
 
   describe '.collections' do

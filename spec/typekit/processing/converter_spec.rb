@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Typekit::Processing::Converter do
+RSpec.describe Typekit::Processing::Converter do
   def create(name)
     Typekit::Processing::Converter.build(name)
   end
