@@ -8,8 +8,8 @@ module Typekit
   module Record
     def self.classes
       @classes ||= Hash[
-        ObjectSpace.each_object(Class).select { |k| k < Base }.
-          map { |k| [ k.to_s.downcase.sub(/^.*::/, '').to_sym, k ] }
+        ObjectSpace.each_object(Class).select { |k| k < Base && k.name }.
+          map { |k| [ k.name.downcase.sub(/^.*::/, '').to_sym, k ] }
       ]
     end
 
