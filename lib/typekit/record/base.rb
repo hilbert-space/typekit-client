@@ -8,6 +8,30 @@ module Typekit
       attr_reader :attributes
       def_delegator :attributes, :to_json
 
+      def self.has_many(name)
+        associations << name
+
+        define_method(name) do
+          v = "@#{ name }"
+          return instance_variable_get(v) if instance_variable_defined?(v)
+
+          if attributes.key?(name)
+            klass = Record.classify(name)
+            members = attributes[name].map do |member_attributes|
+              klass.new(member_attributes)
+            end
+          else
+            members = []
+          end
+
+          instance_variable_set(v, members)
+        end
+      end
+
+      def self.associations
+        @associations ||= []
+      end
+
       def initialize(attributes = {})
         @attributes = Hash[attributes.map { |k, v| [ k.to_sym, v ] }]
       end
