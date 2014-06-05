@@ -7,29 +7,31 @@ require_relative 'record/library'
 module Typekit
   module Record
     def self.classes
-      @classes ||= ObjectSpace.each_object(Class).select do |klass|
-        klass < Base
-      end
+      @classes ||= Hash[
+        ObjectSpace.each_object(Class).select { |k| k < Base }.
+          map { |k| [ k.to_s.downcase.sub(/^.*::/, '').to_sym, k ] }
+      ]
+    end
+
+    def self.classify(name)
+      classes[Helper.singularize(name.to_s).to_sym]
     end
 
     def self.collections
-      @collections ||= members.map(&:to_s).map do |name|
-        Helper.pluralize(name.to_s)
-      end.map(&:to_sym)
+      @collections ||= classes.keys.map(&:to_s).
+        map(&Helper.method(:pluralize)).map(&:to_sym)
     end
 
     def self.members
-      @members ||= classes.map(&:to_s).map(&:downcase).map do |name|
-        name.sub(/^.*::/, '')
-      end.map(&:to_sym)
+      @members ||= classes.keys
     end
 
     def self.collection?(name)
-      collections.include?(name.to_s.to_sym)
+      collections.include?(name.to_sym)
     end
 
     def self.member?(name)
-      members.include?(name.to_s.to_sym)
+      members.include?(name.to_sym)
     end
   end
 end
