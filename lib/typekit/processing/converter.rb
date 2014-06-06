@@ -1,5 +1,5 @@
 require_relative 'converter/record'
-require_relative 'converter/records'
+require_relative 'converter/collection'
 require_relative 'converter/boolean'
 require_relative 'converter/datetime'
 require_relative 'converter/errors'
@@ -19,7 +19,7 @@ module Typekit
         if MAPPING.key?(name)
           MAPPING[name].new
         elsif Typekit::Record.collection?(name)
-          Records.new(name)
+          Collection.new(name)
         elsif Typekit::Record.member?(name)
           Record.new(name)
         else
