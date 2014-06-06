@@ -15,6 +15,12 @@ RSpec.describe Typekit::Record::Base do
     end
   end
 
+  describe '.belongs_to' do
+    it 'declares one-to-one relations between Records' do
+      expect { subject_class.belongs_to(:article) }.not_to raise_error
+    end
+  end
+
   describe '#new' do
     it 'treats each option as an attribute' do
       subject = subject_class.new(name: 'Awesome')

@@ -7,19 +7,33 @@ module Typekit
       def_delegator :attributes, :to_json
 
       def self.has_many(name)
-        collections << name
+        possessions << name
       end
 
-      def self.collections
-        @collections ||= []
+      def self.possessions
+        @possessions ||= []
+      end
+
+      def self.belongs_to(name)
+        owners << name
+      end
+
+      def self.owners
+        @owners ||= []
       end
 
       def initialize(attributes = {})
         attributes = { id: attributes } unless attributes.is_a?(Hash)
         @attributes = Helper.symbolize_keys(attributes)
-        self.class.collections.each do |name|
+
+        self.class.possessions.each do |name|
           next unless @attributes.key?(name)
           @attributes[name] = Collection.new(name, @attributes[name])
+        end
+
+        self.class.owners.each do |name|
+          next unless @attributes.key?(name)
+          @attributes[name] = Record.build(name, @attributes[name])
         end
       end
 
