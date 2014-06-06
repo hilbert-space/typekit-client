@@ -1,3 +1,7 @@
+## Typekit Client (master)
+* Relations between resources (a kit has families, a family has variations,
+  a variation belongs to a family, etc.).
+
 ## Typekit Client 0.0.4 (June 1, 2014)
 * Extraction of the RESTful API logic into a separate gem called
   [Apitizer](https://github.com/IvanUkhov/apitizer).
