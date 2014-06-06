@@ -1,0 +1,20 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://typekit.com/api/v1/json/families/xxx/yyy
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Status:
+      - 200 OK
+    body:
+      encoding: UTF-8
+      string: '{"variation":{"id":"vcsm:i9","name":"Proxima Nova Black Italic","family":{"id":"vcsm","link":"/api/v1/json/families/vcsm","name":"Proxima
+        Nova"},"font_style":"italic","font_variant":"normal","font_weight":"900","foundry":{"name":"Mark
+        Simonson Studio","slug":"mark-simonson-studio"},"libraries":[{"id":"full","link":"/api/v1/json/libraries/full","name":"Full
+        Library"},{"id":"enterprise","link":"/api/v1/json/libraries/enterprise","name":"Enterprise
+        Library"}],"postscript_name":"ProximaNova-BlackIt"}}'
+  recorded_at: Fri, 06 Jun 2014 00:00:00 GMT

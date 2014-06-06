@@ -40,16 +40,6 @@ RSpec.describe Typekit::Client do
     end
   end
 
-  describe '#show a familily' do
-    options = { vcr: { cassette_name: 'show_families_xxx_ok' } }
-
-    let(:result) { subject.show(:families, 'xxx') }
-
-    it 'returns a Family', options do
-      expect(result).to be_kind_of(Typekit::Record::Family)
-    end
-  end
-
   describe '#show a familily by its slug' do
     options = { vcr: { cassette_name: 'show_families_calluna_found' } }
 
@@ -60,11 +50,7 @@ RSpec.describe Typekit::Client do
     end
   end
 
-  describe '#show a family in a kit' do
-    options = { vcr: { cassette_name: 'show_kits_xxx_families_yyy_ok' } }
-
-    let(:result) { subject.show(:kits, 'xxx', :families, 'yyy') }
-
+  shared_examples 'an adequate Family' do |options|
     it 'returns a Family', options do
       expect(result).to be_kind_of(Typekit::Record::Family)
     end
@@ -72,6 +58,37 @@ RSpec.describe Typekit::Client do
     it 'returns a Family with Variations', options do
       expect(result.variations.map(&:class).uniq).to \
         contain_exactly(Typekit::Record::Variation)
+    end
+  end
+
+  describe '#show a familily' do
+    options = { vcr: { cassette_name: 'show_families_xxx_ok' } }
+
+    let(:result) { subject.show(:families, 'xxx') }
+
+    it_behaves_like 'an adequate Family', options
+
+    it 'returns a Family with Libraries', options do
+      expect(result.libraries.map(&:class).uniq).to \
+        contain_exactly(Typekit::Record::Library)
+    end
+  end
+
+  describe '#show a family in a kit' do
+    options = { vcr: { cassette_name: 'show_kits_xxx_families_yyy_ok' } }
+
+    let(:result) { subject.show(:kits, 'xxx', :families, 'yyy') }
+
+    it_behaves_like 'an adequate Family', options
+  end
+
+  describe '#show a variation of a familily' do
+    options = { vcr: { cassette_name: 'show_families_xxx_yyy_ok' } }
+
+    let(:result) { subject.show(:families, 'xxx', 'yyy') }
+
+    it 'returns Variations', options do
+      expect(result).to be_kind_of(Typekit::Record::Variation)
     end
   end
 
