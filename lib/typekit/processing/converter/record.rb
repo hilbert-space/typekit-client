@@ -4,6 +4,7 @@ module Typekit
       class Record
         def initialize(name)
           @klass = Typekit::Record.classify(name)
+          raise Error, 'Unknown class' unless @klass
         end
 
         def process(response, attributes)

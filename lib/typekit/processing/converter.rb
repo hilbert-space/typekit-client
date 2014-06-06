@@ -9,24 +9,19 @@ module Typekit
   module Processing
     module Converter
       MAPPING = {
+        :record => Record,
+        :collection => Collection,
+
         'ok' => Boolean,
         'errors' => Errors,
         'published' => DateTime,
+
         nil => Errors
-      }.freeze
+      }
+      MAPPING.default = Unknown
 
       def self.build(name)
-        if MAPPING.key?(name)
-          MAPPING[name].new
-        elsif Typekit::Record.collection?(name)
-          Collection.new(name)
-        elsif Typekit::Record.member?(name)
-          Record.new(name)
-        else
-          Unknown.new(name)
-        end
-      rescue NameError
-        raise Error, 'Unknown converter'
+        MAPPING[Typekit::Record.identify(name) || name].new(name)
       end
     end
   end
