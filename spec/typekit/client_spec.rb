@@ -58,6 +58,11 @@ RSpec.describe Typekit::Client do
     it 'returns a Family', options do
       expect(result).to be_kind_of(Typekit::Record::Family)
     end
+
+    it 'returns a Family with Variations', options do
+      expect(result.variations.map(&:class).uniq).to \
+        contain_exactly(Typekit::Record::Variation)
+    end
   end
 
   describe '#delete a kit' do

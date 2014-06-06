@@ -15,6 +15,7 @@ module Typekit
       end
 
       def initialize(attributes = {})
+        attributes = { id: attributes } unless attributes.is_a?(Hash)
         @attributes = Helper.symbolize_keys(attributes)
         self.class.collections.each do |name|
           next unless @attributes.key?(name)
