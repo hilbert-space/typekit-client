@@ -36,4 +36,11 @@ RSpec.describe Typekit::Helper do
       end
     end
   end
+
+  describe '.symbolize_keys' do
+    it 'does what it says' do
+      expect(subject_module.symbolize_keys('a' => { 'b' => 1 }, 'd' => 2)).to \
+        eq(a: { 'b' => 1 }, d: 2)
+    end
+  end
 end

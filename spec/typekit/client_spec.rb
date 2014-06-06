@@ -4,7 +4,7 @@ RSpec.describe Typekit::Client do
   let(:token) { 'arbitrary' }
   let(:subject) { Typekit::Client.new(token: token) }
 
-  describe '#index' do
+  describe '#index kits' do
     context 'when successful' do
       options = { vcr: { cassette_name: 'index_kits_ok' } }
 
@@ -23,36 +23,50 @@ RSpec.describe Typekit::Client do
           raise_error(Typekit::Processing::Error, /Not authorized/i)
       end
     end
-
-    context 'when found' do
-      options = { vcr: { cassette_name: 'show_families_calluna_found' } }
-
-      it 'returns the Response as is', options do
-        expect { subject.show(:families, 'calluna') }.not_to raise_error
-      end
-    end
   end
 
-  describe '#show' do
+  describe '#show a kit' do
     options = { vcr: { cassette_name: 'show_kits_xxx_ok' } }
 
-    it 'returns a Record', options do
-      result = subject.show(:kits, 'xxx')
+    let(:result) { subject.show(:kits, 'xxx') }
+
+    it 'returns a Kit', options do
       expect(result).to be_kind_of(Typekit::Record::Kit)
     end
 
-    it 'returns a Record with Families', options do
-      result = subject.show(:kits, 'xxx')
+    it 'returns a Kit with Families', options do
       expect(result.families.map(&:class).uniq).to \
         contain_exactly(Typekit::Record::Family)
     end
   end
 
-  describe '#delete' do
+  describe '#show a familily by its slug' do
+    options = { vcr: { cassette_name: 'show_families_calluna_found' } }
+
+    let(:result) { subject.show(:families, 'calluna') }
+
+    it 'returns a Family', options do
+      expect(result).to be_kind_of(Typekit::Record::Family)
+    end
+  end
+
+  describe '#show a family in a kit' do
+    options = { vcr: { cassette_name: 'show_kits_xxx_families_yyy_ok' } }
+
+    let(:result) { subject.show(:kits, 'xxx', :families, 'yyy') }
+
+    it 'returns a Family', options do
+      expect(result).to be_kind_of(Typekit::Record::Family)
+    end
+  end
+
+  describe '#delete a kit' do
     options = { vcr: { cassette_name: 'delete_kits_xxx_ok' } }
 
+    let(:result) { subject.delete(:kits, 'xxx') }
+
     it 'returns true', options do
-      expect(subject.delete(:kits, 'xxx')).to be true
+      expect(result).to be true
     end
   end
 end

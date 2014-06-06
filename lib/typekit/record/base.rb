@@ -15,9 +15,10 @@ module Typekit
       end
 
       def initialize(attributes = {})
-        @attributes = Hash[attributes.map { |k, v| [ k.to_sym, v ] }]
+        @attributes = Helper.symbolize_keys(attributes)
         self.class.collections.each do |name|
-          @attributes[name] = Collection.new(name, @attributes[name] || [])
+          next unless @attributes.key?(name)
+          @attributes[name] = Collection.new(name, @attributes[name])
         end
       end
 
@@ -25,13 +26,12 @@ module Typekit
         if name.to_s =~ /^(?<name>.*)=$/
           name = Regexp.last_match(:name).to_sym
           return super unless @attributes.key?(name)
-          @attributes[name] = arguments.first
+          @attributes.send(:[]=, name, *arguments)
         else
           return super unless @attributes.key?(name)
-          @attributes[name]
+          @attributes.send(:[], name, *arguments)
         end
       end
     end
   end
 end
-

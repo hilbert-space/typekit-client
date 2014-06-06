@@ -11,14 +11,7 @@ RSpec.describe Typekit::Record::Base do
 
   describe '.has_many' do
     it 'declares one-to-many relations between Records' do
-      subject_class.has_many(:sections)
-      expect { subject_class.new.sections }.not_to raise_error
-    end
-
-    it 'declares one-to-many relations as Collections' do
-      subject_class.has_many(:sections)
-      expect(subject_class.new.sections).to \
-        be_kind_of(Typekit::Collection)
+      expect { subject_class.has_many(:sections) }.not_to raise_error
     end
   end
 
@@ -34,20 +27,39 @@ RSpec.describe Typekit::Record::Base do
       expect { subject.name = 'Superb' }.to \
         change { subject.name }.from('Awesome').to('Superb')
     end
+  end
 
-    context 'when there are one-to-many associations declared' do
-      let(:another_class) { create_class }
+  context 'when there are one-to-many relations defined' do
+    let(:another_class) { create_class }
 
-      before(:example) do
-        allow(subject_module).to receive(:classify).and_return(another_class)
-        subject_class.has_many(:sections)
+    before(:example) do
+      allow(subject_module).to receive(:classify).and_return(another_class)
+      subject_class.has_many(:sections)
+    end
+
+    describe '#new' do
+      context 'when the attributes of the relations are given' do
+        subject do
+          subject_class.new(sections: [ { title: 'First' },
+            { title: 'Second' } ])
+        end
+
+        it 'initializes relations as Collections' do
+          expect(subject.sections).to be_kind_of(Typekit::Collection)
+        end
+
+        it 'initializes Collections based on the attributes' do
+          expect(subject.sections.map(&:title)).to \
+            contain_exactly('First', 'Second')
+        end
       end
 
-      it 'initializes Collections based on the attributes' do
-        subject = subject_class.new(sections:
-          [ { title: 'First' }, { title: 'Second' } ])
-        expect(subject.sections.map(&:title)).to \
-          contain_exactly('First', 'Second')
+      context 'when the attributes of the relations are missing' do
+        subject { subject_class.new }
+
+        it 'does not initialize Collections' do
+          expect { subject.sections }.to raise_error(NoMethodError)
+        end
       end
     end
   end

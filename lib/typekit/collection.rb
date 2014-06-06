@@ -2,12 +2,13 @@ module Typekit
   class Collection
     extend Forwardable
 
-    def_delegators :@records, :each, :map, :[]
+    def_delegator :@records, :to_json
+    def_delegators :@records, :each, :map, :[], :size, :length
 
-    def initialize(name, attribute_collection)
-      klass = Record.classify(name)
-      @records = attribute_collection.map do |attributes|
-        klass.new(attributes)
+    def initialize(name, collection_attributes = nil)
+      @klass = Record.classify(name)
+      @records = collection_attributes.map do |attributes|
+        @klass.new(attributes)
       end
     end
   end
