@@ -1,8 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe Typekit::Client do
-  let(:token) { 'arbitrary' }
-  let(:subject) { Typekit::Client.new(token: token) }
+  let(:subject) { Typekit::Client.new(token: 'arbitrary') }
 
   describe '#index kits' do
     context 'when successful' do
@@ -40,10 +39,10 @@ RSpec.describe Typekit::Client do
     end
   end
 
-  describe '#show a familily by its slug' do
-    options = { vcr: { cassette_name: 'show_families_calluna_found' } }
+  describe '#show a family by its slug' do
+    options = { vcr: { cassette_name: 'show_families_xxx_found' } }
 
-    let(:result) { subject.show(:families, 'calluna') }
+    let(:result) { subject.show(:families, 'xxx') }
 
     it 'returns a Family', options do
       expect(result).to be_kind_of(Typekit::Record::Family)
@@ -61,7 +60,7 @@ RSpec.describe Typekit::Client do
     end
   end
 
-  describe '#show a familily' do
+  describe '#show a family' do
     options = { vcr: { cassette_name: 'show_families_xxx_ok' } }
 
     let(:result) { subject.show(:families, 'xxx') }
@@ -82,7 +81,7 @@ RSpec.describe Typekit::Client do
     it_behaves_like 'an adequate Family', options
   end
 
-  describe '#show a variation of a familily' do
+  describe '#show a variation of a family' do
     options = { vcr: { cassette_name: 'show_families_xxx_yyy_ok' } }
 
     let(:result) { subject.show(:families, 'xxx', 'yyy') }
