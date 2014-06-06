@@ -13,6 +13,9 @@ module Typekit
         ERRORS.default = 'Unknown server error'
         ERRORS.freeze
 
+        def initialize(*_)
+        end
+
         def process(response, errors)
           raise Error, Array(errors || ERRORS[response.code]).join(', ')
         end

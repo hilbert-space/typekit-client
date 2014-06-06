@@ -1,8 +1,8 @@
 module Typekit
   module Record
     class Variation < Base
-      # belongs_to :family
-      # has_many :libraries
+      has_many :libraries
+      belongs_to :family
     end
   end
 end

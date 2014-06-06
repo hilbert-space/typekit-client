@@ -1,4 +1,5 @@
-require_relative 'support/rest_helper'
+require_relative 'support/resource_helper'
+
 require 'webmock/rspec'
 require 'vcr'
 require 'typekit'

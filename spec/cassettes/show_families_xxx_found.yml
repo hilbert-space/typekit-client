@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://typekit.com/api/v1/json/families/calluna
+    uri: https://typekit.com/api/v1/json/families/xxx
   response:
     status:
       code: 302

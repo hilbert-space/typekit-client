@@ -1,47 +1,80 @@
 require 'spec_helper'
 
 RSpec.describe Typekit::Record do
+  include ResourceHelper
+  extend ResourceHelper
+
   let(:subject_module) { Typekit::Record }
 
-  describe '.collections' do
-    it 'knows the major collections' do
-      expect(subject_module.collections).to \
-        match_array(%i{families kits libraries variations})
+  describe '.mapping' do
+    it 'returns a hash whose keys are the names of the resources' do
+      expect(subject_module.mapping.keys).to \
+        contain_exactly(*record_symbols)
+    end
+
+    it 'returns a hash whose values are the classes of the resources' do
+      expect(subject_module.mapping.values).to \
+        contain_exactly(*record_classes)
     end
   end
 
-  describe '.members' do
-    it 'knows the major members' do
-      expect(subject_module.members).to \
-        match_array(%i{family kit library variation})
+  describe '.classify' do
+    record_mapping.each do |name, klass|
+      it "converts :#{ name } into the corresponding Record class" do
+        expect(subject_module.classify(name)).to eq(klass)
+      end
+
+      it "converts '#{ name }' into the corresponding Record class" do
+        expect(subject_module.classify(name.to_s)).to eq(klass)
+      end
+    end
+
+    collection_mapping.each do |name, klass|
+      it "converts :#{ name } into the corresponding Record class" do
+        expect(subject_module.classify(name)).to eq(klass)
+      end
+
+      it "converts '#{ name }' into the corresponding Record class" do
+        expect(subject_module.classify(name.to_s)).to eq(klass)
+      end
+    end
+
+    it 'returns nil for unknown names' do
+      expect(subject_module.classify('smile')).to be nil
+    end
+
+    it 'returns nil for nil' do
+      expect(subject_module.classify(nil)).to be nil
     end
   end
 
-  describe '.collection?' do
-    %w{family kit library variation kitten kittens}.each do |name|
-      it "returns false for #{ name }" do
-        expect(subject_module.collection?(name)).to be false
+  describe '.identify' do
+    record_mapping.each do |name, klass|
+      it "converts :#{ name } into :record" do
+        expect(subject_module.identify(name)).to eq(:record)
+      end
+
+      it "converts '#{ name }' into :record" do
+        expect(subject_module.identify(name.to_s)).to eq(:record)
       end
     end
 
-    %w{families kits libraries variations}.each do |name|
-      it "returns true for #{ name }" do
-        expect(subject_module.collection?(name)).to be true
+    collection_mapping.each do |name, klass|
+      it "converts :#{ name } into :collection" do
+        expect(subject_module.identify(name)).to eq(:collection)
       end
-    end
-  end
 
-  describe '.member?' do
-    %w{family kit library variation}.each do |name|
-      it "returns true for #{ name }" do
-        expect(subject_module.member?(name)).to be true
+      it "converts '#{ name }' into :collection" do
+        expect(subject_module.identify(name.to_s)).to eq(:collection)
       end
     end
 
-    %w{families kits libraries variations kitten kittens}.each do |name|
-      it "returns false for #{ name }" do
-        expect(subject_module.member?(name)).to be false
-      end
+    it 'returns nil for unknown names' do
+      expect(subject_module.identify('smile')).to be nil
+    end
+
+    it 'returns nil for nil' do
+      expect(subject_module.identify(nil)).to be nil
     end
   end
 end
