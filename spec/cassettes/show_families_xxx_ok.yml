@@ -1,0 +1,31 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://typekit.com/api/v1/json/families/xxx
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Status:
+      - 200 OK
+    body:
+      encoding: UTF-8
+      string: '{"family":{"id":"vybr","name":"Calluna","slug":"calluna","web_link":"http://typekit.com/fonts/calluna","browse_info":{"capitals":["uppercase-lowercase"],"classification":["serif"],"contrast":["regular"],"language":["ca","cs","de","en","es","fr","it","mt","nl","pl","pt","sl","sv"],"number_style":["lowercase"],"recommended_for":["paragraphs"],"weight":["heavy","regular"],"width":["regular"],"x_height":["regular"]},"css_stack":"serif","description":"Calluna
+        is a robust, clean and contemporary face with interesting details and a forward
+        flow. Calluna makes for comfortable reading even at very small text sizes;
+        its striking details ensure that it can also be used as a display font with
+        personality.\r\n","foundry":{"name":"exljbris Font Foundry","slug":"exljbris-font-foundry"},"libraries":[{"id":"trial","link":"/api/v1/json/libraries/trial","name":"Trial
+        Library"},{"id":"personal","link":"/api/v1/json/libraries/personal","name":"Personal
+        Library"},{"id":"full","link":"/api/v1/json/libraries/full","name":"Full Library"},{"id":"enterprise","link":"/api/v1/json/libraries/enterprise","name":"Enterprise
+        Library"}],"variations":[{"id":"vybr:n3","link":"/api/v1/json/families/vybr/n3","name":"Calluna
+        Light","fvd":"n3"},{"id":"vybr:n4","link":"/api/v1/json/families/vybr/n4","name":"Calluna
+        Regular","fvd":"n4"},{"id":"vybr:i4","link":"/api/v1/json/families/vybr/i4","name":"Calluna
+        Italic","fvd":"i4"},{"id":"vybr:n6","link":"/api/v1/json/families/vybr/n6","name":"Calluna
+        Semi Bold ","fvd":"n6"},{"id":"vybr:i6","link":"/api/v1/json/families/vybr/i6","name":"Calluna
+        Semi Bold Italic","fvd":"i6"},{"id":"vybr:n7","link":"/api/v1/json/families/vybr/n7","name":"Calluna
+        Bold","fvd":"n7"},{"id":"vybr:i7","link":"/api/v1/json/families/vybr/i7","name":"Calluna
+        Bold Italic","fvd":"i7"},{"id":"vybr:n9","link":"/api/v1/json/families/vybr/n9","name":"Calluna
+        Black","fvd":"n9"}]}}'
+  recorded_at: Fri, 06 Jun 2014 00:00:00 GMT

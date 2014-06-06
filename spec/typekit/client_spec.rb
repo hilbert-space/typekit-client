@@ -40,6 +40,16 @@ RSpec.describe Typekit::Client do
     end
   end
 
+  describe '#show a familily' do
+    options = { vcr: { cassette_name: 'show_families_xxx_ok' } }
+
+    let(:result) { subject.show(:families, 'xxx') }
+
+    it 'returns a Family', options do
+      expect(result).to be_kind_of(Typekit::Record::Family)
+    end
+  end
+
   describe '#show a familily by its slug' do
     options = { vcr: { cassette_name: 'show_families_calluna_found' } }
 
