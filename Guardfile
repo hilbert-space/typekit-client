@@ -1,7 +1,14 @@
 guard :rspec do
   watch(%r{^spec/.+_spec\.rb$})
-  watch('spec/spec_helper.rb') { 'spec' }
-  watch(%r{^spec/support/(.+)\.rb$}) { 'spec' }
-  watch(%r{^lib/(.+)\.rb$}) { |m| "spec/#{ m[1] }_spec.rb" }
-  watch(%r{^lib/(.*\.rb)$}) { |m| "spec/#{ File.dirname(m[1]) }" }
+  watch(%r{^spec/.+_helper\.rb$}) { 'spec' }
+  watch(%r{^lib/(.+)\.rb$}) do |match|
+    result = "spec/#{ match[1] }_spec.rb"
+    loop do
+      break if File.exist?(result)
+      result = File.dirname(result)
+      break if result.empty?
+    end
+    result
+  end
 end
+# vim: ft=ruby

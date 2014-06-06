@@ -1,13 +1,11 @@
-require_relative 'support/rest_helper'
+require_relative 'support/resource_helper'
+
 require 'webmock/rspec'
 require 'vcr'
 require 'typekit'
 
 RSpec.configure do |config|
-  config.treat_symbols_as_metadata_keys_with_true_values = true
-  config.run_all_when_everything_filtered = true
-  config.filter_run :focus
-  config.order = 'random'
+  config.disable_monkey_patching!
 end
 
 VCR.configure do |config|

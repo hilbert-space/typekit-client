@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Typekit::Helper do
+RSpec.describe Typekit::Helper do
   let(:subject_module) { Typekit::Helper }
 
   describe '.pluralize' do
@@ -11,8 +11,8 @@ describe Typekit::Helper do
       'families' => 'families',
       'library' => 'libraries',
       'libraries' => 'libraries',
-      'variant' => 'variants',
-      'variants' => 'variants'
+      'variation' => 'variations',
+      'variations' => 'variations'
     }.each do |k, v|
       it "returns #{ v } for #{ k }" do
         expect(subject_module.pluralize(k)).to eq(v)
@@ -28,12 +28,19 @@ describe Typekit::Helper do
       'families' => 'family',
       'library' => 'library',
       'libraries' => 'library',
-      'variant' => 'variant',
-      'variants' => 'variant'
+      'variation' => 'variation',
+      'variations' => 'variation'
     }.each do |k, v|
       it "returns #{ v } for #{ k }" do
         expect(subject_module.singularize(k)).to eq(v)
       end
+    end
+  end
+
+  describe '.symbolize_keys' do
+    it 'does what it says' do
+      expect(subject_module.symbolize_keys('a' => { 'b' => 1 }, 'd' => 2)).to \
+        eq(a: { 'b' => 1 }, d: 2)
     end
   end
 end

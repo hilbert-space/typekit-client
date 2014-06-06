@@ -1,0 +1,31 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://typekit.com/api/v1/json/libraries/xxx
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Status:
+      - 200 OK
+    body:
+      encoding: UTF-8
+      string: '{"library":{"id":"trial","link":"/api/v1/json/libraries/trial","name":"Trial
+        Library","families":[{"id":"lgrs","link":"/api/v1/json/families/lgrs","name":"Abril
+        Fatface"},{"id":"jtgy","link":"/api/v1/json/families/jtgy","name":"Acta Display"},{"id":"spmb","link":"/api/v1/json/families/spmb","name":"Acta
+        Poster"},{"id":"drlt","link":"/api/v1/json/families/drlt","name":"Acta Poster
+        Swashes"},{"id":"zcmv","link":"/api/v1/json/families/zcmv","name":"Acuta"},{"id":"gmsj","link":"/api/v1/json/families/gmsj","name":"Adelle"},{"id":"hmqz","link":"/api/v1/json/families/hmqz","name":"Adobe
+        Caslon Pro"},{"id":"tmmf","link":"/api/v1/json/families/tmmf","name":"Adobe
+        Garamond Pro"},{"id":"ydjd","link":"/api/v1/json/families/ydjd","name":"Adrianna
+        Extended Demibold"},{"id":"dqrj","link":"/api/v1/json/families/dqrj","name":"Alber
+        New Web"},{"id":"bjtl","link":"/api/v1/json/families/bjtl","name":"Alegreya"},{"id":"xrsc","link":"/api/v1/json/families/xrsc","name":"Alegreya
+        SC"},{"id":"nztd","link":"/api/v1/json/families/nztd","name":"Alexa Std"},{"id":"kvxq","link":"/api/v1/json/families/kvxq","name":"Alpha
+        Echo"},{"id":"byws","link":"/api/v1/json/families/byws","name":"Alwyn New
+        Rounded Web"},{"id":"ymqr","link":"/api/v1/json/families/ymqr","name":"Alwyn
+        New Web"},{"id":"gxdg","link":"/api/v1/json/families/gxdg","name":"Angie STD
+        Sans"},{"id":"nrky","link":"/api/v1/json/families/nrky","name":"Anisette STD
+        Petite"},{"id":"bfnx","link":"/api/v1/json/families/bfnx","name":"Anisette
+        STD Petite SC"},{"id":"rnhy","link":"/api/v1/json/families/rnhy","name":"Anivers"}],"pagination":{"count":261,"on":"families","page":1,"page_count":14,"per_page":20}}}'
+  recorded_at: Fri, 06 Jun 2014 00:00:00 GMT
