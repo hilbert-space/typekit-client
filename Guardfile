@@ -3,11 +3,18 @@ guard :rspec do
   watch(%r{^spec/.+_helper\.rb$}) { 'spec' }
   watch(%r{^lib/(.+)\.rb$}) do |match|
     result = "spec/#{ match[1] }_spec.rb"
-    loop do
+    begin
       break if File.exist?(result)
       result = File.dirname(result)
-      break if result.empty?
-    end
+    end until result.empty?
+    result
+  end
+  watch(%r{^lib/[^/]+/(.+)\.rb$}) do |match|
+    result = "spec/features/#{ match[1] }"
+    begin
+      break if File.exist?(result)
+      result = File.dirname(result)
+    end until result.empty?
     result
   end
 end
