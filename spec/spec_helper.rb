@@ -1,8 +1,8 @@
-require_relative 'support/resource_helper'
-
 require 'webmock/rspec'
 require 'vcr'
 require 'typekit'
+
+require_relative 'support/resource_helper'
 
 RSpec.configure do |config|
   config.disable_monkey_patching!

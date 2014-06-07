@@ -7,8 +7,9 @@ RSpec.describe Typekit::Client do
     context 'when successful' do
       options = { vcr: { cassette_name: 'index_kits_ok' } }
 
+      let(:result) { subject.index(:kits) }
+
       it 'returns Records', options do
-        result = subject.index(:kits)
         expect(result.map(&:class).uniq).to \
           contain_exactly(Typekit::Record::Kit)
       end

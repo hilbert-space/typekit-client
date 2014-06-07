@@ -1,7 +1,7 @@
 module Typekit
   Error = Class.new(StandardError)
 
-  @defaults = { version: 1, format: :json }.freeze
+  @defaults = { version: 1, format: :json }
 
   @schema = Proc.new do |version, format|
     address "https://typekit.com/api/v#{ version }/#{ format }"
@@ -19,7 +19,7 @@ module Typekit
     resources :libraries, only: [ :index, :show ]
   end
 
-  @dictionary = { :update => :post }.freeze # not PUT, Typekit’s exception
+  @dictionary = { :update => :post } # not PUT
 
   @headers = Proc.new do |token|
     { 'X-Typekit-Token' => token }

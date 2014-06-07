@@ -11,7 +11,6 @@ module Typekit
           503 => 'The Typekit API is offline for maintenance'
         }
         ERRORS.default = 'Unknown server error'
-        ERRORS.freeze
 
         def initialize(*_)
         end

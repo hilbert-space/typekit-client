@@ -18,12 +18,12 @@ module Typekit
 
     private
 
-    [ :engine, :translator ].each do |component|
-      class_eval <<-METHOD, __FILE__, __LINE__ + 1
-        def #{ component }
-          @#{ component } ||= build_#{ component }
-        end
-      METHOD
+    def engine
+      @engine ||= build_engine
+    end
+
+    def translator
+      @translator ||= Processing::Translator.new
     end
 
     def build_engine
@@ -36,10 +36,6 @@ module Typekit
       Apitizer::Base.new(**options) do
         instance_exec(version, format, &Typekit.schema)
       end
-    end
-
-    def build_translator
-      Processing::Translator.new
     end
   end
 end

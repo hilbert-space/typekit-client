@@ -9,7 +9,7 @@ module Typekit
     def self.mapping
       @mapping ||= Hash[
         ObjectSpace.each_object(Class).select do |klass|
-          klass < Typekit::Record::Base && klass.name
+          klass < Base && klass.name
         end.map do |klass|
           [ klass.name.downcase.sub(/^.*::/, '').to_sym, klass ]
         end
