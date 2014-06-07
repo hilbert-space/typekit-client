@@ -1,9 +1,9 @@
 module Typekit
   class Collection
     extend Forwardable
+    include Enumerable
 
-    def_delegator :@records, :to_json
-    def_delegators :@records, :each, :map, :[], :size, :length
+    def_delegators :@records, :to_json, :each, :<=>
 
     def initialize(name, collection_attributes = nil)
       @klass = Record.classify(name)
