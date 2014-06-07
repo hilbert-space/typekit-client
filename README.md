@@ -2,27 +2,22 @@
 A Ruby library for accessing the [Typekit API](https://typekit.com/docs/api).
 
 ## Installation
-`Ruby >= 2.1` is required. Make sure you have it installed:
-```bash
-$ ruby -v
-ruby 2.1.2p95 (2014-05-08 revision 45877) [x86_64-darwin13.0]
-```
-
-In case you don’t:
-```bash
-$ curl -sSL https://get.rvm.io | bash
-$ rvm install 2.1
-```
-
-Add the gem into your `Gemfile`:
+Add the following line to your `Gemfile`:
 ```ruby
 gem 'typekit-client', require: 'typekit'
 ```
 
-Then run `bundler`:
+Then execute:
 ```bash
 $ bundle
 ```
+
+Alternatively, you can install the gem manually:
+```bash
+$ gem install typekit-client
+```
+
+Note that the minimial supported version of Ruby is `2.1`.
 
 In order to interact with the Typekit API, one should have a valid API token.
 You can generate such a token [here](https://typekit.com/account/tokens).
@@ -39,26 +34,17 @@ require 'typekit'
 client = Typekit::Client.new(token: ENV['tk_token'])
 ```
 
-And here is how to run it, assuming you name your script `app.rb`:
-```bash
-$ bundle exec ruby app.rb
-```
-
-The main method of `client` is `perform(action, *path, parameters = {})`.
-The arguments are as follows:
-* `action` is the action that you would like to perform on a resource, and
-  it can be one of `:index`, `:show`, `:create`, `:update`, or `:delete`;
+`client` has five methods: `index`, `show`, `create`, `update`, and `delete`.
+The signature of each method is `action(*path, parameters = {})`. The
+arguments are as follows:
 * `*path` refers to an arbitrary number of arguments needed to identify
-  the desired resource (a plenty of examples are given below), and it
-  always begins with one of `:families`, `:kits`, or `:libraries`;
-* `parameters` is a hash of parameters needed to perform the action.
+  the endpoint of interest (a plenty of examples are given below);
+* `parameters` is a hash of parameters (optional).
 
-`perform` has an alias for each of the actions: `index(*path, parameters = {})`,
-`show(*path, parameters = {})`, `create(*path, parameters = {})`, and so on.
-Before sending the actual request to the Typekit API, `perform` checks
-whether the resource given by `*path` makes sense and, if it does, whether
-`action` can be performed on that resource. So, if you receive an exception,
-check the [API reference](https://typekit.com/docs/api/).
+Before sending the actual request to the Typekit API, the library checks
+whether the endpoint given by `*path` exists and, if it does, whether
+the desired action (`index`, `show`, _etc._) is permitted. So, if you
+receive an exception, check the [API reference](https://typekit.com/docs/api/).
 
 Now, let us have a look at some typical use cases. For clarity, the code
 below makes use of the following auxiliary function:
@@ -70,7 +56,7 @@ rescue JSON::GeneratorError
 end
 ```
 
-### Show all kits
+### List all kits
 Code:
 ```ruby
 p kits = client.index(:kits)
