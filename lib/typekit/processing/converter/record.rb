@@ -3,12 +3,11 @@ module Typekit
     module Converter
       class Record
         def initialize(name)
-          @klass = Typekit::Record.classify(name)
-          raise Error, 'Unknown class' unless @klass
+          @name = name
         end
 
         def process(response, attributes)
-          @klass.new(attributes)
+          Typekit::Record.build(@name, attributes)
         end
       end
     end

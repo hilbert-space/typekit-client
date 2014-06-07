@@ -3,14 +3,11 @@ module Typekit
     module Converter
       class Collection
         def initialize(name)
-          @klass = Typekit::Record.classify(name)
-          raise Error, 'Unknown class' unless @klass
+          @name = name
         end
 
         def process(response, collection_attributes)
-          collection_attributes.map do |attributes|
-            @klass.new(attributes)
-          end
+          Typekit::Collection.new(@name, collection_attributes)
         end
       end
     end
