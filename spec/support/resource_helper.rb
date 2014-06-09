@@ -24,11 +24,15 @@ module ResourceHelper
     @collection_symbols ||= COLLECTION_NAMES.map(&:to_sym)
   end
 
-  def record_mapping
-    @record_mapping ||= Hash[record_symbols.clone.zip(record_classes)]
+  def record_dictionary
+    @record_dictionary ||= Hash[
+      record_symbols.clone.zip(record_classes)
+    ]
   end
 
-  def collection_mapping
-    @collection_mapping ||= Hash[collection_symbols.clone.zip(record_classes)]
+  def collection_dictionary
+    @collection_dictionary ||= Hash[
+      collection_symbols.clone.zip(record_classes)
+    ]
   end
 end

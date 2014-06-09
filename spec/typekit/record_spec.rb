@@ -6,20 +6,20 @@ RSpec.describe Typekit::Record do
 
   let(:subject_module) { Typekit::Record }
 
-  describe '.mapping' do
-    it 'returns a hash whose keys are the names of the resources' do
-      expect(subject_module.mapping.keys).to \
+  describe '.dictionary' do
+    it 'returns a hash whose keys are symbolic names of Record classes' do
+      expect(subject_module.dictionary.keys).to \
         contain_exactly(*record_symbols)
     end
 
-    it 'returns a hash whose values are the classes of the resources' do
-      expect(subject_module.mapping.values).to \
+    it 'returns a hash whose values are Record classes' do
+      expect(subject_module.dictionary.values).to \
         contain_exactly(*record_classes)
     end
   end
 
   describe '.classify' do
-    record_mapping.each do |name, klass|
+    record_dictionary.each do |name, klass|
       it "converts :#{ name } into the corresponding Record class" do
         expect(subject_module.classify(name)).to eq(klass)
       end
@@ -29,7 +29,7 @@ RSpec.describe Typekit::Record do
       end
     end
 
-    collection_mapping.each do |name, klass|
+    collection_dictionary.each do |name, klass|
       it "converts :#{ name } into the corresponding Record class" do
         expect(subject_module.classify(name)).to eq(klass)
       end
@@ -49,7 +49,7 @@ RSpec.describe Typekit::Record do
   end
 
   describe '.identify' do
-    record_mapping.each do |name, klass|
+    record_dictionary.each do |name, klass|
       it "converts :#{ name } into :record" do
         expect(subject_module.identify(name)).to eq(:record)
       end
@@ -59,7 +59,7 @@ RSpec.describe Typekit::Record do
       end
     end
 
-    collection_mapping.each do |name, klass|
+    collection_dictionary.each do |name, klass|
       it "converts :#{ name } into :collection" do
         expect(subject_module.identify(name)).to eq(:collection)
       end

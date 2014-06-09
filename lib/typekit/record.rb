@@ -6,8 +6,8 @@ require_relative 'record/library'
 
 module Typekit
   module Record
-    def self.mapping
-      @mapping ||= Hash[
+    def self.dictionary
+      @dictionary ||= Hash[
         ObjectSpace.each_object(Class).select do |klass|
           klass < Base && klass.name
         end.map do |klass|
@@ -17,13 +17,13 @@ module Typekit
     end
 
     def self.classify(name)
-      mapping[Helper.singularize(name.to_s).to_sym]
+      dictionary[Helper.singularize(name.to_s).to_sym]
     end
 
     def self.identify(name)
-      if mapping.include?(name.to_s.to_sym)
+      if dictionary.key?(name.to_s.to_sym)
         :record
-      elsif mapping.include?(Helper.singularize(name.to_s).to_sym)
+      elsif dictionary.key?(Helper.singularize(name.to_s).to_sym)
         :collection
       end
     end
