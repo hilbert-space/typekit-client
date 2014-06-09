@@ -3,16 +3,19 @@ A Ruby library for accessing the [Typekit API](https://typekit.com/docs/api).
 
 ## Installation
 Add the following line to your `Gemfile`:
+
 ```ruby
 gem 'typekit-client', require: 'typekit'
 ```
 
 Then execute:
+
 ```bash
 $ bundle
 ```
 
 Alternatively, you can install the gem manually:
+
 ```bash
 $ gem install typekit-client
 ```
@@ -22,12 +25,14 @@ Note that the minimial supported version of Ruby is `2.1`.
 In order to interact with the Typekit API, one should have a valid API token.
 You can generate such a token [here](https://typekit.com/account/tokens).
 For convenience, let us create a shortcut for it:
+
 ```bash
 $ export tk_token=YOUR_TOKEN_GOES_HERE
 ```
 
 ## Usage
 Here is the basic setup in a Ruby script:
+
 ```ruby
 require 'typekit'
 
@@ -37,6 +42,7 @@ client = Typekit::Client.new(token: ENV['tk_token'])
 `client` has five methods: `index`, `show`, `create`, `update`, and `delete`.
 The signature of each method is `action(*path, parameters = {})`. The
 arguments are as follows:
+
 * `*path` refers to an arbitrary number of arguments needed to identify
   the endpoint of interest (a plenty of examples are given below);
 * `parameters` is a hash of parameters (optional).
@@ -48,6 +54,7 @@ receive an exception, check the [API reference](https://typekit.com/docs/api/).
 
 Now, let us have a look at some typical use cases. For clarity, the code
 below makes use of the following auxiliary function:
+
 ```ruby
 def p(data)
   puts JSON.pretty_generate(data)
@@ -58,6 +65,7 @@ end
 
 ### List all kits
 Code:
+
 ```ruby
 p kits = client.index(:kits)
 p kits.map(&:class)
@@ -66,6 +74,7 @@ p kits.first.link
 ```
 
 Output:
+
 ```json
 [
   {
@@ -95,11 +104,13 @@ Output:
 
 ### Show the description of a variation of a font family
 Code:
+
 ```ruby
 p client.show(:families, 'vcsm', 'i9')
 ```
 
 Output:
+
 ```json
 {
   "id": "vcsm:i9",
@@ -118,11 +129,13 @@ Output:
 
 ### Show the font families in the trial library with pagination
 Code:
+
 ```ruby
 p client.show(:libraries, 'trial', page: 10, per_page: 5)
 ```
 
 Output:
+
 ```json
 {
   "id": "trial",
@@ -153,11 +166,13 @@ Output:
 
 ### Create a new kit
 Code:
+
 ```ruby
 p kit = client.create(:kits, name: 'Megakit', domains: 'localhost')
 ```
 
 Output:
+
 ```json
 {
   "id": "izw0qiq",
@@ -175,11 +190,13 @@ Output:
 
 ### Disable the badge of a kit
 Code:
+
 ```ruby
 p client.update(:kits, kit.id, badge: false)
 ```
 
 Output:
+
 ```json
 {
   "id": "izw0qiq",
@@ -197,11 +214,13 @@ Output:
 
 ### Look up the id of a font family by its slug
 Code:
+
 ```ruby
 p family = client.show(:families, 'proxima-nova')
 ```
 
 Output:
+
 ```json
 {
   "id": "vcsm",
@@ -211,11 +230,13 @@ Output:
 
 ### Add a font family into a kit
 Code:
+
 ```ruby
 p client.update(:kits, kit.id, families: { "0" => { id: family.id } })
 ```
 
 Output:
+
 ```json
 {
   "id": "nys8sny",
@@ -242,22 +263,26 @@ Output:
 
 ### Publish a kit
 Code:
+
 ```ruby
 p client.update(:kits, kit.id, :publish)
 ```
 
 Output:
+
 ```
 #<DateTime: 2014-05-31T06:45:29+00:00 ((2456809j,24329s,0n),+0s,2299161j)>
 ```
 
 ### Show the description of a published kit
 Code:
+
 ```ruby
 p client.show(:kits, kit.id, :published)
 ```
 
 Output:
+
 ```json
 {
   "id": "vzt4lrg",
@@ -276,11 +301,13 @@ Output:
 
 ### Delete a kit
 Command:
+
 ```ruby
 p client.delete(:kits, kit.id)
 ```
 
 Output:
+
 ```
 true
 ```
@@ -290,6 +317,7 @@ There is a simple CLI provided in order to demonstrate the usage of the
 library and to give the ability to perform basic operations without writing
 any code. The tool is called `typekit`, and it should get installed along
 with the gem. Try running:
+
 ```
 $ typekit -h
 Usage: typekit [options] [command]
@@ -303,12 +331,14 @@ Other options:
 
 Alternatively, you can install `typekit` in the `bin` directory of your
 project using the following command:
+
 ```bash
 $ bundle binstubs typekit
 ```
 
 The tool has two modes: normal and interactive. If `command` is provided,
 the tool executes only that particular command and terminates:
+
 ```
 $ typekit -t $tk_token index kits
 [
@@ -323,6 +353,7 @@ $
 
 If `command` is not provided, the tool gives a command prompt wherein one
 can enter multiple commands:
+
 ```
 $ typekit -t $tk_token
 Type 'help' for help and 'exit' to exit.
