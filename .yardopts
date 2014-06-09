@@ -1,2 +1,6 @@
 --markup-provider=redcarpet
 --markup=markdown
+lib/**/*.rb
+-
+CHANGELOG.md
+LICENSE.txt
