@@ -3,7 +3,7 @@ module Typekit
     class Base
       extend Forwardable
 
-      attr_reader :attributes
+      attr_reader :client, :attributes
       def_delegator :attributes, :to_json
 
       def self.has_many(name)
@@ -22,7 +22,10 @@ module Typekit
         @owners ||= []
       end
 
-      def initialize(attributes = {})
+      def initialize(*arguments)
+        attributes = arguments.last.is_a?(Hash) ? arguments.pop : {}
+        @client = arguments.first
+
         attributes = { id: attributes } unless attributes.is_a?(Hash)
         @attributes = Helper.symbolize_keys(attributes)
 
@@ -37,14 +40,26 @@ module Typekit
         end
       end
 
+      def delete
+        process(:delete, id)
+      end
+      alias_method :destroy, :delete
+
+      private
+
+      def process(action, *arguments)
+        raise Error, 'Client is not given' unless client
+        client.process(action, Helper.tokenize(self.class), *arguments)
+      end
+
       def method_missing(name, *arguments)
         if name.to_s =~ /^(?<name>.*)=$/
           name = Regexp.last_match(:name).to_sym
-          return super unless @attributes.key?(name)
-          @attributes.send(:[]=, name, *arguments)
+          return super unless attributes.key?(name)
+          attributes.send(:[]=, name, *arguments)
         else
-          return super unless @attributes.key?(name)
-          @attributes.send(:[], name, *arguments)
+          return super unless attributes.key?(name)
+          attributes.send(:[], name, *arguments)
         end
       end
     end
