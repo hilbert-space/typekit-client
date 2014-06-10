@@ -364,7 +364,7 @@ There is another utility with the sole purpose of publishing kits. The tool
 is called `typekit-publisher`:
 
 ```
-$ ./bin/typekit-publisher -h
+$ typekit-publisher -h
 Usage: typekit-publisher [options]
 
 Required options:
@@ -378,7 +378,7 @@ Using `typekit-publisher`, you can publish all your kits at once. Here is
 an example:
 
 ```
-$ ./bin/typekit-publisher -t $tk_token
+$ typekit-publisher -t $tk_token
 Which kit would you like to publish?
    1. bas4cfe
    2. sfh6bkj
