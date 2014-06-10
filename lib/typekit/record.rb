@@ -11,20 +11,20 @@ module Typekit
         ObjectSpace.each_object(Class).select do |klass|
           klass < Base && klass.name
         end.map do |klass|
-          [ klass.name.downcase.sub(/^.*::/, '').to_sym, klass ]
+          [ Helper.tokenize(klass), klass ]
         end
       ]
     end
 
     def self.classify(name)
-      dictionary[Helper.singularize(name.to_s).to_sym]
+      dictionary[Helper.pluralize(name.to_s).to_sym]
     end
 
     def self.identify(name)
       if dictionary.key?(name.to_s.to_sym)
-        :record
-      elsif dictionary.key?(Helper.singularize(name.to_s).to_sym)
         :collection
+      elsif dictionary.key?(Helper.pluralize(name.to_s).to_sym)
+        :record
       end
     end
 

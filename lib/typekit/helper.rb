@@ -22,6 +22,10 @@ module Typekit
       end
     end
 
+    def self.tokenize(klass)
+      pluralize(klass.name.downcase.sub(/^.*::/, '')).to_sym
+    end
+
     def self.symbolize_keys(hash)
       Hash[hash.map { |k, v| [ k.to_sym, v ] }]
     end

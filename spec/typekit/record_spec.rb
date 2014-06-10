@@ -9,7 +9,7 @@ RSpec.describe Typekit::Record do
   describe '.dictionary' do
     it 'returns a hash whose keys are symbolic names of Record classes' do
       expect(subject_module.dictionary.keys).to \
-        contain_exactly(*record_symbols)
+        contain_exactly(*collection_symbols)
     end
 
     it 'returns a hash whose values are Record classes' do
