@@ -2,7 +2,19 @@
 A Ruby library for accessing the [Typekit API](https://typekit.com/docs/api).
 
 ## Installation
-Add the following line to your `Gemfile`:
+The minimal supported version of Ruby is `2.1`. The simplest way to install
+Ruby is via [rvm](https://rvm.io/):
+```bash
+$ curl -sSL https://get.rvm.io | bash -s stable --ruby=2.1
+```
+
+Now you can install the library itself:
+```bash
+$ gem install typekit-client
+```
+
+If you are planning to use the gem as a part of your project, add the
+following line into your `Gemfile`:
 
 ```ruby
 gem 'typekit-client', require: 'typekit'
@@ -13,14 +25,6 @@ Then execute:
 ```bash
 $ bundle
 ```
-
-Alternatively, you can install the gem manually:
-
-```bash
-$ gem install typekit-client
-```
-
-Note that the minimial supported version of Ruby is `2.1`.
 
 In order to interact with the Typekit API, one should have a valid API token.
 You can generate such a token [here](https://typekit.com/account/tokens).
@@ -312,15 +316,15 @@ Output:
 true
 ```
 
-## Command-line Interface (CLI)
-There is a simple CLI provided in order to demonstrate the usage of the
+## General Command-line Interface
+There is a simple tool provided in order to demonstrate the usage of the
 library and to give the ability to perform basic operations without writing
-any code. The tool is called `typekit`, and it should get installed along
-with the gem. Try running:
+any code. The tool is called `typekit-client`, and it should get installed
+along with the gem. Try running:
 
 ```
-$ typekit -h
-Usage: typekit [options] [command]
+$ typekit-client -h
+Usage: typekit-client [options] [command]
 
 Required options:
     -t, --token TOKEN                Set the API token
@@ -329,18 +333,18 @@ Other options:
     -h, --help                       Show this message
 ```
 
-Alternatively, you can install `typekit` in the `bin` directory of your
-project using the following command:
+Alternatively, you can install `typekit-client` in the `bin` directory of
+your project using the following command:
 
 ```bash
-$ bundle binstubs typekit
+$ bundle binstubs typekit-client
 ```
 
 The tool has two modes: normal and interactive. If `command` is provided,
 the tool executes only that particular command and terminates:
 
 ```
-$ typekit -t $tk_token index kits
+$ typekit-client -t $tk_token index kits
 [
   {
     "id": "bas4cfe",
@@ -355,7 +359,7 @@ If `command` is not provided, the tool gives a command prompt wherein one
 can enter multiple commands:
 
 ```
-$ typekit -t $tk_token
+$ typekit-client -t $tk_token
 Type 'help' for help and 'exit' to exit.
 > help
 Usage: <action> <resource> [parameters]
@@ -383,6 +387,38 @@ Examples:
 > exit
 Bye.
 $
+```
+
+## Publishing Command-line Interface
+There is another utility with the sole purpose of publishing kits. The tool
+is called `typekit-publisher`:
+
+```
+$ typekit-publisher -h
+Usage: typekit-publisher [options]
+
+Required options:
+    -t, --token TOKEN                Set the API token
+
+Other options:
+    -h, --help                       Show this message
+```
+
+Using `typekit-publisher`, you can publish all your kits at once. Here is
+an example:
+
+```
+$ typekit-publisher -t $tk_token
+Which kit would you like to publish?
+   1. bas4cfe
+   2. sfh6bkj
+   3. kof8zcn
+   4. all
+> 4
+Publishing bas4cfe... Done.
+Publishing sfh6bkj... Done.
+Publishing kof8zcn... Done.
+Bye.
 ```
 
 ## Contributing

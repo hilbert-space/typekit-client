@@ -1,0 +1,89 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift(File.expand_path('../lib', __dir__))
+
+require 'typekit'
+require 'readline'
+require 'optparse'
+
+options = {}
+
+parser = OptionParser.new do |o|
+  o.banner = 'Usage: typekit-publisher [options]'
+
+  o.separator ''
+  o.separator 'Required options:'
+
+  o.on('-t', '--token TOKEN', 'Set the API token') do |value|
+    options[:token] = value
+  end
+
+  o.separator ''
+  o.separator 'Other options:'
+
+  o.on_tail('-h', '--help', 'Show this message') do
+    raise
+  end
+end
+
+begin
+  parser.parse!
+rescue
+  puts parser
+  exit
+end
+
+unless options[:token]
+  puts <<-MESSAGE
+You have not specified your API token. Try generating one here:
+
+https://typekit.com/account/tokens
+
+Then run:
+
+$ typekit-publisher -t YOUR_TOKEN_GOES_HERE
+  MESSAGE
+  exit
+end
+
+$client = Typekit::Client.new(token: options[:token])
+
+def process(*arguments)
+  $client.process(*arguments)
+rescue Typekit::Error => e
+  puts e
+  exit
+end
+
+kits = process(:index, :kits)
+
+puts 'Which kit would you like to publish?'
+kits.each_with_index do |kit, i|
+  puts "%4d. %s" % [ i + 1, kit.id ]
+end
+puts "%4d. all" % [ kits.length + 1 ]
+
+k = Readline.readline('> ')
+if k.nil? || k.empty?
+  puts 'None? OK.'
+  exit
+end
+
+k = k.to_i
+
+if k < 1 || k > kits.length + 1
+  puts 'Invalid option. Try again.'
+  exit
+end
+
+range = k == kits.length + 1 ? 0...kits.length : [ k - 1 ]
+
+range.each do |i|
+  print "Publishing #{ kits[i].id }..."
+  process(:update, :kits, kits[i].id, :publish)
+  puts ' Done.'
+end
+
+puts 'Bye.'
+
+# vim: set ft=ruby
