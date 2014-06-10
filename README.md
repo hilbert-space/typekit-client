@@ -1,20 +1,15 @@
 # Typekit Client [![Gem Version](https://badge.fury.io/rb/typekit-client.svg)](http://badge.fury.io/rb/typekit-client) [![Build Status](https://travis-ci.org/IvanUkhov/typekit-client.svg?branch=master)](https://travis-ci.org/IvanUkhov/typekit-client)
 A Ruby library for accessing the [Typekit API](https://typekit.com/docs/api).
 
-## Installation
-The minimal supported version of Ruby is `2.1`. The simplest way to install
-Ruby is via [rvm](https://rvm.io/):
+## Requirements
+The minimal supported version of Ruby is `2.1`. The easiest way to install
+Ruby is via [RVM](https://rvm.io/):
 ```bash
 $ curl -sSL https://get.rvm.io | bash -s stable --ruby=2.1
 ```
 
-Now you can install the library itself:
-```bash
-$ gem install typekit-client
-```
-
-If you are planning to use the gem as a part of your project, add the
-following line into your `Gemfile`:
+## Installation
+Add the following line to your `Gemfile`:
 ```ruby
 gem 'typekit-client', require: 'typekit'
 ```
@@ -22,6 +17,11 @@ gem 'typekit-client', require: 'typekit'
 Then execute:
 ```bash
 $ bundle
+```
+
+Alternatively, you can install the gem manually:
+```bash
+$ gem install typekit-client
 ```
 
 In order to interact with the Typekit API, one should have a valid API token.
@@ -389,6 +389,7 @@ Publishing bas4cfe... Done.
 Publishing sfh6bkj... Done.
 Publishing kof8zcn... Done.
 Bye.
+$
 ```
 
 ## Contributing
