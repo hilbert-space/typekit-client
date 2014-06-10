@@ -1,4 +1,6 @@
 ## Typekit Client (master)
+* New name for the general CLI: `typekit-client` instead of `typekit`.
+* New CLI for the sole purpose of publishing kits: `typekit-publisher`.
 * Relations between resources (a kit has families, a family has variations,
   a variation belongs to a family, etc.).
 

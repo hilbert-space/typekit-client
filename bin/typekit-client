@@ -79,7 +79,7 @@ end
 options = {}
 
 parser = OptionParser.new do |o|
-  o.banner = 'Usage: typekit [options] [command]'
+  o.banner = 'Usage: typekit-client [options] [command]'
 
   o.separator ''
   o.separator 'Required options:'
@@ -100,6 +100,19 @@ begin
   parser.parse!
 rescue
   puts parser
+  exit
+end
+
+unless options[:token]
+  puts <<-MESSAGE
+You have not specified your API token. Try generating one here:
+
+https://typekit.com/account/tokens
+
+Then run:
+
+$ typekit-client -t YOUR_TOKEN_GOES_HERE
+  MESSAGE
   exit
 end
 
