@@ -42,21 +42,17 @@ module Typekit
       end
 
       def const_missing(name)
-        Collection.build(name, client: self)
+        (@resources ||= {})[name] ||= Resource.build(name, client: self)
       end
     end
 
     module Proxy
-      def process(action, *arguments)
-        client.process(action, token, *arguments)
-      end
-
-      def client
-        raise Error, 'Client is not given'
-      end
-
-      def token
-        @token ||= Helper.tokenize(self.class)
+      def proxy(client, token = Helper.tokenize(self.class))
+        singleton_class.class_eval do
+          define_method(:process) do |action, *arguments|
+            client.process(action, token, *arguments)
+          end
+        end
       end
     end
   end

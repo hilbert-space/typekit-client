@@ -1,5 +1,6 @@
 require_relative 'element/association'
 require_relative 'element/persistence'
+require_relative 'element/query'
 require_relative 'element/base'
 
 module Typekit

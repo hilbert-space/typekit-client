@@ -1,4 +1,3 @@
-require_relative 'collection/query'
 require_relative 'collection/base'
 
 module Typekit

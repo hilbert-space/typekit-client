@@ -3,14 +3,18 @@ module Typekit
     class Base
       extend Forwardable
       extend Association
+
       include Persistence
       include Client::Proxy
 
-      attr_reader :client, :attributes
+      extend Query
+      extend Client::Proxy
+
+      attr_reader :attributes
       def_delegator :attributes, :to_json
 
       def initialize(attributes = {})
-        @client = attributes.delete(:client)
+        proxy(attributes.delete(:client)) if attributes.key?(:client)
         @attributes = Helper.symbolize_keys(attributes)
       end
 

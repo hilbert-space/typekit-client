@@ -1,5 +1,5 @@
 module Typekit
-  module Collection
+  module Element
     module Query
       def all
         process(:index)

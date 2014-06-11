@@ -12,5 +12,11 @@ module Typekit
         :element
       end
     end
+
+    def self.build(name, client:)
+      Class.new(Element.classify(name)) do
+        proxy(client, Helper.tokenize(name))
+      end
+    end
   end
 end
