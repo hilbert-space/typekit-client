@@ -17,7 +17,7 @@ class Controller
 
   def process(command)
     action, path, parameters = parse(command)
-    print @client.perform(action, path, parameters)
+    print @client.process(action, path, parameters)
   rescue Exception => e
     puts e
   end
