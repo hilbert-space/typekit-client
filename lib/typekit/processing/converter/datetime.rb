@@ -2,7 +2,7 @@ module Typekit
   module Processing
     module Converter
       class DateTime
-        def initialize(*_)
+        def initialize(*)
         end
 
         def process(response, object)

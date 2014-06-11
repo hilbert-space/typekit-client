@@ -12,7 +12,7 @@ module Typekit
         }
         ERRORS.default = 'Unknown server error'
 
-        def initialize(*_)
+        def initialize(*)
         end
 
         def process(response, errors)
