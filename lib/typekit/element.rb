@@ -18,14 +18,6 @@ module Typekit
       dictionary[Helper.pluralize(name.to_s).to_sym]
     end
 
-    def self.identify(name)
-      if dictionary.key?(name.to_s.to_sym)
-        :collection
-      elsif dictionary.key?(Helper.pluralize(name.to_s).to_sym)
-        :element
-      end
-    end
-
     def self.build(name, attributes = {})
       attributes = { id: attributes } unless attributes.is_a?(Hash)
       classify(name).new(attributes)

@@ -21,7 +21,7 @@ module Typekit
       MAPPING.default = Unknown
 
       def self.build(name)
-        MAPPING[Typekit::Element.identify(name) || name].new(name)
+        MAPPING[Resource.identify(name) || name].new(name)
       end
     end
   end
