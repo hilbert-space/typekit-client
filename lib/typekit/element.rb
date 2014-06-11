@@ -15,7 +15,7 @@ module Typekit
     end
 
     def self.classify(name)
-      dictionary[Helper.pluralize(name.to_s).to_sym]
+      dictionary[Helper.tokenize(name)]
     end
 
     def self.build(name, attributes = {})

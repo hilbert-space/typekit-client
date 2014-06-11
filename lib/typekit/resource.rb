@@ -6,9 +6,9 @@ require_relative 'resource/variation'
 module Typekit
   module Resource
     def self.identify(name)
-      if Element.dictionary.key?(name.to_s.to_sym)
+      if Element.dictionary.key?(Helper.tokenize(name, pluralize: false))
         :collection
-      elsif Element.dictionary.key?(Helper.pluralize(name.to_s).to_sym)
+      elsif Element.dictionary.key?(Helper.tokenize(name))
         :element
       end
     end
