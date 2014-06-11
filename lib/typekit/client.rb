@@ -42,18 +42,21 @@ module Typekit
       end
 
       def const_missing(name)
-        Proxy.new(self, name)
+        Resource.new(self, name)
       end
     end
 
-    class Proxy
-      def initialize(owner, name)
-        @owner = owner
-        @token = Helper.pluralize(name.to_s).downcase.to_sym
+    module Proxy
+      def process(action, *arguments)
+        client.process(action, token, *arguments)
       end
 
-      def all
-        @owner.index(@token)
+      def client
+        raise Error, 'Client is not given'
+      end
+
+      def token
+        @token ||= Helper.tokenize(self.class)
       end
     end
   end

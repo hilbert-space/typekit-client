@@ -1,4 +1,5 @@
 require_relative 'record/association'
+require_relative 'record/persistence'
 
 require_relative 'record/base'
 require_relative 'record/family'
