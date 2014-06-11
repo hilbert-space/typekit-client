@@ -1,40 +1,40 @@
 require 'spec_helper'
 
-RSpec.describe Typekit::Record do
+RSpec.describe Typekit::Element do
   include ResourceHelper
   extend ResourceHelper
 
-  let(:subject_module) { Typekit::Record }
+  let(:subject_module) { Typekit::Element }
 
   describe '.dictionary' do
-    it 'returns a hash whose keys are symbolic names of Record classes' do
+    it 'returns a hash whose keys are symbolic names of Resource classes' do
       expect(subject_module.dictionary.keys).to \
-        contain_exactly(*collection_symbols)
+        contain_exactly(*plural_resource_symbols)
     end
 
-    it 'returns a hash whose values are Record classes' do
+    it 'returns a hash whose values are Resource classes' do
       expect(subject_module.dictionary.values).to \
-        contain_exactly(*record_classes)
+        contain_exactly(*resource_classes)
     end
   end
 
   describe '.classify' do
-    record_dictionary.each do |name, klass|
-      it "converts :#{ name } into the corresponding Record class" do
+    resource_dictionary.each do |name, klass|
+      it "converts :#{ name } into the corresponding Resource class" do
         expect(subject_module.classify(name)).to eq(klass)
       end
 
-      it "converts '#{ name }' into the corresponding Record class" do
+      it "converts '#{ name }' into the corresponding Resource class" do
         expect(subject_module.classify(name.to_s)).to eq(klass)
       end
     end
 
-    collection_dictionary.each do |name, klass|
-      it "converts :#{ name } into the corresponding Record class" do
+    plural_resource_dictionary.each do |name, klass|
+      it "converts :#{ name } into the corresponding Resource class" do
         expect(subject_module.classify(name)).to eq(klass)
       end
 
-      it "converts '#{ name }' into the corresponding Record class" do
+      it "converts '#{ name }' into the corresponding Resouce class" do
         expect(subject_module.classify(name.to_s)).to eq(klass)
       end
     end
@@ -49,17 +49,17 @@ RSpec.describe Typekit::Record do
   end
 
   describe '.identify' do
-    record_dictionary.each do |name, klass|
-      it "converts :#{ name } into :record" do
-        expect(subject_module.identify(name)).to eq(:record)
+    resource_dictionary.each do |name, klass|
+      it "converts :#{ name } into :elment" do
+        expect(subject_module.identify(name)).to eq(:element)
       end
 
-      it "converts '#{ name }' into :record" do
-        expect(subject_module.identify(name.to_s)).to eq(:record)
+      it "converts '#{ name }' into :element" do
+        expect(subject_module.identify(name.to_s)).to eq(:element)
       end
     end
 
-    collection_dictionary.each do |name, klass|
+    plural_resource_dictionary.each do |name, klass|
       it "converts :#{ name } into :collection" do
         expect(subject_module.identify(name)).to eq(:collection)
       end

@@ -1,5 +1,5 @@
 module Typekit
-  module Record
+  module Element
     module Association
       def possessions
         @possessions ||= []
@@ -14,8 +14,8 @@ module Typekit
 
         define_method(name) do
           raise Error, 'Not configured' unless attributes.key?(name)
-          return attributes[name] if attributes[name].is_a?(Collection)
-          attributes[name] = Collection.new(name, attributes[name])
+          return attributes[name] if attributes[name].is_a?(Collection::Base)
+          attributes[name] = Collection.build(name, attributes[name])
         end
       end
 
@@ -24,8 +24,8 @@ module Typekit
 
         define_method(name) do
           raise Error, 'Not configured' unless attributes.key?(name)
-          return attributes[name] if attributes[name].is_a?(Record)
-          attributes[name] = Record.build(name, attributes[name])
+          return attributes[name] if attributes[name].is_a?(Element::Base)
+          attributes[name] = Element.build(name, attributes[name])
         end
       end
     end

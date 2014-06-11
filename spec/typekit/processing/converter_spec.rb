@@ -9,16 +9,16 @@ RSpec.describe Typekit::Processing::Converter do
 
   describe '.build#process' do
     %w{family kit library}.each do |name|
-      it "maps '#{ name }' to a Record" do
+      it "maps '#{ name }' to a Element" do
         result = create(name).process(request, {})
-        expect(result).to be_kind_of(Typekit::Record::Base)
+        expect(result).to be_kind_of(Typekit::Element::Base)
       end
     end
 
     %w{families kits libraries}.each do |name|
-      it "maps '#{ name }' to an array of Records" do
+      it "maps '#{ name }' to an array of Elements" do
         result = create(name).process(request, [ {} ])
-        result.each { |r| expect(r).to be_kind_of(Typekit::Record::Base) }
+        result.each { |r| expect(r).to be_kind_of(Typekit::Element::Base) }
       end
     end
 

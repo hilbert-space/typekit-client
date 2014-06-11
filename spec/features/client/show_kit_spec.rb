@@ -8,11 +8,11 @@ RSpec.describe 'Client#show a kit' do
   let(:result) { subject.show(:kits, 'xxx') }
 
   it 'returns a Kit', options do
-    expect(result).to be_kind_of(Typekit::Record::Kit)
+    expect(result).to be_kind_of(Typekit::Resource::Kit)
   end
 
   it 'returns a Kit with Families', options do
     expect(result.families.map(&:class).uniq).to \
-      contain_exactly(Typekit::Record::Family)
+      contain_exactly(Typekit::Resource::Family)
   end
 end

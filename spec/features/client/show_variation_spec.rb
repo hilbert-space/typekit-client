@@ -8,15 +8,15 @@ RSpec.describe 'Client#show a variation' do
   let(:result) { subject.show(:families, 'xxx', 'yyy') }
 
   it 'returns a Variation', options do
-    expect(result).to be_kind_of(Typekit::Record::Variation)
+    expect(result).to be_kind_of(Typekit::Resource::Variation)
   end
 
   it 'returns a Variation with Libraries', options do
     expect(result.libraries.map(&:class).uniq).to \
-      contain_exactly(Typekit::Record::Library)
+      contain_exactly(Typekit::Resource::Library)
   end
 
   it 'returns a Variation with a Family', options do
-    expect(result.family).to be_kind_of(Typekit::Record::Family)
+    expect(result.family).to be_kind_of(Typekit::Resource::Family)
   end
 end

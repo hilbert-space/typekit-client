@@ -8,9 +8,9 @@ RSpec.describe 'Client#index kits' do
 
     let(:result) { subject.index(:kits) }
 
-    it 'returns Records', options do
+    it 'returns Kits', options do
       expect(result.map(&:class).uniq).to \
-        contain_exactly(Typekit::Record::Kit)
+        contain_exactly(Typekit::Resource::Kit)
     end
   end
 
@@ -30,7 +30,7 @@ RSpec.describe 'Client#index kits' do
 
     it 'works just fine', options do
       expect(result.map(&:class).uniq).to \
-        contain_exactly(Typekit::Record::Kit)
+        contain_exactly(Typekit::Resource::Kit)
     end
   end
 end

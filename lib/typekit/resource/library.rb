@@ -1,6 +1,6 @@
 module Typekit
-  module Record
-    class Library < Base
+  module Resource
+    class Library < Element::Base
       has_many :families
     end
   end

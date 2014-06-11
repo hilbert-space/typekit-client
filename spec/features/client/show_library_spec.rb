@@ -8,11 +8,11 @@ RSpec.describe 'Client#show a library' do
   let(:result) { subject.show(:libraries, 'xxx') }
 
   it 'returns a Library', options do
-    expect(result).to be_kind_of(Typekit::Record::Library)
+    expect(result).to be_kind_of(Typekit::Resource::Library)
   end
 
   it 'returns a Library with Families', options do
     expect(result.families.map(&:class).uniq).to \
-      contain_exactly(Typekit::Record::Family)
+      contain_exactly(Typekit::Resource::Family)
   end
 end

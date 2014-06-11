@@ -1,5 +1,5 @@
 module Typekit
-  module Record
+  module Element
     module Persistence
       def delete
         process(:delete, id)

@@ -1,15 +1,10 @@
+require_relative 'collection/query'
+require_relative 'collection/base'
+
 module Typekit
-  class Collection
-    extend Forwardable
-    include Enumerable
-
-    def_delegators :@records, :to_json, :each, :<=>
-
-    def initialize(name, collection_attributes = nil)
-      @klass = Record.classify(name)
-      @records = collection_attributes.map do |attributes|
-        @klass.new(attributes)
-      end
+  module Collection
+    def self.build(*arguments)
+      Base.new(*arguments)
     end
   end
 end

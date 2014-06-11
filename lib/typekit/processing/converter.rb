@@ -1,4 +1,4 @@
-require_relative 'converter/record'
+require_relative 'converter/element'
 require_relative 'converter/collection'
 require_relative 'converter/boolean'
 require_relative 'converter/datetime'
@@ -9,7 +9,7 @@ module Typekit
   module Processing
     module Converter
       MAPPING = {
-        :record => Record,
+        :element => Element,
         :collection => Collection,
 
         'ok' => Boolean,
@@ -21,7 +21,7 @@ module Typekit
       MAPPING.default = Unknown
 
       def self.build(name)
-        MAPPING[Typekit::Record.identify(name) || name].new(name)
+        MAPPING[Typekit::Element.identify(name) || name].new(name)
       end
     end
   end

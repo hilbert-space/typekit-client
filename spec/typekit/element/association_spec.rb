@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-RSpec.describe Typekit::Record::Association do
-  let(:subject_module) { Typekit::Record }
+RSpec.describe Typekit::Element::Association do
+  let(:subject_module) { Typekit::Element }
   let(:subject_class) { Class.new(subject_module::Base) }
 
   describe '.has_many' do
@@ -24,7 +24,7 @@ RSpec.describe Typekit::Record::Association do
         end
 
         it 'initializes the relation as a Collection' do
-          expect(subject.sections).to be_kind_of(Typekit::Collection)
+          expect(subject.sections).to be_kind_of(Typekit::Collection::Base)
         end
 
         it 'initializes a Collection based on the attributes' do

@@ -1,14 +1,9 @@
-require_relative 'record/association'
-require_relative 'record/persistence'
-
-require_relative 'record/base'
-require_relative 'record/family'
-require_relative 'record/variation'
-require_relative 'record/kit'
-require_relative 'record/library'
+require_relative 'element/association'
+require_relative 'element/persistence'
+require_relative 'element/base'
 
 module Typekit
-  module Record
+  module Element
     def self.dictionary
       @dictionary ||= Hash[
         ObjectSpace.each_object(Class).select do |klass|
@@ -27,12 +22,13 @@ module Typekit
       if dictionary.key?(name.to_s.to_sym)
         :collection
       elsif dictionary.key?(Helper.pluralize(name.to_s).to_sym)
-        :record
+        :element
       end
     end
 
-    def self.build(name, *arguments)
-      classify(name).new(*arguments)
+    def self.build(name, attributes = {})
+      attributes = { id: attributes } unless attributes.is_a?(Hash)
+      classify(name).new(attributes)
     end
   end
 end

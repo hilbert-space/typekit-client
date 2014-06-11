@@ -1,5 +1,5 @@
 module Typekit
-  module Record
+  module Element
     class Base
       extend Forwardable
       extend Association
@@ -9,11 +9,8 @@ module Typekit
       attr_reader :client, :attributes
       def_delegator :attributes, :to_json
 
-      def initialize(*arguments)
-        attributes = Helper.extract_options!(arguments)
-        @client = arguments.first
-
-        attributes = { id: attributes } unless attributes.is_a?(Hash)
+      def initialize(attributes = {})
+        @client = attributes.delete(:client)
         @attributes = Helper.symbolize_keys(attributes)
       end
 

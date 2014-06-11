@@ -7,7 +7,7 @@ module Typekit
         end
 
         def process(response, collection_attributes)
-          Typekit::Collection.new(@name, collection_attributes)
+          Typekit::Collection.build(@name, collection_attributes)
         end
       end
     end

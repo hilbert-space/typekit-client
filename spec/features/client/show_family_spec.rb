@@ -5,12 +5,12 @@ RSpec.describe 'Client#show a family' do
 
   shared_examples 'an adequate reader' do |options|
     it 'returns a Family', options do
-      expect(result).to be_kind_of(Typekit::Record::Family)
+      expect(result).to be_kind_of(Typekit::Resource::Family)
     end
 
     it 'returns a Family with Variations', options do
       expect(result.variations.map(&:class).uniq).to \
-        contain_exactly(Typekit::Record::Variation)
+        contain_exactly(Typekit::Resource::Variation)
     end
   end
 
@@ -23,7 +23,7 @@ RSpec.describe 'Client#show a family' do
 
     it 'returns a Family with Libraries', options do
       expect(result.libraries.map(&:class).uniq).to \
-        contain_exactly(Typekit::Record::Library)
+        contain_exactly(Typekit::Resource::Library)
     end
   end
 
@@ -41,7 +41,7 @@ RSpec.describe 'Client#show a family' do
     let(:result) { subject.show(:families, 'xxx') }
 
     it 'returns a Family', options do
-      expect(result).to be_kind_of(Typekit::Record::Family)
+      expect(result).to be_kind_of(Typekit::Resource::Family)
     end
   end
 end

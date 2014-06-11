@@ -42,7 +42,7 @@ module Typekit
       end
 
       def const_missing(name)
-        Resource.new(self, name)
+        Collection.build(name, client: self)
       end
     end
 

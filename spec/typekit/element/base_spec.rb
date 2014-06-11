@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-RSpec.describe Typekit::Record::Base do
-  let(:subject_class) { Class.new(Typekit::Record::Base) }
+RSpec.describe Typekit::Element::Base do
+  let(:subject_class) { Class.new(Typekit::Element::Base) }
 
   describe '#new' do
     it 'treats each option as an attribute' do
