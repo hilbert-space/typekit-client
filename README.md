@@ -1,4 +1,4 @@
-# Typekit Client [![Gem Version](https://badge.fury.io/rb/typekit-client.svg)](http://badge.fury.io/rb/typekit-client) [![Build Status](https://travis-ci.org/IvanUkhov/typekit-client.svg?branch=master)](https://travis-ci.org/IvanUkhov/typekit-client)
+# Typekit Client [![Gem Version](https://badge.fury.io/rb/typekit-client.svg)](http://badge.fury.io/rb/typekit-client) [![Dependency Status](https://gemnasium.com/IvanUkhov/typekit-client.svg)](https://gemnasium.com/IvanUkhov/typekit-client) [![Build Status](https://travis-ci.org/IvanUkhov/typekit-client.svg?branch=master)](https://travis-ci.org/IvanUkhov/typekit-client)
 A Ruby library for accessing the [Typekit API](https://typekit.com/docs/api).
 
 ## Requirements
