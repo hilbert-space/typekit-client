@@ -2,42 +2,17 @@ module Typekit
   module Record
     class Base
       extend Forwardable
+      extend Association
 
       attr_reader :client, :attributes
       def_delegator :attributes, :to_json
 
-      def self.has_many(name)
-        possessions << name
-      end
-
-      def self.possessions
-        @possessions ||= []
-      end
-
-      def self.belongs_to(name)
-        owners << name
-      end
-
-      def self.owners
-        @owners ||= []
-      end
-
       def initialize(*arguments)
-        attributes = arguments.last.is_a?(Hash) ? arguments.pop : {}
+        attributes = Helper.extract_options!(arguments)
         @client = arguments.first
 
         attributes = { id: attributes } unless attributes.is_a?(Hash)
         @attributes = Helper.symbolize_keys(attributes)
-
-        self.class.possessions.each do |name|
-          next unless @attributes.key?(name)
-          @attributes[name] = Collection.new(name, @attributes[name])
-        end
-
-        self.class.owners.each do |name|
-          next unless @attributes.key?(name)
-          @attributes[name] = Record.build(name, @attributes[name])
-        end
       end
 
       def delete
@@ -56,10 +31,10 @@ module Typekit
         if name.to_s =~ /^(?<name>.*)=$/
           name = Regexp.last_match(:name).to_sym
           return super unless attributes.key?(name)
-          attributes.send(:[]=, name, *arguments)
+          attributes[name] = arguments.first
         else
           return super unless attributes.key?(name)
-          attributes.send(:[], name, *arguments)
+          attributes[name]
         end
       end
     end

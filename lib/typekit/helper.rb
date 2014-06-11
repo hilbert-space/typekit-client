@@ -22,12 +22,16 @@ module Typekit
       end
     end
 
-    def self.tokenize(klass)
-      pluralize(klass.name.downcase.sub(/^.*::/, '')).to_sym
+    def self.tokenize(name)
+      pluralize(name.to_s.sub(/^.*::/, '').downcase).to_sym
     end
 
     def self.symbolize_keys(hash)
       Hash[hash.map { |k, v| [ k.to_sym, v ] }]
+    end
+
+    def self.extract_options!(arguments)
+      arguments.last.is_a?(Hash) ? arguments.pop : {}
     end
   end
 end

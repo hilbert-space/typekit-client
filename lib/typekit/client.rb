@@ -4,13 +4,13 @@ module Typekit
       raise Error, 'Token is missing' unless options.key?(:token)
 
       client = Module.new
-      client.extend(Methods)
+      client.extend(InstanceMethods)
       client.options = Typekit.defaults.merge(options)
 
       client
     end
 
-    module Methods
+    module InstanceMethods
       attr_accessor :options
 
       [ :process, :index, :show, :create, :update, :delete ].each do |method|
