@@ -2,11 +2,19 @@
 A Ruby library for accessing the [Typekit API](https://typekit.com/docs/api).
 
 ## Requirements
-The minimal supported version of Ruby is `2.1`. The easiest way to install
-Ruby is via [RVM](https://rvm.io/):
+Make sure you have Ruby `>= 2.1` installed:
+```bash
+$ ruby -v
+ruby 2.1.2p95 (2014-05-08 revision 45877) [x86_64-darwin13.0]
+```
+
+In case you don’t, here is a one-line solution via [RVM](https://rvm.io/):
 ```bash
 $ curl -sSL https://get.rvm.io | bash -s stable --ruby=2.1
 ```
+
+Check out [Installing Ruby](https://www.ruby-lang.org/en/installation/)
+for other popular options for various platforms.
 
 ## Installation
 Add the following line to your `Gemfile`:
@@ -362,7 +370,6 @@ $
 ## Publishing Command-line Interface
 There is another utility with the sole purpose of publishing kits. The tool
 is called `typekit-publisher`:
-
 ```
 $ typekit-publisher -h
 Usage: typekit-publisher [options]
@@ -376,7 +383,6 @@ Other options:
 
 Using `typekit-publisher`, you can publish all your kits at once. Here is
 an example:
-
 ```
 $ typekit-publisher -t $tk_token
 Which kit would you like to publish?
