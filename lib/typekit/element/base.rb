@@ -13,9 +13,9 @@ module Typekit
       attr_reader :attributes
       def_delegator :attributes, :to_json
 
-      def initialize(attributes = {})
-        proxy(attributes.delete(:client)) if attributes.key?(:client)
-        @attributes = Helper.symbolize_keys(attributes)
+      def initialize(*arguments)
+        @attributes = Helper.symbolize_keys(Helper.extract_hash!(arguments))
+        proxy(*arguments)
       end
 
       private

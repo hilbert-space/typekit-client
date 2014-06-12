@@ -19,9 +19,8 @@ module Typekit
       dictionary[Helper.tokenize(name)]
     end
 
-    def self.build(name, attributes = {})
-      attributes = { id: attributes } unless attributes.is_a?(Hash)
-      classify(name).new(attributes)
+    def self.build(name, *arguments)
+      classify(name).new(*arguments)
     end
   end
 end

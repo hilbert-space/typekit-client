@@ -6,11 +6,11 @@ module Typekit
 
       def_delegators :@elements, :to_json, :each, :<=>
 
-      def initialize(name, collection_attributes = [], client: nil)
+      def initialize(name, *arguments)
+        collection_attributes = Helper.extract_array!(arguments)
         klass = Element.classify(name)
         @elements = collection_attributes.map do |attributes|
-          attributes = { id: attributes } unless attributes.is_a?(Hash)
-          klass.new(attributes.merge(client: client))
+          klass.new(*arguments, attributes)
         end
       end
     end

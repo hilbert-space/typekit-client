@@ -31,8 +31,12 @@ module Typekit
       Hash[hash.map { |k, v| [ k.to_sym, v ] }]
     end
 
-    def self.extract_options!(arguments)
+    def self.extract_hash!(arguments)
       arguments.last.is_a?(Hash) ? arguments.pop : {}
+    end
+
+    def self.extract_array!(arguments)
+      arguments.last.is_a?(Array) ? arguments.pop : {}
     end
   end
 end

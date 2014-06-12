@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe 'Resource::Base#delete a kit' do
   let(:client) { Typekit::Client.new(token: 'arbitrary') }
-  let(:subject) { Typekit::Resource::Kit.new(id: 'xxx', client: client) }
+  let(:subject) { Typekit::Resource::Kit.new(client, id: 'xxx') }
 
   options = { vcr: { cassette_name: 'delete_kits_xxx_ok' } }
 

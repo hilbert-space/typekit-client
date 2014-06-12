@@ -15,4 +15,11 @@ RSpec.describe 'Client#show a kit' do
     expect(result.families.map(&:class).uniq).to \
       contain_exactly(Typekit::Resource::Family)
   end
+
+  it 'returns a Kit with Families with Variations', options do
+    result.families.each do |family|
+      expect(family.variations.map(&:class).uniq).to \
+        contain_exactly(Typekit::Resource::Variation)
+    end
+  end
 end
