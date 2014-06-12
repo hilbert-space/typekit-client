@@ -2,7 +2,11 @@ module Typekit
   module Element
     module Persistence
       def delete
-        process(:delete, id)
+        @deleted ||= process(:delete, id)
+      end
+
+      def deleted?
+        @deleted
       end
     end
   end

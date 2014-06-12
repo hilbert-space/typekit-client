@@ -19,18 +19,7 @@ RSpec.describe 'Client#index kits' do
 
     it 'raises exceptions', options do
       expect { subject.index(:kits) }.to \
-        raise_error(Typekit::Processing::Error, /Not authorized/i)
-    end
-  end
-
-  context 'when accessed via its alias #Kits.all' do
-    options = { vcr: { cassette_name: 'index_kits_ok' } }
-
-    let(:result) { subject::Kit.all }
-
-    it 'works just fine', options do
-      expect(result.map(&:class).uniq).to \
-        contain_exactly(Typekit::Resource::Kit)
+        raise_error(Typekit::Error, /Not authorized/i)
     end
   end
 end

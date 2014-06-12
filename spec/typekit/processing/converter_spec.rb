@@ -39,7 +39,7 @@ RSpec.describe Typekit::Processing::Converter do
     [ nil, 'errors' ].each do |name|
       it "raises an exception for '#{ name }'" do
         expect { create(name).process(request, nil) }.to \
-          raise_error(Typekit::Processing::Error)
+          raise_error(Typekit::Error)
       end
     end
 
