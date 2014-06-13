@@ -47,4 +47,22 @@ RSpec.describe Typekit::Element do
       expect(subject_module.classify(nil)).to be nil
     end
   end
+
+  describe '.build' do
+    let(:subject_class) { Class.new(subject_module::Base) }
+
+    before(:example) do
+      allow(subject_module).to receive(:classify).and_return(subject_class)
+    end
+
+    subject { subject_module.build(:cat) }
+
+    it 'creates an instance of an Element class' do
+      expect(subject).to be_an_instance_of(subject_class)
+    end
+
+    describe 'the instance of an Element class' do
+      it { should be_persistent }
+    end
+  end
 end

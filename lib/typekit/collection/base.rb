@@ -13,6 +13,10 @@ module Typekit
           klass.new(*arguments, attributes)
         end
       end
+
+      def method_missing(*arguments)
+        @elements.each { |element| element.send(*arguments) }
+      end
     end
   end
 end

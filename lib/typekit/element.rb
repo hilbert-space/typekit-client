@@ -20,7 +20,9 @@ module Typekit
     end
 
     def self.build(name, *arguments)
-      classify(name).new(*arguments)
+      element = classify(name).new(*arguments)
+      element.persistent!
+      element
     end
   end
 end

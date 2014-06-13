@@ -37,21 +37,25 @@ RSpec.describe Typekit::Resource do
   end
 
   describe '.build' do
-    let(:subject_class) { Class.new(Typekit::Element::Base) }
-    let(:client) { double }
+    let(:base_class) { Class.new(Typekit::Element::Base) }
 
     before(:example) do
-      allow(Typekit::Element).to receive(:classify).and_return(subject_class)
+      allow(Typekit::Element).to receive(:classify).and_return(base_class)
     end
 
-    subject { subject_module.build(:cat, client) }
+    let(:client) { double }
+    let(:element_class) { subject_module.build(:cat, client) }
 
     it 'creates a new Element class' do
-      expect(subject < subject_class).to be true
+      expect(element_class < base_class).to be true
     end
 
-    it 'creates a new Element class whose instances have a Client embedded' do
-      expect(subject.new.client).to be client
+    describe 'an instance of the new Element class' do
+      subject { element_class.new }
+
+      it 'has a Client embedded' do
+        expect(subject.client).to be client
+      end
     end
   end
 end
