@@ -5,7 +5,7 @@ module Typekit
         def initialize(*)
         end
 
-        def process(response, object)
+        def process(result, object)
           object # already boolean
         end
       end

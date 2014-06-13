@@ -15,8 +15,8 @@ module Typekit
         def initialize(*)
         end
 
-        def process(response, errors)
-          raise Error, Array(errors || ERRORS[response.code]).join(', ')
+        def process(result, errors)
+          raise Error, Array(errors || ERRORS[result.code]).join(', ')
         end
       end
     end

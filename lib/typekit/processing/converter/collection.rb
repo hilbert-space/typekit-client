@@ -6,7 +6,7 @@ module Typekit
           @name = name
         end
 
-        def process(response, collection_attributes)
+        def process(result, collection_attributes)
           collection_attributes = collection_attributes.map do |attributes|
             attributes.is_a?(Hash) ? attributes : { id: attributes }
           end

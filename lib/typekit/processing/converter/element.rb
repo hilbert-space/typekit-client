@@ -6,7 +6,7 @@ module Typekit
           @name = name
         end
 
-        def process(response, attributes)
+        def process(result, attributes)
           Typekit::Element.build(@name, attributes)
         end
       end

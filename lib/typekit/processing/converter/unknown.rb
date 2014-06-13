@@ -6,7 +6,7 @@ module Typekit
           @name = name
         end
 
-        def process(response, object)
+        def process(result, object)
           { @name => object }
         end
       end
