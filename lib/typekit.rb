@@ -4,7 +4,7 @@ require 'apitizer'
 require_relative 'typekit/core'
 require_relative 'typekit/helper'
 
-require_relative 'typekit/processing'
+require_relative 'typekit/converter'
 
 require_relative 'typekit/client'
 

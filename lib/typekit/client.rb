@@ -15,7 +15,7 @@ module Typekit
 
       [ :process, :index, :show, :create, :update, :delete ].each do |method|
         define_method(method) do |*arguments|
-          translator.process(engine.send(method, *arguments))
+          translate(engine.send(method, *arguments))
         end
       end
 
@@ -23,10 +23,6 @@ module Typekit
 
       def engine
         @engine ||= build_engine
-      end
-
-      def translator
-        @translator ||= Processing::Translator.new
       end
 
       def build_engine
@@ -41,8 +37,24 @@ module Typekit
         end
       end
 
+      def translate(result)
+        unless result.is_a?(Hash) && result.length == 1
+          raise Error, 'Unknown server response'
+        end
+        name, object = *result.first
+        converter(name).process(result, object)
+      end
+
       def const_missing(name)
-        (@resources ||= {})[name] ||= Resource.build(name, client: self)
+        resource(name)
+      end
+
+      def converter(name)
+        (@converters ||= {})[name] ||= Converter.build(name, self)
+      end
+
+      def resource(name)
+        (@resources ||= {})[name] ||= Resource.build(name, self)
       end
     end
 

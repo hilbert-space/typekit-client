@@ -13,9 +13,16 @@ module Typekit
       end
     end
 
-    def self.build(name, client:)
-      Class.new(Element.classify(name)) do
+    def self.build(name, client)
+      klass = Element.classify(name)
+      Class.new(klass) do
         proxy(client, Helper.tokenize(name))
+
+        singleton_class.instance_eval do
+          define_method(:new) do |*arguments|
+            klass.new(client, *arguments)
+          end
+        end
       end
     end
   end

@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-RSpec.describe Typekit::Processing::Converter do
+RSpec.describe Typekit::Converter do
   def create(name)
-    Typekit::Processing::Converter.build(name)
+    Typekit::Converter.build(name)
   end
 
   let(:request) { double(code: 200) }
