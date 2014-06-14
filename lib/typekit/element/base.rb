@@ -18,6 +18,11 @@ module Typekit
         proxy(*arguments)
       end
 
+      def become(another)
+        raise ArgumentError, 'Invalid class' unless self.class == another.class
+        @attributes = another.attributes
+      end
+
       private
 
       def method_missing(name, *arguments)

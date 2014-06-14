@@ -29,4 +29,20 @@ RSpec.describe Typekit::Element::Base do
       expect(subject.attributes).to eq(id: 42)
     end
   end
+
+  describe '#become' do
+    subject { subject_class.new(id: 42, name: 'Awesome') }
+
+    it 'copies the attributes of another element' do
+      another = subject_class.new(name: 'Superb', surname: 'Squared')
+      subject.become(another)
+      expect(subject.attributes).to eq(name: 'Superb', surname: 'Squared')
+    end
+
+    it 'raises an exception when the classes do not match' do
+      another = Class.new(subject_class).new(name: 'Superb')
+      expect { subject.become(another) }.to \
+        raise_error(ArgumentError, /Invalid class/i)
+    end
+  end
 end
