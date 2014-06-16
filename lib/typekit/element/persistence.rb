@@ -15,11 +15,9 @@ module Typekit
       end
 
       def save
-        if new?
-          process(:create, attributes)
-        else
-          process(:update, id, attributes)
-        end
+        become(process(*(new? ? [ :create ] : [ :update, id ])))
+        persistent!
+        true
       end
 
       def delete

@@ -13,7 +13,6 @@ RSpec.describe Typekit::Element::Persistence do
 
     it 'returns false for persistent records' do
       subject.persistent!
-
       expect(subject).not_to be_new
     end
   end
@@ -21,7 +20,6 @@ RSpec.describe Typekit::Element::Persistence do
   describe '#persistent?' do
     it 'returns true for persistent records' do
       subject.persistent!
-
       expect(subject).to be_persistent
     end
 
@@ -33,14 +31,29 @@ RSpec.describe Typekit::Element::Persistence do
       allow(client).to receive(:process).and_return(true)
       subject.persistent!
       subject.delete
-
       expect(subject).not_to be_persistent
     end
   end
 
   describe '#persistent!' do
-    it 'marks a record as persistent' do
+    it 'marks records as persistent' do
       expect { subject.persistent! }.to \
+        change { subject.persistent? }.from(false).to(true)
+    end
+  end
+
+  describe '#save' do
+    before(:example) do
+      allow(client).to receive(:process).and_return(subject_class.new)
+    end
+
+    it 'marks records as not new' do
+      expect { subject.save }.to \
+        change { subject.new? }.from(true).to(false)
+    end
+
+    it 'marks records as persistent' do
+      expect { subject.save }.to \
         change { subject.persistent? }.from(false).to(true)
     end
   end
