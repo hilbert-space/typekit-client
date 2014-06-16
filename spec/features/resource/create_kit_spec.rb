@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Resource::Kit#save' do
+RSpec.describe 'Resource::Kit#new and #save' do
   let(:client) { Typekit::Client.new(token: 'arbitrary') }
   let(:subject_class) { client::Kit }
 
@@ -11,6 +11,11 @@ RSpec.describe 'Resource::Kit#save' do
 
     it 'creates a new Kit', options do
       expect(subject.save).to be true
+    end
+
+    it 'takes attributes into account', options do
+      subject.save
+      expect(subject.name).to eq('Megakit')
     end
   end
 end

@@ -15,7 +15,11 @@ module Typekit
       end
 
       def save
-        become(process(*(new? ? [ :create ] : [ :update, id ])))
+        if new?
+          become(process(:create, attributes))
+        else
+          become(process(:update, id, attributes))
+        end
         persistent!
         true
       end
