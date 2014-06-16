@@ -1,3 +1,7 @@
+## Typekit Client (develop)
+* Implementation of the Active Record design pattern: each resource got a set
+  of methods for manipulating its data (e.g., `kit.save` and `kit.delete`).
+
 ## Typekit Client 0.0.5 (June 10, 2014)
 * New name for the general CLI: `typekit-client` instead of `typekit`.
 * New CLI for the sole purpose of publishing kits: `typekit-publisher`.
