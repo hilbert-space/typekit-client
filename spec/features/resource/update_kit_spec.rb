@@ -2,14 +2,12 @@ require 'spec_helper'
 
 RSpec.describe 'Resource::Kit#update and #save' do
   let(:client) { Typekit::Client.new(token: 'arbitrary') }
-  let(:subject_class) { client::Kit }
 
   subject do
-    subject_class.new(id: 'xxx', name: 'Megakit', domains: 'localhost')
-  end
-
-  before(:example) do
-    subject.persistent!
+    VCR.insert_cassette('create_kits_ok')
+    kit = client.create(:kits, name: 'Megakit', domains: 'localhost')
+    VCR.eject_cassette
+    kit
   end
 
   context 'when successful' do

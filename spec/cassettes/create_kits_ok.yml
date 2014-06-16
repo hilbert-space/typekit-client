@@ -15,5 +15,5 @@ http_interactions:
       - 200 OK
     body:
       encoding: UTF-8
-      string: '{"kit":{"id":"vic5aed","name":"Megakit","analytics":false,"badge":true,"domains":["localhost"],"families":[]}}'
+      string: '{"kit":{"id":"xxx","name":"Megakit","analytics":false,"badge":true,"domains":["localhost"],"families":[]}}'
   recorded_at: Mon, 16 Jun 2014 00:00:00 GMT
