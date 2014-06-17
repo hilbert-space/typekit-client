@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Resource::Kit#delete' do
-  let(:client) { Typekit::Client.new(token: 'arbitrary') }
+  let(:client) { Typekit::Client.new(token: token) }
   let(:subject) { Typekit::Resource::Kit.new(client, id: 'xxx') }
 
   context 'when successful' do

@@ -2,9 +2,11 @@ require 'webmock/rspec'
 require 'vcr'
 require 'typekit'
 
+require_relative 'support/common_helper'
 require_relative 'support/resource_helper'
 
 RSpec.configure do |config|
+  config.include CommonHelper
   config.disable_monkey_patching!
 end
 

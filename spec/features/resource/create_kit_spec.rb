@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Resource::Kit#new and #save' do
-  let(:client) { Typekit::Client.new(token: 'arbitrary') }
+  let(:client) { Typekit::Client.new(token: token) }
   let(:subject_class) { client::Kit }
 
   context 'when successful' do

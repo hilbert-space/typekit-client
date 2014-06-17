@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Resource::Kit#update and #save' do
-  let(:client) { Typekit::Client.new(token: 'arbitrary') }
+  let(:client) { Typekit::Client.new(token: token) }
 
   subject do
     VCR.insert_cassette('create_kits_ok')

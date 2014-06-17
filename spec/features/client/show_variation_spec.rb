@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Client#show a variation' do
-  let(:subject) { Typekit::Client.new(token: 'arbitrary') }
+  let(:subject) { Typekit::Client.new(token: token) }
 
   options = { vcr: { cassette_name: 'show_families_xxx_yyy_ok' } }
 

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Resource::Kit.all' do
-  let(:client) { Typekit::Client.new(token: 'arbitrary') }
+  let(:client) { Typekit::Client.new(token: token) }
   let(:subject) { client::Kit }
 
   options = { vcr: { cassette_name: 'index_kits_ok' } }

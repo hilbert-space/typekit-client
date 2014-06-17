@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Client#show a family' do
-  let(:subject) { Typekit::Client.new(token: 'arbitrary') }
+  let(:subject) { Typekit::Client.new(token: token) }
 
   shared_examples 'an adequate reader' do |options|
     it 'returns a Family', options do

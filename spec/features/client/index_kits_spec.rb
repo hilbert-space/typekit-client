@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Client#index kits' do
-  let(:subject) { Typekit::Client.new(token: 'arbitrary') }
+  let(:subject) { Typekit::Client.new(token: token) }
 
   context 'when successful' do
     options = { vcr: { cassette_name: 'index_kits_ok' } }
