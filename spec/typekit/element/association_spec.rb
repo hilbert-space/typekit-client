@@ -6,10 +6,28 @@ RSpec.describe Typekit::Element::Association do
 
   describe '.has_many' do
     let(:another_class) { Class.new(subject_module::Base) }
+    let(:sections) { [ { title: 'First' }, { title: 'Second' } ] }
 
     before(:example) do
       allow(subject_module).to receive(:classify).and_return(another_class)
       subject_class.has_many(:sections)
+    end
+
+    shared_examples 'an adequate collection accessor' do
+      it 'initializes the relation as a Collection' do
+        expect(subject.sections).to be_kind_of(Typekit::Collection::Base)
+      end
+
+      describe 'the Collection' do
+        it 'is based on the attributes' do
+          expect(subject.sections.map(&:title)).to \
+            contain_exactly('First', 'Second')
+        end
+
+        it 'is serializable' do
+          expect(subject.sections.to_json).to eq(JSON.dump(sections))
+        end
+      end
     end
 
     it 'defines a getter method' do
@@ -17,23 +35,13 @@ RSpec.describe Typekit::Element::Association do
     end
 
     describe 'the getter method' do
-      context 'when the attributes of the association are given' do
-        subject do
-          subject_class.new(sections: [ { title: 'First' },
-            { title: 'Second' } ])
-        end
+      context 'when #new receives the attributes of the association' do
+        subject { subject_class.new(sections: sections) }
 
-        it 'initializes the relation as a Collection' do
-          expect(subject.sections).to be_kind_of(Typekit::Collection::Base)
-        end
-
-        it 'initializes a Collection based on the attributes' do
-          expect(subject.sections.map(&:title)).to \
-            contain_exactly('First', 'Second')
-        end
+        it_behaves_like 'an adequate collection accessor'
       end
 
-      context 'when the attributes of the association are given' do
+      context 'when #new does not receive the attributes of the association' do
         subject { subject_class.new }
 
         it 'raises an exception' do
@@ -41,6 +49,20 @@ RSpec.describe Typekit::Element::Association do
             raise_error(Typekit::Error, /Not configured/i)
         end
       end
+    end
+
+    it 'defines a setter method' do
+      expect(subject_class.new).to respond_to(:sections=)
+    end
+
+    describe 'the setter method' do
+      subject do
+        collection = subject_class.new
+        collection.sections = sections
+        collection
+      end
+
+      it_behaves_like 'an adequate collection accessor'
     end
   end
 

@@ -17,6 +17,10 @@ module Typekit
           return attributes[name] if attributes[name].is_a?(Collection::Base)
           attributes[name] = Collection.build(name, self, attributes[name])
         end
+
+        define_method("#{ name }=") do |collection|
+          attributes[name] = collection
+        end
       end
 
       def belongs_to(name)
