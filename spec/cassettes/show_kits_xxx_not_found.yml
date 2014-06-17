@@ -1,0 +1,16 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://typekit.com/api/v1/json/kits/xxx
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Status:
+      - 404 Not Found
+    body:
+      encoding: UTF-8
+      string: '{"errors":["Not Found"]}'
+  recorded_at: Tue, 17 Jun 2014 00:00:00 GMT

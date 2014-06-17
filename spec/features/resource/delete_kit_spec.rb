@@ -11,12 +11,12 @@ RSpec.describe 'Resource::Kit#delete' do
       expect(subject.delete).to be true
     end
 
-    it 'marked the kit as deleted', options do
+    it 'marked the Kit as deleted', options do
       subject.delete
       expect(subject.deleted?).to be true
     end
 
-    it 'does not try to delete a second time', options do
+    it 'does not try to delete the Kit a second time', options do
       allow(client).to receive(:process).and_call_original
       subject.delete
       subject.delete
