@@ -18,8 +18,12 @@ module Typekit
           attributes[name] = Collection.build(name, self, attributes[name])
         end
 
-        define_method("#{ name }=") do |collection|
-          attributes[name] = collection
+        define_method("#{ name }=") do |value|
+          if value.is_a?(Collection::Base)
+            attributes[name] = value
+          else
+            attributes[name] = Collection.build(name, self, value)
+          end
         end
       end
 
