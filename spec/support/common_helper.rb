@@ -1,5 +1,5 @@
 module CommonHelper
   def token
-    ENV['tk_token']
+    'arbitrary'
   end
 end
