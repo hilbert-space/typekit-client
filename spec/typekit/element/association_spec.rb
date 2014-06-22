@@ -5,11 +5,13 @@ RSpec.describe Typekit::Element::Association do
   let(:subject_class) { Class.new(subject_module::Base) }
 
   describe '.has_many' do
-    let(:another_class) { Class.new(subject_module::Base) }
-    let(:sections) { [ { title: 'First' }, { title: 'Second' } ] }
+    let(:nested_class) { Class.new(subject_module::Base) }
+    let(:nested_collection_attributes) do
+      [ { title: 'First' }, { title: 'Second' } ]
+    end
 
     before(:example) do
-      allow(subject_module).to receive(:classify).and_return(another_class)
+      allow(subject_module).to receive(:classify).and_return(nested_class)
       subject_class.has_many(:sections)
     end
 
@@ -25,7 +27,8 @@ RSpec.describe Typekit::Element::Association do
         end
 
         it 'is serializable' do
-          expect(subject.sections.to_json).to eq(JSON.dump(sections))
+          expect(subject.sections.to_json).to \
+            eq(JSON.dump(nested_collection_attributes))
         end
       end
     end
@@ -36,7 +39,7 @@ RSpec.describe Typekit::Element::Association do
 
     describe 'the getter method' do
       context 'when #new receives the attributes of the association' do
-        subject { subject_class.new(sections: sections) }
+        subject { subject_class.new(sections: nested_collection_attributes) }
 
         it_behaves_like 'an adequate collection accessor'
       end
@@ -56,13 +59,23 @@ RSpec.describe Typekit::Element::Association do
     end
 
     describe 'the setter method' do
-      subject do
-        collection = subject_class.new
-        collection.sections = sections
-        collection
+      subject { subject_class.new }
+
+      context 'when receives plain attributes' do
+        before(:example) { subject.sections = nested_collection_attributes }
+
+        it_behaves_like 'an adequate collection accessor'
       end
 
-      it_behaves_like 'an adequate collection accessor'
+      context 'when receives arrays of Elements' do
+        before(:example) do
+          subject.sections = nested_collection_attributes.map do |attributes|
+            nested_class.new(attributes)
+          end
+        end
+
+        it_behaves_like 'an adequate collection accessor'
+      end
     end
   end
 

@@ -10,7 +10,11 @@ module Typekit
         collection_attributes = Helper.extract_array!(arguments)
         klass = Element.classify(name)
         @elements = collection_attributes.map do |attributes|
-          klass.new(*arguments, attributes)
+          if attributes.is_a?(klass)
+            attributes
+          else
+            klass.new(*arguments, attributes)
+          end
         end
       end
 
