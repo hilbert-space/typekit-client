@@ -33,18 +33,18 @@ RSpec.describe Typekit::Element::Association do
     end
 
     describe 'the getter method' do
-      context 'when #new receives the attributes of the association' do
+      context 'when the attributes of the association are given' do
         subject { subject_class.new(sections: nested_collection_attributes) }
 
         it_behaves_like 'an adequate collection accessor'
       end
 
-      context 'when #new does not receive the attributes of the association' do
+      context 'when the attributes of the association are not given' do
         subject { subject_class.new }
 
-        it 'raises an exception' do
-          expect { subject.sections }.to \
-            raise_error(Typekit::Error, /Not configured/i)
+        it 'returns an empty Collection' do
+          expect(subject.sections).to be_kind_of(Typekit::Collection::Base)
+          expect(subject.sections.size).to be_zero
         end
       end
     end
@@ -84,7 +84,7 @@ RSpec.describe Typekit::Element::Association do
     end
 
     describe 'the getter method' do
-      context 'when the attributes of the association are given' do
+      context 'when the attributes of the association are not given' do
         subject { subject_class.new }
 
         it 'raises an exception' do

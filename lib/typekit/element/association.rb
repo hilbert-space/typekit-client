@@ -13,9 +13,9 @@ module Typekit
         possessions << name
 
         define_method(name) do
-          raise Error, 'Not configured' unless attributes.key?(name)
-          return attributes[name] if attributes[name].is_a?(Collection::Base)
-          attributes[name] = Collection.build(name, self, attributes[name])
+          value = attributes[name] || []
+          return value if value.is_a?(Collection::Base)
+          attributes[name] = Collection.build(name, self, value)
         end
 
         define_method("#{ name }=") do |value|

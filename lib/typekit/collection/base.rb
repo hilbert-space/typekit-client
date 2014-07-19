@@ -6,7 +6,7 @@ module Typekit
       include Serializable
       include Persistence
 
-      def_delegators :elements, :[], :each, :<=>
+      def_delegators :elements, :[], :each, :size, :length
 
       def initialize(name, *arguments)
         collection_attributes = Helper.extract_array!(arguments)
