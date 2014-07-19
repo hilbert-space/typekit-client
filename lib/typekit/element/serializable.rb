@@ -9,6 +9,10 @@ module Typekit
         ]
       end
       alias_method :to_h, :as_json
+
+      def to_json(*arguments)
+        as_json.to_json(*arguments)
+      end
     end
   end
 end
