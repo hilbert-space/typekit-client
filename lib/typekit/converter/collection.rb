@@ -6,9 +6,6 @@ module Typekit
       end
 
       def process(result, collection_attributes)
-        collection_attributes = collection_attributes.map do |attributes|
-          attributes.is_a?(Hash) ? attributes : { id: attributes }
-        end
         Typekit::Collection.build(*@arguments, collection_attributes)
       end
     end

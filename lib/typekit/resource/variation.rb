@@ -3,6 +3,15 @@ module Typekit
     class Variation < Element::Base
       has_many :libraries
       belongs_to :family
+
+      def initialize(*arguments)
+        arguments[-1] = { id: arguments[-1] } if arguments[-1].is_a?(String)
+        super(*arguments)
+      end
+
+      def as_json
+        id
+      end
     end
   end
 end
