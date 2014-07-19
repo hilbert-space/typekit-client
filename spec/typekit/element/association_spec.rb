@@ -27,8 +27,7 @@ RSpec.describe Typekit::Element::Association do
         end
 
         it 'is serializable' do
-          expect(subject.sections.to_json).to \
-            eq(JSON.dump(nested_collection_attributes))
+          expect(subject.sections.to_a).to eq(nested_collection_attributes)
         end
       end
     end

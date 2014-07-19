@@ -4,7 +4,7 @@ module Typekit
       extend Forwardable
       include Enumerable
 
-      def_delegators :@elements, :[], :to_json, :each, :<=>
+      def_delegators :@elements, :[], :each, :<=>
 
       MASS_METHODS = [ :persistent! ]
 
@@ -21,9 +21,7 @@ module Typekit
       end
 
       def to_a
-        # Conventionally, Collections are serialized as Hashes:
-        # { 0 => { ... }, 1 => { ... }, ... }
-        Hash[(0...@elements.length).to_a.zip(@elements)]
+        @elements.map(&:to_h)
       end
 
       def method_missing(method, *arguments, &block)
