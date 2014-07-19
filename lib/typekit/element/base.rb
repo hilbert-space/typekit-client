@@ -1,17 +1,16 @@
 module Typekit
   module Element
     class Base
-      extend Forwardable
       extend Association
 
-      include Persistence
       include Client::Proxy
+      include Persistence
+      include Serializable
 
-      extend Query
       extend Client::Proxy
+      extend Query
 
       attr_reader :attributes
-      def_delegators :attributes, :to_h
 
       def initialize(*arguments)
         @attributes = Helper.symbolize_keys(Helper.extract_hash!(arguments))

@@ -3,10 +3,10 @@ module Typekit
     class Base
       extend Forwardable
       include Enumerable
+      include Serializable
+      include Persistence
 
-      def_delegators :@elements, :[], :each, :<=>
-
-      MASS_METHODS = [ :persistent! ]
+      def_delegators :elements, :[], :each, :<=>
 
       def initialize(name, *arguments)
         collection_attributes = Helper.extract_array!(arguments)
@@ -20,14 +20,9 @@ module Typekit
         end
       end
 
-      def to_a
-        @elements.map(&:to_h)
-      end
+      private
 
-      def method_missing(method, *arguments, &block)
-        return super unless MASS_METHODS.include?(method)
-        @elements.each { |element| element.send(method, *arguments, &block) }
-      end
+      attr_reader :elements
     end
   end
 end

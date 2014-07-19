@@ -25,10 +25,6 @@ RSpec.describe Typekit::Element::Association do
           expect(subject.sections.map(&:title)).to \
             contain_exactly('First', 'Second')
         end
-
-        it 'is serializable' do
-          expect(subject.sections.to_a).to eq(nested_collection_attributes)
-        end
       end
     end
 

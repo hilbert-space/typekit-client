@@ -1,3 +1,5 @@
+require_relative 'collection/serializable'
+require_relative 'collection/persistence'
 require_relative 'collection/base'
 
 module Typekit
