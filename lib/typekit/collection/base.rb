@@ -9,20 +9,24 @@ module Typekit
       def_delegators :elements, :[], :each, :size, :length
 
       def initialize(name, *arguments)
-        collection_attributes = Helper.extract_array!(arguments)
-        klass = Element.classify(name)
-        @elements = collection_attributes.map do |attributes|
-          if attributes.is_a?(klass)
-            attributes
-          else
-            klass.new(*arguments, attributes)
-          end
-        end
+        objects = Helper.extract_array!(arguments)
+
+        @klass = Element.classify(name)
+        @arguments = arguments
+        @elements = []
+
+        objects.each { |object| push(object) }
       end
+
+      def push(object)
+        object = object.is_a?(klass) ? object : klass.new(*arguments, object)
+        elements << object
+      end
+      alias_method :<<, :push
 
       private
 
-      attr_reader :elements
+      attr_reader :klass, :arguments, :elements
     end
   end
 end

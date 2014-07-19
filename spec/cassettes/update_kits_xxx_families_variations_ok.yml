@@ -1,0 +1,20 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://typekit.com/api/v1/json/kits/xxx
+    body:
+      encoding: UTF-8
+      string: id=xxx&name=Megakit&analytics=false&badge=true&domains[]=localhost&families[0][id]=gkmg&families[0][variations][]=n4
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Status:
+      - 200 OK
+    body:
+      encoding: UTF-8
+      string: '{"kit":{"id":"byl1tld","name":"Megakit","analytics":false,"badge":true,"domains":["localhost"],"families":[{"id":"gkmg","name":"Droid
+        Sans","slug":"droid-sans","css_names":["droid-sans-1","droid-sans-2"],"css_stack":"\"droid-sans-1\",\"droid-sans-2\",sans-serif","subset":"default","variations":["n4"]}]}}'
+  recorded_at: Sat, 19 Jul 2014 00:00:00 GMT

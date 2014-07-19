@@ -26,19 +26,36 @@ RSpec.describe 'Resource::Kit#change and #save' do
   end
 
   context 'when adding a new family' do
-    options = { vcr: { cassette_name: 'update_kits_xxx_with_families_ok' } }
+    options = { vcr: { cassette_name: 'update_kits_xxx_families_ok' } }
+
+    it 'updates the Kit', options do
+      subject.families << Typekit::Resource::Family.new(id: 'gkmg')
+      expect(subject.save).to be true
+    end
+
+    it 'takes the change into account', options do
+      subject.families << Typekit::Resource::Family.new(id: 'gkmg')
+      subject.save
+      expect(subject.families.first.id).to eq('gkmg')
+    end
+  end
+
+  context 'when adding a new family with specific variations' do
+    options = { vcr: { cassette_name: 'update_kits_xxx_families_variations_ok' } }
 
     it 'updates the Kit', options do
       family = Typekit::Resource::Family.new(id: 'gkmg')
-      subject.families = [ family ]
+      family.variations << Typekit::Resource::Variation.new(id: 'n4')
+      subject.families << family
       expect(subject.save).to be true
     end
 
     it 'takes the change into account', options do
       family = Typekit::Resource::Family.new(id: 'gkmg')
-      subject.families = [ family ]
+      family.variations << Typekit::Resource::Variation.new(id: 'n4')
+      subject.families << family
       subject.save
-      expect(subject.families[0].id).to eq('gkmg')
+      expect(subject.families.first.variations.map(&:id)).to eq([ 'n4' ])
     end
   end
 end
