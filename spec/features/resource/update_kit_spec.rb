@@ -4,9 +4,9 @@ RSpec.describe 'Resource::Kit#change and #save' do
   let(:client) { Typekit::Client.new(token: token) }
 
   subject do
-    VCR.insert_cassette('create_kits_ok')
-    kit = client.create(:kits, name: 'Megakit', domains: 'localhost')
-    VCR.eject_cassette
+    kit = client::Kit.new(:kits, id: 'xxx', name: 'Megakit',
+      analytics: false, badge: true, domains: [ 'localhost' ])
+    kit.persistent!
     kit
   end
 
