@@ -1,14 +1,18 @@
 # Typekit Client [![Gem Version](https://badge.fury.io/rb/typekit-client.svg)](http://badge.fury.io/rb/typekit-client) [![Dependency Status](https://gemnasium.com/IvanUkhov/typekit-client.svg)](https://gemnasium.com/IvanUkhov/typekit-client) [![Build Status](https://travis-ci.org/IvanUkhov/typekit-client.svg?branch=master)](https://travis-ci.org/IvanUkhov/typekit-client)
+
 A Ruby library for accessing the [Typekit API](https://typekit.com/docs/api).
 
 ## Requirements
+
 Make sure you have Ruby `>= 2.1` installed:
+
 ```bash
 $ ruby -v
 ruby 2.1.2p95 (2014-05-08 revision 45877) [x86_64-darwin13.0]
 ```
 
 In case you don’t, here is a one-line solution via [RVM](https://rvm.io/):
+
 ```bash
 $ curl -sSL https://get.rvm.io | bash -s stable --ruby=2.1
 ```
@@ -17,17 +21,21 @@ Check out [Installing Ruby](https://www.ruby-lang.org/en/installation/)
 for other popular options for various platforms.
 
 ## Installation
+
 Add the following line to your `Gemfile`:
+
 ```ruby
 gem 'typekit-client', require: 'typekit'
 ```
 
 Then execute:
+
 ```bash
 $ bundle
 ```
 
 Alternatively, you can install the gem manually:
+
 ```bash
 $ gem install typekit-client
 ```
@@ -35,12 +43,15 @@ $ gem install typekit-client
 In order to interact with the Typekit API, one should have a valid API token.
 You can generate such a token [here](https://typekit.com/account/tokens).
 For convenience, let us create a shortcut for it:
+
 ```bash
 $ export tk_token=YOUR_TOKEN_GOES_HERE
 ```
 
 ## Usage
+
 Here is the basic setup in a Ruby script:
+
 ```ruby
 require 'typekit'
 
@@ -62,6 +73,7 @@ receive an exception, check the [API reference](https://typekit.com/docs/api/).
 
 Now, let us have a look at some typical use cases. For clarity, the code
 below makes use of the following auxiliary function:
+
 ```ruby
 def p(data)
   puts JSON.pretty_generate(data)
@@ -71,7 +83,9 @@ end
 ```
 
 ### List all kits
+
 Code:
+
 ```ruby
 p kits = client.index(:kits)
 p kits.map(&:class)
@@ -80,6 +94,7 @@ p kits.first.link
 ```
 
 Output:
+
 ```json
 [
   {
@@ -108,12 +123,15 @@ Output:
 ```
 
 ### Show the description of a variation of a font family
+
 Code:
+
 ```ruby
 p client.show(:families, 'vcsm', 'i9')
 ```
 
 Output:
+
 ```json
 {
   "id": "vcsm:i9",
@@ -131,12 +149,15 @@ Output:
 ```
 
 ### Show the font families in the trial library with pagination
+
 Code:
+
 ```ruby
 p client.show(:libraries, 'trial', page: 10, per_page: 5)
 ```
 
 Output:
+
 ```json
 {
   "id": "trial",
@@ -166,12 +187,15 @@ Output:
 ```
 
 ### Create a new kit
+
 Code:
+
 ```ruby
 p kit = client.create(:kits, name: 'Megakit', domains: 'localhost')
 ```
 
 Output:
+
 ```json
 {
   "id": "izw0qiq",
@@ -188,12 +212,15 @@ Output:
 ```
 
 ### Disable the badge of a kit
+
 Code:
+
 ```ruby
 p client.update(:kits, kit.id, badge: false)
 ```
 
 Output:
+
 ```json
 {
   "id": "izw0qiq",
@@ -210,12 +237,15 @@ Output:
 ```
 
 ### Look up the id of a font family by its slug
+
 Code:
+
 ```ruby
 p family = client.show(:families, 'proxima-nova')
 ```
 
 Output:
+
 ```json
 {
   "id": "vcsm",
@@ -224,12 +254,15 @@ Output:
 ```
 
 ### Add a font family into a kit
+
 Code:
+
 ```ruby
 p client.update(:kits, kit.id, families: { "0" => { id: family.id } })
 ```
 
 Output:
+
 ```json
 {
   "id": "nys8sny",
@@ -255,23 +288,29 @@ Output:
 ```
 
 ### Publish a kit
+
 Code:
+
 ```ruby
 p client.update(:kits, kit.id, :publish)
 ```
 
 Output:
+
 ```
 #<DateTime: 2014-05-31T06:45:29+00:00 ((2456809j,24329s,0n),+0s,2299161j)>
 ```
 
 ### Show the description of a published kit
+
 Code:
+
 ```ruby
 p client.show(:kits, kit.id, :published)
 ```
 
 Output:
+
 ```json
 {
   "id": "vzt4lrg",
@@ -289,21 +328,26 @@ Output:
 ```
 
 ### Delete a kit
+
 Command:
+
 ```ruby
 p client.delete(:kits, kit.id)
 ```
 
 Output:
+
 ```
 true
 ```
 
 ## General Command-line Interface
+
 There is a simple tool provided in order to demonstrate the usage of the
 library and to give the ability to perform basic operations without writing
 any code. The tool is called `typekit-client`, and it should get installed
 along with the gem. Try running:
+
 ```
 $ typekit-client -h
 Usage: typekit-client [options] [command]
@@ -317,12 +361,14 @@ Other options:
 
 Alternatively, you can install `typekit-client` in the `bin` directory of
 your project using the following command:
+
 ```bash
 $ bundle binstubs typekit-client
 ```
 
 The tool has two modes: normal and interactive. If `command` is provided,
 the tool executes only that particular command and terminates:
+
 ```
 $ typekit-client -t $tk_token index kits
 [
@@ -337,6 +383,7 @@ $
 
 If `command` is not provided, the tool gives a command prompt wherein one
 can enter multiple commands:
+
 ```
 $ typekit-client -t $tk_token
 Type 'help' for help and 'exit' to exit.
@@ -369,8 +416,10 @@ $
 ```
 
 ## Publishing Command-line Interface
+
 There is another utility with the sole purpose of publishing kits. The tool
 is called `typekit-publisher`:
+
 ```
 $ typekit-publisher -h
 Usage: typekit-publisher [options]
@@ -384,6 +433,7 @@ Other options:
 
 Using `typekit-publisher`, you can publish all your kits at once. Here is
 an example:
+
 ```
 $ typekit-publisher -t $tk_token
 Which kit would you like to publish?
@@ -400,8 +450,11 @@ $
 ```
 
 ## Contributing
-1. Fork it ( https://github.com/IvanUkhov/typekit-client/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+
+1. [Fork](https://help.github.com/articles/fork-a-repo) the project.
+2. Create a branch for your feature (`git checkout -b awesome-feature`).
+3. Implement your feature (`vim`).
+4. Commit your changes (`git commit -am 'Implemented an awesome feature'`).
+5. Push to the branch (`git push origin awesome-feature`).
+6. [Create](https://help.github.com/articles/creating-a-pull-request)
+   a new Pull Request.
