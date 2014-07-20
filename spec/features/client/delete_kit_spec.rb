@@ -1,13 +1,13 @@
 require 'spec_helper'
+require 'rspec/bdd'
 
-RSpec.describe 'Client#delete a kit' do
-  let(:subject) { Typekit::Client.new(token: token) }
+RSpec.feature 'Deleting a kit' do
+  given(:client) { Typekit::Client.new(token: token) }
+  given(:result) { client.delete(:kits, 'xxx') }
 
   options = { vcr: { cassette_name: 'delete_kits_xxx_ok' } }
 
-  let(:result) { subject.delete(:kits, 'xxx') }
-
-  it 'returns true', options do
+  scenario 'Success', options do
     expect(result).to be true
   end
 end

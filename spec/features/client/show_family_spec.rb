@@ -1,46 +1,44 @@
 require 'spec_helper'
+require 'rspec/bdd'
 
-RSpec.describe 'Client#show a family' do
-  let(:subject) { Typekit::Client.new(token: token) }
+RSpec.feature 'Reading a family' do
+  given(:client) { Typekit::Client.new(token: token) }
 
-  shared_examples 'an adequate reader' do |options|
-    it 'returns a Family', options do
-      expect(result).to be_kind_of(Typekit::Resource::Family)
-    end
+  context 'Searching by identifiers' do
+    given(:result) { client.show(:families, 'xxx') }
 
-    it 'returns a Family with Variations', options do
-      expect(result.variations.map(&:class).uniq).to \
-        contain_exactly(Typekit::Resource::Variation)
-    end
-  end
-
-  context 'when looking up directly' do
     options = { vcr: { cassette_name: 'show_families_xxx_ok' } }
 
-    let(:result) { subject.show(:families, 'xxx') }
+    scenario 'Success', options do
+      expect(result).to be_kind_of(Typekit::Resource::Family)
 
-    it_behaves_like 'an adequate reader', options
+      expect(result.variations.map(&:class).uniq).to \
+        contain_exactly(Typekit::Resource::Variation)
 
-    it 'returns a Family with Libraries', options do
       expect(result.libraries.map(&:class).uniq).to \
         contain_exactly(Typekit::Resource::Library)
     end
   end
 
-  context 'when looking up through a kit' do
+  context 'Searching in a Kit' do
+    given(:result) { client.show(:kits, 'xxx', :families, 'yyy') }
+
     options = { vcr: { cassette_name: 'show_kits_xxx_families_yyy_ok' } }
 
-    let(:result) { subject.show(:kits, 'xxx', :families, 'yyy') }
+    scenario 'Success', options do
+      expect(result).to be_kind_of(Typekit::Resource::Family)
 
-    it_behaves_like 'an adequate reader', options
+      expect(result.variations.map(&:class).uniq).to \
+        contain_exactly(Typekit::Resource::Variation)
+    end
   end
 
-  context 'when looking up directly via slugs' do
+  context 'Searching by slugs' do
+    given(:result) { client.show(:families, 'xxx') }
+
     options = { vcr: { cassette_name: 'show_families_xxx_found' } }
 
-    let(:result) { subject.show(:families, 'xxx') }
-
-    it 'returns a Family', options do
+    scenario 'Success', options do
       expect(result).to be_kind_of(Typekit::Resource::Family)
     end
   end
