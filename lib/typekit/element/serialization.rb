@@ -1,6 +1,6 @@
 module Typekit
   module Element
-    module Serializable
+    module Serialization
       def as_json
         Hash[
           attributes.map do |k, v|

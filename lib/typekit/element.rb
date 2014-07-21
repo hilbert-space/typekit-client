@@ -1,7 +1,7 @@
 require_relative 'element/association'
-require_relative 'element/serializable'
 require_relative 'element/persistence'
 require_relative 'element/query'
+require_relative 'element/serialization'
 require_relative 'element/base'
 
 module Typekit

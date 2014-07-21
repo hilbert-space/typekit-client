@@ -3,8 +3,9 @@ module Typekit
     class Base
       extend Forwardable
       include Enumerable
-      include Serializable
+
       include Persistence
+      include Serialization
 
       def_delegators :elements, :[], :each, :size, :length, :empty?
 

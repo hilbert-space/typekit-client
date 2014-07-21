@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe Typekit::Element::Serializable do
+RSpec.describe Typekit::Element::Serialization do
   let(:subject_module) { Typekit::Element }
   let(:subject_class) { Class.new(subject_module::Base) }
   let(:nested_class) { Class.new(subject_module::Base) }

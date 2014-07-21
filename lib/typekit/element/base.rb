@@ -1,14 +1,13 @@
 module Typekit
   module Element
     class Base
-      extend Association
-
-      include Client::Proxy
-      include Persistence
-      include Serializable
-
       extend Client::Proxy
-      extend Query
+      include Client::Proxy
+
+      include Association
+      include Persistence
+      include Query
+      include Serialization
 
       attr_reader :attributes
 

@@ -1,6 +1,6 @@
 module Typekit
   module Collection
-    module Serializable
+    module Serialization
       def as_json
         elements.map(&:as_json)
       end

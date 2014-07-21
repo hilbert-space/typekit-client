@@ -1,12 +1,18 @@
 module Typekit
   module Element
     module Query
-      def all
-        process(:index)
+      def self.included(base)
+        base.extend(ClassMethods)
       end
 
-      def find(id)
-        process(:show, id)
+      module ClassMethods
+        def all
+          process(:index)
+        end
+
+        def find(id)
+          process(:show, id)
+        end
       end
     end
   end
