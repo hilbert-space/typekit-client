@@ -1,9 +1,13 @@
 require 'spec_helper'
 require 'rspec/bdd'
 
-RSpec.feature 'Deletion of a kit' do
+RSpec.feature 'Deleting a kit' do
   given(:client) { Typekit::Client.new(token: token) }
-  given(:kit) { Typekit::Resource::Kit.new(client, id: 'xxx') }
+  given(:kit) do
+    kit = Typekit::Resource::Kit.new(client, id: 'xxx')
+    kit.persistent!
+    kit
+  end
 
   options = { vcr: { cassette_name: 'delete_kits_xxx_ok' } }
 

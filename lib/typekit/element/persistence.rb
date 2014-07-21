@@ -25,7 +25,7 @@ module Typekit
       end
 
       def delete
-        @deleted ||= process(:delete, id)
+        @deleted ||= persistent? ? process(:delete, id) : true
       end
 
       def deleted?

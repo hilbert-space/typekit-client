@@ -57,4 +57,23 @@ RSpec.describe Typekit::Element::Persistence do
         change { subject.persistent? }.from(false).to(true)
     end
   end
+
+  describe '#delete' do
+    context 'when successful' do
+      it 'deletes and markes as deleted if not new' do
+        subject.persistent!
+        allow(client).to receive(:process).and_return(true)
+
+        expect(subject).not_to be_deleted
+        expect(subject.delete).to be true
+        expect(subject).to be_deleted
+      end
+
+      it 'markes as deleted if new' do
+        expect(subject).not_to be_deleted
+        expect(subject.delete).to be true
+        expect(subject).to be_deleted
+      end
+    end
+  end
 end
