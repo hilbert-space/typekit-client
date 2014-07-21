@@ -34,7 +34,7 @@ RSpec.describe Typekit::Element do
         expect(subject_module.classify(name)).to eq(klass)
       end
 
-      it "converts '#{ name }' into the corresponding Resouce class" do
+      it "converts '#{ name }' into the corresponding Resource class" do
         expect(subject_module.classify(name.to_s)).to eq(klass)
       end
     end
