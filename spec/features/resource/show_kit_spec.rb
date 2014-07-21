@@ -3,17 +3,39 @@ require 'rspec/bdd'
 
 RSpec.feature 'Reading a kit' do
   given(:client) { Typekit::Client.new(token: token) }
-  given(:result) { client::Kit.find('xxx') }
 
   options = { vcr: { cassette_name: 'show_kits_xxx_ok' } }
 
   scenario 'Success', options do
-    expect(result).to be_kind_of(Typekit::Resource::Kit)
+    kit = client::Kit.find('xxx')
+
+    expect(kit).to be_kind_of(Typekit::Resource::Kit)
+    expect(kit).to be_loaded
+
+    families = kit.families
+
+    expect(families).to be_kind_of(Typekit::Collection::Base)
+    expect(families.length).not_to be_zero
+
+    families.each do |family|
+      expect(family).to be_kind_of(Typekit::Resource::Family)
+      expect(family).to be_loaded
+    end
+
+    variations = families.first.variations
+
+    expect(variations).to be_kind_of(Typekit::Collection::Base)
+    expect(variations.length).not_to be_zero
+
+    variations.each do |variation|
+      expect(variation).to be_kind_of(Typekit::Resource::Variation)
+    end
   end
 
   options = { vcr: { cassette_name: 'show_kits_xxx_not_found' } }
 
   scenario 'Failure', options do
-    expect { result }.to raise_error(Typekit::Error, /Not found/i)
+    expect { client::Kit.find('xxx') }.to \
+      raise_error(Typekit::Error, /Not found/i)
   end
 end
