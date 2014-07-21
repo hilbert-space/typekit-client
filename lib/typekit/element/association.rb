@@ -13,7 +13,13 @@ module Typekit
         possessions << name
 
         define_method(name) do
-          value = attributes[name] || []
+          if attributes.key?(name)
+            value = attributes[name]
+          elsif new?
+            value = []
+          else
+            raise Error, 'Not loaded'
+          end
           return value if value.is_a?(Collection::Base)
           attributes[name] = Collection.build(name, self, value)
         end

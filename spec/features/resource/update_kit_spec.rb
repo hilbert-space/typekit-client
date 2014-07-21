@@ -5,8 +5,8 @@ RSpec.feature 'Updating a kit' do
   given(:client) { Typekit::Client.new(token: token) }
 
   given(:kit) do
-    kit = client::Kit.new(:kits, id: 'xxx', name: 'Megakit',
-      analytics: false, badge: true, domains: [ 'localhost' ])
+    kit = client::Kit.new(:kits, id: 'xxx', name: 'Megakit', analytics: false,
+      badge: true, domains: [ 'localhost' ], families: [])
     kit.persistent!
     kit
   end
