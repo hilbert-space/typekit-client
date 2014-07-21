@@ -15,7 +15,7 @@ RSpec.feature 'Reading a kit' do
     families = kit.families
 
     expect(families).to be_kind_of(Typekit::Collection::Base)
-    expect(families.length).not_to be_zero
+    expect(families).not_to be_empty
 
     families.each do |family|
       expect(family).to be_kind_of(Typekit::Resource::Family)
@@ -25,7 +25,7 @@ RSpec.feature 'Reading a kit' do
     variations = families.first.variations
 
     expect(variations).to be_kind_of(Typekit::Collection::Base)
-    expect(variations.length).not_to be_zero
+    expect(variations).not_to be_empty
 
     variations.each do |variation|
       expect(variation).to be_kind_of(Typekit::Resource::Variation)
