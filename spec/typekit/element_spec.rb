@@ -9,12 +9,12 @@ RSpec.describe Typekit::Element do
   describe '.dictionary' do
     it 'returns a hash whose keys are symbolic names of Resource classes' do
       expect(subject_module.dictionary.keys).to \
-        contain_exactly(*plural_resource_symbols)
+        include(*plural_resource_symbols)
     end
 
     it 'returns a hash whose values are Resource classes' do
       expect(subject_module.dictionary.values).to \
-        contain_exactly(*resource_classes)
+        include(*resource_classes)
     end
   end
 

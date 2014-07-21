@@ -13,14 +13,8 @@ module Typekit
         possessions << name
 
         define_method(name) do
-          if attributes.key?(name)
-            value = attributes[name]
-          elsif new?
-            value = []
-          else
-            raise Error, 'Not loaded'
-          end
-          return value if value.is_a?(Collection::Base)
+          value = attributes[name] || new? && [] || nil
+          return value if value.nil? || value.is_a?(Collection::Base)
           attributes[name] = Collection.build(name, self, value)
         end
 
@@ -37,8 +31,8 @@ module Typekit
         owners << name
 
         define_method(name) do
-          raise Error, 'Not configured' unless attributes.key?(name)
-          return attributes[name] if attributes[name].is_a?(Element::Base)
+          value = attributes[name]
+          return value if value.nil? || value.is_a?(Element::Base)
           attributes[name] = Element.build(name, self, attributes[name])
         end
       end

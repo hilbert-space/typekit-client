@@ -2,7 +2,7 @@ module Typekit
   module Element
     module Persistence
       def new?
-        defined?(@new) ? @new: true
+        defined?(@new) ? @new : true
       end
 
       def persistent?

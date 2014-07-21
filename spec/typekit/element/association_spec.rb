@@ -1,18 +1,22 @@
 require 'spec_helper'
 
-RSpec.describe Typekit::Element::Association do
-  let(:subject_module) { Typekit::Element }
-  let(:subject_class) { Class.new(subject_module::Base) }
+module SpecResource
+  class Article < Typekit::Element::Base
+    has_many :sections
+  end
 
+  class Section < Typekit::Element::Base
+    belongs_to :article
+  end
+end
+
+RSpec.describe Typekit::Element::Association do
   describe '.has_many' do
-    let(:nested_class) { Class.new(subject_module::Base) }
+    let(:subject_class) { SpecResource::Article }
+    let(:nested_class) { SpecResource::Section }
+
     let(:nested_collection_attributes) do
       [ { title: 'First' }, { title: 'Second' } ]
-    end
-
-    before(:example) do
-      allow(subject_module).to receive(:classify).and_return(nested_class)
-      subject_class.has_many(:sections)
     end
 
     shared_examples 'an adequate collection accessor' do
@@ -47,10 +51,9 @@ RSpec.describe Typekit::Element::Association do
           expect(subject.sections.size).to be_zero
         end
 
-        it 'raises an exception when not new' do
+        it 'returns nil' do
           subject.persistent!
-          expect { subject.sections }.to \
-            raise_error(Typekit::Error, /Not loaded/i)
+          expect(subject.sections).to be nil
         end
       end
     end
@@ -81,9 +84,7 @@ RSpec.describe Typekit::Element::Association do
   end
 
   describe '.belongs_to' do
-    before(:example) do
-      subject_class.belongs_to(:article)
-    end
+    let(:subject_class) { SpecResource::Section }
 
     it 'defines a getter method' do
       expect(subject_class.new).to respond_to(:article)
@@ -93,9 +94,8 @@ RSpec.describe Typekit::Element::Association do
       context 'when the attributes of the association are not given' do
         subject { subject_class.new }
 
-        it 'raises an exception' do
-          expect { subject.article }.to \
-            raise_error(Typekit::Error, /Not configured/i)
+        it 'returns nil' do
+          expect(subject.article).to be nil
         end
       end
     end
