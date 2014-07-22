@@ -4,11 +4,6 @@ module Typekit
       extend Client::Proxy
       include Client::Proxy
 
-      include Association
-      include Persistence
-      include Query
-      include Serialization
-
       attr_reader :attributes
 
       def initialize(*arguments)

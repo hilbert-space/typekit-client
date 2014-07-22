@@ -18,7 +18,8 @@ module Typekit
           possessions << name
 
           define_method(name) do
-            value = attributes[name] || new? && [] || nil
+            value = attributes[name]
+            value = [] if value.nil? && (!respond_to?(:new?) || new?)
             return value if value.nil? || value.is_a?(Collection::Base)
             attributes[name] = Collection.build(name, self, value)
           end

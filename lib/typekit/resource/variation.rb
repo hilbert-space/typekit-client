@@ -1,6 +1,9 @@
 module Typekit
   module Resource
     class Variation < Element::Base
+      include Element::Association
+      include Element::Serialization
+
       has_many :libraries
       belongs_to :family
 
