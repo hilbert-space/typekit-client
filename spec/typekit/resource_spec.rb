@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'fixture/resource/article'
 
 RSpec.describe Typekit::Resource do
   include ResourceHelper
@@ -37,7 +38,7 @@ RSpec.describe Typekit::Resource do
   end
 
   describe '.build' do
-    let(:base_class) { Class.new(Typekit::Element::Base) }
+    let(:base_class) { Fixture::Resource::Article }
 
     before(:example) do
       allow(Typekit::Element).to receive(:classify).and_return(base_class)

@@ -1,7 +1,10 @@
 require 'spec_helper'
+require 'fixture/resource/article'
+require 'fixture/resource/section'
 
 RSpec.describe Typekit::Element::Base do
-  let(:subject_class) { Class.new(Typekit::Element::Base) }
+  let(:subject_class) { Fixture::Resource::Article }
+  let(:another_class) { Fixture::Resource::Section }
 
   describe '#new' do
     it 'treats each option as an attribute' do
@@ -40,7 +43,7 @@ RSpec.describe Typekit::Element::Base do
     end
 
     it 'raises an exception when the classes do not match' do
-      another = Class.new(subject_class).new(name: 'Superb')
+      another = another_class.new(name: 'Superb')
       expect { subject.become(another) }.to \
         raise_error(ArgumentError, /Invalid class/i)
     end
