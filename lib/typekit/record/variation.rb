@@ -1,5 +1,5 @@
 module Typekit
-  module Resource
+  module Record
     class Variation < Element::Base
       include Element::Association
       include Element::Serialization

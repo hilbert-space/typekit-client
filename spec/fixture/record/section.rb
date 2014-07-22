@@ -1,5 +1,5 @@
 module Fixture
-  module Resource
+  module Record
     class Section < Typekit::Element::Base
       include Typekit::Element::Association
       include Typekit::Element::Serialization

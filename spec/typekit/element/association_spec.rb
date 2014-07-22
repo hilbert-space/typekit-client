@@ -1,11 +1,11 @@
 require 'spec_helper'
-require 'fixture/resource/article'
-require 'fixture/resource/section'
+require 'fixture/record/article'
+require 'fixture/record/section'
 
 RSpec.describe Typekit::Element::Association do
   describe '.has_many' do
-    let(:subject_class) { Fixture::Resource::Article }
-    let(:nested_class) { Fixture::Resource::Section }
+    let(:subject_class) { Fixture::Record::Article }
+    let(:nested_class) { Fixture::Record::Section }
 
     let(:nested_collection_attributes) do
       [ { title: 'First' }, { title: 'Second' } ]
@@ -76,7 +76,7 @@ RSpec.describe Typekit::Element::Association do
   end
 
   describe '.belongs_to' do
-    let(:subject_class) { Fixture::Resource::Section }
+    let(:subject_class) { Fixture::Record::Section }
 
     it 'defines a getter method' do
       expect(subject_class.new).to respond_to(:article)

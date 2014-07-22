@@ -1,5 +1,5 @@
 module Typekit
-  module Resource
+  module Record
     class Library < Element::Base
       include Element::Association
       include Element::Query

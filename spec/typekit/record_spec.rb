@@ -1,14 +1,14 @@
 require 'spec_helper'
-require 'fixture/resource/article'
+require 'fixture/record/article'
 
-RSpec.describe Typekit::Resource do
-  include ResourceHelper
-  extend ResourceHelper
+RSpec.describe Typekit::Record do
+  include RecordHelper
+  extend RecordHelper
 
-  let(:subject_module) { Typekit::Resource }
+  let(:subject_module) { Typekit::Record }
 
   describe '.identify' do
-    resource_dictionary.each do |name, klass|
+    record_dictionary.each do |name, klass|
       it "converts :#{ name } into :element" do
         expect(subject_module.identify(name)).to eq(:element)
       end
@@ -18,7 +18,7 @@ RSpec.describe Typekit::Resource do
       end
     end
 
-    plural_resource_dictionary.each do |name, klass|
+    plural_record_dictionary.each do |name, klass|
       it "converts :#{ name } into :collection" do
         expect(subject_module.identify(name)).to eq(:collection)
       end
@@ -38,7 +38,7 @@ RSpec.describe Typekit::Resource do
   end
 
   describe '.build' do
-    let(:base_class) { Fixture::Resource::Article }
+    let(:base_class) { Fixture::Record::Article }
 
     before(:example) do
       allow(Typekit::Element).to receive(:classify).and_return(base_class)

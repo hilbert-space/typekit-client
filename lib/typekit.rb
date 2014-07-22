@@ -11,6 +11,6 @@ require_relative 'typekit/client'
 require_relative 'typekit/element'
 require_relative 'typekit/collection'
 
-require_relative 'typekit/resource'
+require_relative 'typekit/record'
 
 require_relative 'typekit/version'

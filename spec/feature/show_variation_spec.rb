@@ -8,11 +8,11 @@ RSpec.feature 'Reading a variation' do
   options = { vcr: { cassette_name: 'show_families_xxx_yyy_ok' } }
 
   scenario 'Success', options do
-    expect(variation).to be_kind_of(Typekit::Resource::Variation)
+    expect(variation).to be_kind_of(Typekit::Record::Variation)
 
     expect(variation.libraries.map(&:class).uniq).to \
-      contain_exactly(Typekit::Resource::Library)
+      contain_exactly(Typekit::Record::Library)
 
-    expect(variation.family).to be_kind_of(Typekit::Resource::Family)
+    expect(variation.family).to be_kind_of(Typekit::Record::Family)
   end
 end

@@ -1,10 +1,10 @@
 require 'spec_helper'
-require 'fixture/resource/article'
-require 'fixture/resource/section'
+require 'fixture/record/article'
+require 'fixture/record/section'
 
 RSpec.describe Typekit::Element::Base do
-  let(:subject_class) { Fixture::Resource::Article }
-  let(:another_class) { Fixture::Resource::Section }
+  let(:subject_class) { Fixture::Record::Article }
+  let(:another_class) { Fixture::Record::Section }
 
   describe '#new' do
     it 'treats each option as an attribute' do

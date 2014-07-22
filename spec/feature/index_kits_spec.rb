@@ -14,7 +14,7 @@ RSpec.feature 'Listing kits' do
       expect(kits).not_to be_empty
 
       kits.each do |kit|
-        expect(kit).to be_kind_of(Typekit::Resource::Kit)
+        expect(kit).to be_kind_of(Typekit::Record::Kit)
 
         expect(kit).to be_persistent
         expect(kit).not_to be_new
@@ -48,7 +48,7 @@ RSpec.feature 'Listing kits' do
     include_scenarios 'Adequate behavior'
   end
 
-  context 'Using Resource' do
+  context 'Using Record' do
     given(:kits) { client::Kit.all }
 
     include_scenarios 'Adequate behavior'

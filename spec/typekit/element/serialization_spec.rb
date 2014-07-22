@@ -1,11 +1,11 @@
 require 'spec_helper'
-require 'fixture/resource/article'
-require 'fixture/resource/section'
+require 'fixture/record/article'
+require 'fixture/record/section'
 
 RSpec.describe Typekit::Element::Serialization do
   let(:subject_module) { Typekit::Element }
-  let(:subject_class) { Fixture::Resource::Article }
-  let(:nested_class) { Fixture::Resource::Section }
+  let(:subject_class) { Fixture::Record::Article }
+  let(:nested_class) { Fixture::Record::Section }
 
   before(:example) do
     allow(subject_module).to receive(:classify).and_return(nested_class)

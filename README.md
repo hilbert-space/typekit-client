@@ -111,9 +111,9 @@ Output:
   }
 ]
 [
-  "Typekit::Resource::Kit",
-  "Typekit::Resource::Kit",
-  "Typekit::Resource::Kit"
+  "Typekit::Record::Kit",
+  "Typekit::Record::Kit",
+  "Typekit::Record::Kit"
 ]
 {
   "id": "bas4cfe",

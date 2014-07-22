@@ -1,5 +1,5 @@
 module Fixture
-  module Resource
+  module Record
     class Article < Typekit::Element::Base
       include Typekit::Element::Association
       include Typekit::Element::Persistence

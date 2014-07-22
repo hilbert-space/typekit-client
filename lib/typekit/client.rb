@@ -54,7 +54,7 @@ module Typekit
       end
 
       def resource(name)
-        (@resources ||= {})[name] ||= Resource.build(name, self)
+        (@resources ||= {})[name] ||= Record.build(name, self)
       end
     end
 

@@ -8,7 +8,7 @@ RSpec.feature 'Reading a kit' do
     options = { vcr: { cassette_name: 'show_kits_xxx_ok' } }
 
     scenario 'Success', options do
-      expect(kit).to be_kind_of(Typekit::Resource::Kit)
+      expect(kit).to be_kind_of(Typekit::Record::Kit)
       expect(kit).to be_loaded
 
       families = kit.families
@@ -17,7 +17,7 @@ RSpec.feature 'Reading a kit' do
       expect(families).not_to be_empty
 
       families.each do |family|
-        expect(family).to be_kind_of(Typekit::Resource::Family)
+        expect(family).to be_kind_of(Typekit::Record::Family)
         expect(family).to be_loaded
       end
 
@@ -27,7 +27,7 @@ RSpec.feature 'Reading a kit' do
       expect(variations).not_to be_empty
 
       variations.each do |variation|
-        expect(variation).to be_kind_of(Typekit::Resource::Variation)
+        expect(variation).to be_kind_of(Typekit::Record::Variation)
       end
     end
 
@@ -44,7 +44,7 @@ RSpec.feature 'Reading a kit' do
     include_scenarios 'Adequate behavior'
   end
 
-  context 'Using Resource' do
+  context 'Using Record' do
     given(:kit) { client::Kit.find('xxx') }
 
     include_scenarios 'Adequate behavior'

@@ -1,8 +1,8 @@
 require 'spec_helper'
-require 'fixture/resource/article'
+require 'fixture/record/article'
 
 RSpec.describe Typekit::Element::Persistence do
-  let(:subject_class) { Fixture::Resource::Article }
+  let(:subject_class) { Fixture::Record::Article }
   let(:client) { double }
 
   subject { subject_class.new(client, id: 69) }

@@ -1,5 +1,5 @@
 module Typekit
-  module Resource
+  module Record
     class Kit < Element::Base
       include Element::Association
       include Element::Persistence

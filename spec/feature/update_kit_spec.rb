@@ -23,7 +23,7 @@ RSpec.feature 'Updating a kit' do
   options = { vcr: { cassette_name: 'update_kits_xxx_families_ok' } }
 
   scenario 'Adding a new family', options do
-    kit.families << Typekit::Resource::Family.new(id: 'gkmg')
+    kit.families << Typekit::Record::Family.new(id: 'gkmg')
 
     expect(kit.save).to be true
     expect(kit.families.first.id).to eq('gkmg')
@@ -32,8 +32,8 @@ RSpec.feature 'Updating a kit' do
   options = { vcr: { cassette_name: 'update_kits_xxx_families_variations_ok' } }
 
   scenario 'Adding a new family with specific variations', options do
-    family = Typekit::Resource::Family.new(id: 'gkmg')
-    family.variations << Typekit::Resource::Variation.new(id: 'n4')
+    family = Typekit::Record::Family.new(id: 'gkmg')
+    family.variations << Typekit::Record::Variation.new(id: 'n4')
     kit.families << family
 
     expect(kit.save).to be true

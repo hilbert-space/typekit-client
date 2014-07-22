@@ -1,9 +1,9 @@
 require 'spec_helper'
-require 'fixture/resource/article'
+require 'fixture/record/article'
 
 RSpec.describe Typekit::Collection do
   let(:subject_module) { Typekit::Collection }
-  let(:element_class) { Fixture::Resource::Article }
+  let(:element_class) { Fixture::Record::Article }
 
   describe '.build' do
     before(:example) do

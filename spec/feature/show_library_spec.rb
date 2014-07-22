@@ -8,10 +8,10 @@ RSpec.feature 'Reading a library' do
     options = { vcr: { cassette_name: 'show_libraries_xxx_ok' } }
 
     scenario 'Success', options do
-      expect(library).to be_kind_of(Typekit::Resource::Library)
+      expect(library).to be_kind_of(Typekit::Record::Library)
 
       expect(library.families.map(&:class).uniq).to \
-        contain_exactly(Typekit::Resource::Family)
+        contain_exactly(Typekit::Record::Family)
     end
   end
 
@@ -21,7 +21,7 @@ RSpec.feature 'Reading a library' do
     include_scenarios 'Adequate behavior'
   end
 
-  context 'Using Resource' do
+  context 'Using Record' do
     given(:library) { client::Library.find('xxx') }
 
     include_scenarios 'Adequate behavior'
