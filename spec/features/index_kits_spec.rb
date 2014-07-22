@@ -15,7 +15,11 @@ RSpec.feature 'Listing kits' do
 
       kits.each do |kit|
         expect(kit).to be_kind_of(Typekit::Resource::Kit)
+
+        expect(kit).to be_persistent
+        expect(kit).not_to be_new
         expect(kit).not_to be_loaded
+
         expect(kit.attributes.keys).to contain_exactly(:id, :link)
         expect(kit.families).to be nil
       end
@@ -23,7 +27,11 @@ RSpec.feature 'Listing kits' do
       kit = kits.first
 
       expect(kit.load!).to be true
+
+      expect(kit).to be_persistent
+      expect(kit).not_to be_new
       expect(kit).to be_loaded
+
       expect(kit.families).to be_kind_of(Typekit::Collection::Base)
     end
 
