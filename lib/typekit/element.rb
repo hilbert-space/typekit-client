@@ -22,7 +22,7 @@ module Typekit
 
     def self.build(name, *arguments)
       element = classify(name).new(*arguments)
-      element.persistent! if element.respond_to?(:persistent!)
+      element.persistent! if element.feature?(:persistence)
       element
     end
   end

@@ -19,7 +19,7 @@ module Typekit
 
           define_method(name) do
             value = attributes[name]
-            value = [] if value.nil? && (!respond_to?(:new?) || new?)
+            value = [] if value.nil? && (!feature?(:persistence) || new?)
             return value if value.nil? || value.is_a?(Collection::Base)
             attributes[name] = Collection.build(name, self, value)
           end

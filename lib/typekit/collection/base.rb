@@ -8,6 +8,7 @@ module Typekit
       include Serialization
 
       def_delegators :elements, :[], :each, :size, :length, :empty?
+      def_delegator :klass, :feature?
 
       def initialize(name, *arguments)
         objects = Helper.extract_array!(arguments)

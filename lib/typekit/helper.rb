@@ -22,6 +22,10 @@ module Typekit
       end
     end
 
+    def self.constantize(name)
+      name.to_s.capitalize.to_sym
+    end
+
     def self.tokenize(name, pluralize: true)
       name = name.to_s.sub(/^.*::/, '').downcase
       (pluralize ? pluralize(name) : name).to_sym

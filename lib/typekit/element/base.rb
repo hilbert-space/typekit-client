@@ -16,6 +16,17 @@ module Typekit
         @attributes = another.attributes
       end
 
+      def self.feature?(name)
+        name = Helper.constantize(name)
+        @features ||= {}
+        return @features[name] if @features.key?(name)
+        @features[name] = include?(Element.const_get(name))
+      end
+
+      def feature?(name)
+        self.class.feature?(name)
+      end
+
       private
 
       def method_missing(name, *arguments)
