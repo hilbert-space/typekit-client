@@ -6,11 +6,7 @@ RSpec.describe Typekit::Collection do
   let(:element_class) { Fixture::Record::Article }
 
   describe '.build' do
-    before(:example) do
-      allow(Typekit::Element).to receive(:classify).and_return(element_class)
-    end
-
-    subject { subject_module.build(:cats, [ { id: 4 }, { id: 2 } ]) }
+    subject { subject_module.build(:articles, [ { id: 4 }, { id: 2 } ]) }
 
     it 'creates a Collection' do
       expect(subject).to be_an_instance_of(subject_module::Base)

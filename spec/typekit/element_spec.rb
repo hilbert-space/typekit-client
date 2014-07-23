@@ -52,11 +52,7 @@ RSpec.describe Typekit::Element do
   describe '.build' do
     let(:subject_class) { Fixture::Record::Article }
 
-    before(:example) do
-      allow(subject_module).to receive(:classify).and_return(subject_class)
-    end
-
-    subject { subject_module.build(:cat) }
+    subject { subject_module.build(:articles) }
 
     it 'creates an instance of an Element class' do
       expect(subject).to be_an_instance_of(subject_class)

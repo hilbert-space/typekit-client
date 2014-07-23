@@ -40,12 +40,8 @@ RSpec.describe Typekit::Record do
   describe '.build' do
     let(:base_class) { Fixture::Record::Article }
 
-    before(:example) do
-      allow(Typekit::Element).to receive(:classify).and_return(base_class)
-    end
-
     let(:client) { double }
-    let(:element_class) { subject_module.build(:cat, client) }
+    let(:element_class) { subject_module.build(:articles, client) }
 
     it 'creates a new Element class' do
       expect(element_class < base_class).to be true
@@ -54,8 +50,9 @@ RSpec.describe Typekit::Record do
     describe 'an instance of the new Element class' do
       subject { element_class.new }
 
-      it 'has a Client embedded' do
-        expect(subject.client).to be client
+      it 'makes use of the provided Client' do
+        expect(client).to receive(:process).and_return(element_class.new)
+        subject.save
       end
     end
   end
