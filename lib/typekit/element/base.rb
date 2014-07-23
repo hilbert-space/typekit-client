@@ -1,7 +1,6 @@
 module Typekit
   module Element
     class Base
-      extend Client::Proxy
       include Client::Proxy
 
       attr_reader :attributes

@@ -16,6 +16,8 @@ module Typekit
     def self.build(name, client)
       klass = Element.classify(name)
       Class.new(klass) do
+        extend Client::Proxy
+
         proxy(client, Helper.tokenize(name))
 
         singleton_class.instance_eval do
