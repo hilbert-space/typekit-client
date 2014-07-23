@@ -3,7 +3,7 @@ module Typekit
     module Persistence
       def persistent!
         return unless feature?(:persistence)
-        elements.each { |element| element.persistent! }
+        elements.each(&:persistent!)
       end
     end
   end
