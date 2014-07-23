@@ -46,8 +46,8 @@ RSpec.describe Typekit::Element::Association do
 
         it 'loads the association when not new' do
           subject.persistent!
-          expect(subject).to receive(:load!).once
-          expect { subject.sections }.to raise_error(/Cannot load/i)
+          expect(subject).to receive(:load!).and_throw(:break)
+          catch(:break) { subject.sections }
         end
       end
     end
