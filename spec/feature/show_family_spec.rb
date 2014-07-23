@@ -10,11 +10,19 @@ RSpec.feature 'Reading a family' do
     scenario 'Success using the id parameter', options do
       expect(family).to be_kind_of(Typekit::Record::Family)
 
-      expect(family.variations.map(&:class).uniq).to \
-        contain_exactly(Typekit::Record::Variation)
+      variations = family.variations
+      expect(variations).to be_kind_of(Typekit::Collection::Base)
 
-      expect(family.libraries.map(&:class).uniq).to \
-        contain_exactly(Typekit::Record::Library)
+      variations.each do |variation|
+        expect(variation).to be_kind_of(Typekit::Record::Variation)
+      end
+
+      libraries = family.libraries
+      expect(libraries).to be_kind_of(Typekit::Collection::Base)
+
+      libraries.each do |library|
+        expect(library).to be_kind_of(Typekit::Record::Library)
+      end
     end
 
     options = { vcr: { cassette_name: 'show_families_xxx_found' } }
@@ -39,13 +47,29 @@ RSpec.feature 'Reading a family' do
   context 'Searching in a Kit using Client' do
     given(:family) { client.show(:kits, 'xxx', :families, 'yyy') }
 
-    options = { vcr: { cassette_name: 'show_kits_xxx_families_yyy_ok' } }
+    options = { vcr: { cassette_name:
+      'show_kits_xxx_families_yyy_show_family_yyy_ok' } }
 
     scenario 'Success', options do
       expect(family).to be_kind_of(Typekit::Record::Family)
 
-      expect(family.variations.map(&:class).uniq).to \
-        contain_exactly(Typekit::Record::Variation)
+      variations = family.variations
+      expect(variations).to be_kind_of(Typekit::Collection::Base)
+
+      variations.each do |variation|
+        expect(variation).to be_kind_of(Typekit::Record::Variation)
+      end
+
+      expect(family).not_to be_loaded
+
+      libraries = family.libraries
+      expect(variations).to be_kind_of(Typekit::Collection::Base)
+
+      expect(family).to be_loaded
+
+      libraries.each do |library|
+        expect(library).to be_kind_of(Typekit::Record::Library)
+      end
     end
   end
 end

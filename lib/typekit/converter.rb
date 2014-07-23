@@ -19,8 +19,8 @@ module Typekit
     }
     MAPPING.default = Unknown
 
-    def self.build(name, client = nil)
-      MAPPING[Record.identify(name) || name].new(name, client)
+    def self.build(name, *arguments)
+      MAPPING[Record.identify(name) || name].new(name, *arguments)
     end
   end
 end

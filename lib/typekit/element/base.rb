@@ -7,12 +7,13 @@ module Typekit
 
       def initialize(*arguments)
         @attributes = Helper.symbolize_keys(Helper.extract_hash!(arguments))
-        proxy(*arguments)
+        connect(arguments.first)
       end
 
       def become(another)
         raise ArgumentError, 'Invalid class' unless self.class == another.class
         @attributes = another.attributes
+        true
       end
 
       def self.feature?(name)
@@ -24,6 +25,10 @@ module Typekit
 
       def feature?(name)
         self.class.feature?(name)
+      end
+
+      def attribute?(name)
+        attributes.key?(name)
       end
 
       private

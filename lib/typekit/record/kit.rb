@@ -9,12 +9,15 @@ module Typekit
       has_many :families
 
       def loaded?
-        persistent? && !families.nil?
+        !persistent? || attribute?(:families)
+      end
+
+      def load
+        process(:show, id)
       end
 
       def load!
-        become(process(:show, id))
-        true
+        become(load)
       end
     end
   end

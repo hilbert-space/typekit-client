@@ -4,6 +4,8 @@ module Typekit
       extend Forwardable
       include Enumerable
 
+      include Client::Proxy
+
       include Persistence
       include Serialization
 
@@ -13,22 +15,26 @@ module Typekit
       def initialize(name, *arguments)
         objects = Helper.extract_array!(arguments)
 
-        @klass = Element.classify(name)
-        @arguments = arguments
         @elements = []
+        @klass = Element.classify(name)
+        connect(arguments.first, name)
 
         objects.each { |object| push(object) }
       end
 
       def push(object)
-        object = object.is_a?(klass) ? object : klass.new(*arguments, object)
-        elements << object
+        if object.is_a?(klass)
+          object.connect(self)
+          elements << object
+        else
+          elements << klass.new(self, object)
+        end
       end
       alias_method :<<, :push
 
       private
 
-      attr_reader :klass, :arguments, :elements
+      attr_reader :elements, :klass
     end
   end
 end

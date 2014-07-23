@@ -18,7 +18,7 @@ module Typekit
       Class.new(klass) do
         extend Client::Proxy
 
-        proxy(client, Helper.tokenize(name))
+        connect(client, Helper.tokenize(name))
 
         singleton_class.instance_eval do
           define_method(:new) do |*arguments|

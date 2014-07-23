@@ -19,8 +19,23 @@ module Typekit
 
           define_method(name) do
             value = attributes[name]
-            value = [] if value.nil? && (!feature?(:persistence) || new?)
-            return value if value.nil? || value.is_a?(Collection::Base)
+            return value if value.is_a?(Collection::Base)
+
+            unless value.nil?
+              attributes[name] = Collection.build(name, self, value)
+              return attributes[name]
+            end
+
+            if feature?(:persistence) && new?
+              attributes[name] = Collection.build(name, self, [])
+              return attributes[name]
+            end
+
+            load!
+
+            value = attributes[name]
+            raise Error, 'Cannot load the association' if value.nil?
+
             attributes[name] = Collection.build(name, self, value)
           end
 

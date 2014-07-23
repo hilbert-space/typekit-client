@@ -9,7 +9,15 @@ module Typekit
       has_many :variations
 
       def loaded?
-        !variations.nil?
+        attribute?(:libraries) && attribute?(:variations)
+      end
+
+      def load
+        process(:show, id)
+      end
+
+      def load!
+        become(load)
       end
     end
   end

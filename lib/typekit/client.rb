@@ -5,21 +5,25 @@ module Typekit
 
       client = Module.new
       client.extend(InstanceMethods)
-      client.options = Typekit.defaults.merge(options)
+      client.configure(Typekit.defaults.merge(options))
 
       client
     end
 
     module InstanceMethods
-      attr_accessor :options
-
       [ :process, :index, :show, :create, :update, :delete ].each do |method|
         define_method(method) do |*arguments|
           translate(engine.send(method, *arguments))
         end
       end
 
+      def configure(options)
+        self.options = options
+      end
+
       private
+
+      attr_accessor :options
 
       def engine
         @engine ||= build_engine
@@ -59,16 +63,19 @@ module Typekit
     end
 
     module Proxy
-      def proxy(owner = nil, token = nil)
-        self.client = owner.respond_to?(:client) ? owner.client : owner
-        self.token = token || Helper.tokenize(self.class)
+      attr_reader :client, :token
+
+      def connect(object = nil, token = Helper.tokenize(self.class))
+        self.client = object.respond_to?(:client) ? object.client : object
+        self.token = token
       end
 
       private
 
-      attr_accessor :client, :token
+      attr_writer :client, :token
 
       def process(action, *arguments)
+        raise Error, 'Client is not specified' if client.nil?
         client.process(action, token, *arguments)
       end
     end

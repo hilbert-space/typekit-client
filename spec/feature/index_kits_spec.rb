@@ -21,7 +21,6 @@ RSpec.feature 'Listing kits' do
         expect(kit).not_to be_loaded
 
         expect(kit.attributes.keys).to contain_exactly(:id, :link)
-        expect(kit.families).to be nil
       end
 
       kit = kits.first

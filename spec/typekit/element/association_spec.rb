@@ -39,13 +39,15 @@ RSpec.describe Typekit::Element::Association do
         subject { subject_class.new }
 
         it 'returns an empty Collection when new' do
+          expect(subject).not_to receive(:load!)
           expect(subject.sections).to be_kind_of(Typekit::Collection::Base)
-          expect(subject.sections.size).to be_zero
+          expect(subject.sections).to be_empty
         end
 
-        it 'returns nil' do
+        it 'loads the association when not new' do
           subject.persistent!
-          expect(subject.sections).to be nil
+          expect(subject).to receive(:load!).once
+          expect { subject.sections }.to raise_error(/Cannot load/i)
         end
       end
     end

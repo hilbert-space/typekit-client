@@ -33,7 +33,11 @@ RSpec.feature 'Updating a kit' do
 
   scenario 'Adding a new family with specific variations', options do
     family = Typekit::Record::Family.new(id: 'gkmg')
-    family.variations << Typekit::Record::Variation.new(id: 'n4')
+
+    expect { family.variations }.to raise_error(/Client is not specified/i)
+    family.variations = [ Typekit::Record::Variation.new(id: 'n4') ]
+
+    expect(kit.families).not_to be nil
     kit.families << family
 
     expect(kit.save).to be true

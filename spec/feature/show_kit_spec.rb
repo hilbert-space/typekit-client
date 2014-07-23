@@ -5,7 +5,7 @@ RSpec.feature 'Reading a kit' do
   given(:client) { Typekit::Client.new(token: token) }
 
   shared_scenarios 'Adequate behavior' do
-    options = { vcr: { cassette_name: 'show_kits_xxx_ok' } }
+    options = { vcr: { cassette_name: 'show_kits_xxx_show_family_yyy_ok' } }
 
     scenario 'Success', options do
       expect(kit).to be_kind_of(Typekit::Record::Kit)
@@ -18,10 +18,14 @@ RSpec.feature 'Reading a kit' do
 
       families.each do |family|
         expect(family).to be_kind_of(Typekit::Record::Family)
-        expect(family).to be_loaded
+        expect(family).not_to be_loaded
       end
 
-      variations = families.first.variations
+      family = families.first
+      expect(family.load!).to be true
+      expect(family).to be_loaded
+
+      variations = family.variations
 
       expect(variations).to be_kind_of(Typekit::Collection::Base)
       expect(variations).not_to be_empty
