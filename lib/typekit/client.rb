@@ -59,17 +59,17 @@ module Typekit
     end
 
     module Proxy
-      def proxy(owner = nil, token = Helper.tokenize(self.class))
-        client = owner.respond_to?(:client) ? owner.client : owner
+      def proxy(owner = nil, token = nil)
+        self.client = owner.respond_to?(:client) ? owner.client : owner
+        self.token = token || Helper.tokenize(self.class)
+      end
 
-        singleton_class.class_eval do
-          define_method(:client) { client }
+      private
 
-          define_method(:process) do |action, *arguments|
-            raise Error, 'Client is not given' unless client
-            client.process(action, token, *arguments)
-          end
-        end
+      attr_accessor :client, :token
+
+      def process(action, *arguments)
+        client.process(action, token, *arguments)
       end
     end
   end
