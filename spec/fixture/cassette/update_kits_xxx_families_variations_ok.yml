@@ -15,6 +15,6 @@ http_interactions:
       - 200 OK
     body:
       encoding: UTF-8
-      string: '{"kit":{"id":"byl1tld","name":"Megakit","analytics":false,"badge":true,"domains":["localhost"],"families":[{"id":"gkmg","name":"Droid
+      string: '{"kit":{"id":"xxx","name":"Megakit","analytics":false,"badge":true,"domains":["localhost"],"families":[{"id":"gkmg","name":"Droid
         Sans","slug":"droid-sans","css_names":["droid-sans-1","droid-sans-2"],"css_stack":"\"droid-sans-1\",\"droid-sans-2\",sans-serif","subset":"default","variations":["n4"]}]}}'
   recorded_at: Sat, 19 Jul 2014 00:00:00 GMT

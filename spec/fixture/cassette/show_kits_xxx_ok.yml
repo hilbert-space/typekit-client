@@ -12,6 +12,6 @@ http_interactions:
       - 200 OK
     body:
       encoding: UTF-8
-      string: '{"kit":{"id":"bas4cfe","name":"Ivan Ukhov at LiU","analytics":false,"badge":false,"domains":["localhost","10.0.2.2","www.ida.liu.se/~ivauk83"],"families":[{"id":"vcsm","name":"Proxima
+      string: '{"kit":{"id":"xxx","name":"Megakit","analytics":false,"badge":false,"domains":["localhost"],"families":[{"id":"vcsm","name":"Proxima
         Nova","slug":"proxima-nova","css_names":["proxima-nova"],"css_stack":"\"proxima-nova\",sans-serif","subset":"default","variations":["n1","n3","n4"]},{"id":"vybr","name":"Calluna","slug":"calluna","css_names":["calluna"],"css_stack":"\"calluna\",serif","subset":"default","variations":["n4","i4"]}]}}'
   recorded_at: Thu, 05 Jun 2014 00:00:00 GMT
