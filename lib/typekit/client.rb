@@ -46,15 +46,15 @@ module Typekit
       end
 
       def const_missing(name)
-        resource(name)
+        record_class(name)
       end
 
       def converter(name)
         (@converters ||= {})[name] ||= Converter.build(name, self)
       end
 
-      def resource(name)
-        (@resources ||= {})[name] ||= Record.build(name, self)
+      def record_class(name)
+        (@record_classes ||= {})[name] ||= Record.build(name, self)
       end
     end
 
