@@ -5,13 +5,14 @@ RSpec.feature 'Updating a kit' do
   given(:client) { Typekit::Client.new(token: token) }
 
   given(:kit) do
-    kit = client::Kit.new(:kits, id: 'xxx', name: 'Megakit', analytics: false,
-      badge: true, domains: [ 'localhost' ], families: [])
+    kit = client::Kit.new(:kits, id: 'xxx', name: 'Megakit',
+      analytics: false, badge: true, domains: [ 'localhost' ],
+      families: [ { id: 'vqgt', subset: 'all', variations: [ 'n4' ] } ])
     kit.persistent!
     kit
   end
 
-  options = { vcr: { cassette_name: 'update_kits_xxx_ok' } }
+  options = { vcr: { cassette_name: 'update_kits_xxx_name_ok' } }
 
   scenario 'Changing the name attribute', options do
     kit.name = 'Ultrakit'
@@ -26,7 +27,8 @@ RSpec.feature 'Updating a kit' do
     kit.families << Typekit::Record::Family.new(id: 'gkmg')
 
     expect(kit.save).to be true
-    expect(kit.families.first.id).to eq('gkmg')
+    expect(kit.families.length).to be 2
+    expect(kit.families.map(&:id)).to contain_exactly('gkmg', 'vqgt')
   end
 
   options = { vcr: {
@@ -42,10 +44,12 @@ RSpec.feature 'Updating a kit' do
     kit.families << family
 
     expect(kit.save).to be true
-    expect(kit.families.first.id).to eq('gkmg')
+    expect(kit.families.length).to be 2
+    expect(kit.families.map(&:id)).to contain_exactly('gkmg', 'vqgt')
   end
 
-  options = { vcr: { cassette_name: 'update_kits_xxx_families_variations_ok' } }
+  options = { vcr: {
+    cassette_name: 'update_kits_xxx_families_variations_ok' } }
 
   scenario 'Adding a new family with variations', options do
     family = Typekit::Record::Family.new(id: 'gkmg')
@@ -57,6 +61,10 @@ RSpec.feature 'Updating a kit' do
     kit.families << family
 
     expect(kit.save).to be true
-    expect(kit.families.first.variations.map(&:id)).to eq([ 'n4' ])
+    expect(kit.families.length).to be 2
+    expect(kit.families.map(&:id)).to contain_exactly('gkmg', 'vqgt')
+
+    i = kit.families[0].id == 'gkmg' ? 0 : 1
+    expect(kit.families[i].variations.map(&:id)).to eq([ 'n4' ])
   end
 end

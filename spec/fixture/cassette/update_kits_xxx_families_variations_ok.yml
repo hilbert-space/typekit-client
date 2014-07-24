@@ -5,13 +5,14 @@ http_interactions:
     uri: https://typekit.com/api/v1/json/kits/xxx
     body:
       encoding: UTF-8
-      string: id=xxx&name=Megakit&analytics=false&badge=true&domains[]=localhost&families[0][id]=gkmg&families[0][variations][]=n4
+      string: id=xxx&name=Megakit&analytics=false&badge=true&domains[]=localhost&families[0][id]=vqgt&families[0][subset]=all&families[0][variations][]=n4&families[1][id]=gkmg&families[1][variations][]=n4
   response:
     status:
       code: 200
       message: OK
     body:
-      encoding: UTF-8
-      string: '{"kit":{"id":"xxx","name":"Megakit","analytics":false,"badge":true,"domains":["localhost"],"families":[{"id":"gkmg","name":"Droid
-        Sans","slug":"droid-sans","css_names":["droid-sans-1","droid-sans-2"],"css_stack":"\"droid-sans-1\",\"droid-sans-2\",sans-serif","subset":"default","variations":["n4"]}]}}'
-  recorded_at: Sat, 19 Jul 2014 00:00:00 GMT
+      encoding: US-ASCII
+      string: ! '{"kit":{"id":"xxx","name":"Megakit","analytics":false,"domains":["localhost"],"families":[{"id":"gkmg","name":"Droid
+        Sans","slug":"droid-sans","css_names":["droid-sans-1","droid-sans-2"],"css_stack":"\"droid-sans-1\",\"droid-sans-2\",sans-serif","subset":"default","variations":["n4"]},{"id":"vqgt","name":"Droid
+        Sans Mono","slug":"droid-sans-mono","css_names":["droid-sans-mono-1","droid-sans-mono-2"],"css_stack":"\"droid-sans-mono-1\",\"droid-sans-mono-2\",sans-serif","subset":"all","variations":["n4"]}]}}'
+  recorded_at: Thu, 24 Jul 2014 00:00:00 GMT
