@@ -9,7 +9,8 @@ module Typekit
       include Persistence
       include Serialization
 
-      def_delegators :elements, :[], :each, :size, :length, :empty?
+      def_delegators :elements, :to_ary, :to_a, :to_json, :as_json,
+        :[], :each, :size, :length, :empty?
       def_delegator :klass, :feature?
 
       def initialize(name, *arguments)

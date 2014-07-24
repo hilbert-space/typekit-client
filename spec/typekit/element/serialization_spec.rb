@@ -6,7 +6,7 @@ RSpec.describe Typekit::Element::Serialization do
   let(:subject_class) { Fixture::Record::Article }
   let(:nested_class) { Fixture::Record::Section }
 
-  describe '#as_json' do
+  describe '#serialize' do
     let(:attributes) do
       {
         title: 'Conversation',
@@ -21,7 +21,7 @@ RSpec.describe Typekit::Element::Serialization do
     end
 
     it 'returns a Hash' do
-      expect(subject.as_json).to eq(attributes)
+      expect(subject.serialize).to eq(attributes)
     end
   end
 end

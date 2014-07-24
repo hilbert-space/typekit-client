@@ -12,7 +12,7 @@ module Typekit
         super(*arguments)
       end
 
-      def as_json
+      def serialize
         id
       end
     end

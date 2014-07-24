@@ -16,9 +16,9 @@ module Typekit
 
       def save
         if new?
-          become(process(:create, to_h))
+          become(process(:create, serialize))
         else
-          become(process(:update, id, to_h))
+          become(process(:update, id, serialize))
         end
         persistent!
         true

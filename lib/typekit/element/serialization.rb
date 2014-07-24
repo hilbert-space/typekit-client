@@ -1,17 +1,12 @@
 module Typekit
   module Element
     module Serialization
-      def as_json
+      def serialize
         Hash[
           attributes.map do |k, v|
-            [ k, v.respond_to?(:as_json) ? v.as_json : v ]
+            [ k, v.respond_to?(:serialize) ? v.serialize : v ]
           end
         ]
-      end
-      alias_method :to_h, :as_json
-
-      def to_json(*arguments)
-        as_json.to_json(*arguments)
       end
     end
   end
