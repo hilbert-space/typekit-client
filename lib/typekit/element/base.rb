@@ -6,7 +6,7 @@ module Typekit
       include Client::Proxy
 
       attr_reader :attributes
-      def_delegators :attributes, :to_hash, :to_h, :to_json, :as_json
+      def_delegators :attributes, :to_hash, :to_h, :to_json
 
       def initialize(*arguments)
         @attributes = Helper.symbolize_keys(Helper.extract_hash!(arguments))
