@@ -2,6 +2,7 @@
 
 * Implementation of the Active Record design pattern: each resource got a set
   of methods for manipulating its data (e.g., `kit.save` and `kit.delete`).
+* Support for Ruby >= 1.9.3 instead of Ruby >= 2.1.
 
 ## Typekit Client 0.0.5 (June 10, 2014)
 

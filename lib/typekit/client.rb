@@ -1,6 +1,6 @@
 module Typekit
   module Client
-    def self.new(**options)
+    def self.new(options)
       raise Error, 'Token is missing' unless options.key?(:token)
 
       client = Module.new
@@ -36,7 +36,7 @@ module Typekit
         version = options[:version]
         format = options[:format]
 
-        Apitizer::Base.new(**engine_options) do
+        Apitizer::Base.new(engine_options) do
           instance_exec(version, format, &Typekit.schema)
         end
       end

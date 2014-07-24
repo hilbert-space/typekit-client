@@ -26,9 +26,9 @@ module Typekit
       name.to_s.capitalize.to_sym
     end
 
-    def self.tokenize(name, pluralize: true)
+    def self.tokenize(name, options = {})
       name = name.to_s.sub(/^.*::/, '').downcase
-      (pluralize ? pluralize(name) : name).to_sym
+      (options.fetch(:pluralize, true) ? pluralize(name) : name).to_sym
     end
 
     def self.symbolize_keys(hash)
