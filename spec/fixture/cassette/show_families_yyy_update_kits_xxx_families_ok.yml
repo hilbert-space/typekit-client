@@ -1,0 +1,40 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://typekit.com/api/v1/json/families/gkmg
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Status:
+      - 200 OK
+    body:
+      encoding: US-ASCII
+      string: ! '{"family":{"id":"gkmg","name":"Droid Sans","slug":"droid-sans","web_link":"http://typekit.com/fonts/droid-sans","browse_info":{"capitals":["uppercase-lowercase"],"classification":["sans-serif"],"contrast":["regular"],"language":["ca","cs","de","en","es","fr","it","mt","nl","pl","pt","ru","sl","sv"],"number_style":["uppercase"],"recommended_for":["paragraphs"],"weight":["regular"],"width":["regular"],"x_height":["high"]},"css_stack":"sans-serif","description":null,"foundry":{"name":"Google
+        Android","slug":"google-android"},"libraries":[{"id":"trial","link":"/api/v1/json/libraries/trial","name":"Trial
+        Library"},{"id":"personal","link":"/api/v1/json/libraries/personal","name":"Personal
+        Library"},{"id":"full","link":"/api/v1/json/libraries/full","name":"Full Library"},{"id":"enterprise","link":"/api/v1/json/libraries/enterprise","name":"Enterprise
+        Library"}],"variations":[{"id":"gkmg:n4","link":"/api/v1/json/families/gkmg/n4","name":"Droid
+        Sans Regular","fvd":"n4"},{"id":"gkmg:n7","link":"/api/v1/json/families/gkmg/n7","name":"Droid
+        Sans Bold","fvd":"n7"}]}}'
+  recorded_at: Thu, 24 Jul 2014 00:00:00 GMT
+- request:
+    method: post
+    uri: https://typekit.com/api/v1/json/kits/xxx
+    body:
+      encoding: UTF-8
+      string: id=xxx&name=Megakit&analytics=false&badge=true&domains[]=localhost&families[0][id]=gkmg&families[0][variations][]=n4&families[0][variations][]=n7
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Status:
+      - 200 OK
+    body:
+      encoding: US-ASCII
+      string: ! '{"kit":{"id":"xxx","name":"Megakit","analytics":false,"badge":true,"domains":["localhost"],"families":[{"id":"gkmg","name":"Droid
+        Sans","slug":"droid-sans","css_names":["droid-sans-1","droid-sans-2"],"css_stack":"\"droid-sans-1\",\"droid-sans-2\",sans-serif","subset":"default","variations":["n4","n7"]}]}}'
+  recorded_at: Thu, 24 Jul 2014 00:00:00 GMT

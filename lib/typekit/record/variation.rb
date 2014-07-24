@@ -13,7 +13,7 @@ module Typekit
       end
 
       def serialize
-        id
+        id.to_s.split(':').last
       end
     end
   end

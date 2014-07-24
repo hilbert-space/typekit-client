@@ -29,9 +29,25 @@ RSpec.feature 'Updating a kit' do
     expect(kit.families.first.id).to eq('gkmg')
   end
 
+  options = { vcr: {
+    cassette_name: 'show_families_yyy_update_kits_xxx_families_ok' } }
+
+  scenario 'Adding a family fetched earlier', options do
+    family = client::Family.find('gkmg')
+
+    expect(family).to be_loaded
+    expect(family.libraries).not_to be_empty
+    expect(family.variations).not_to be_empty
+
+    kit.families << family
+
+    expect(kit.save).to be true
+    expect(kit.families.first.id).to eq('gkmg')
+  end
+
   options = { vcr: { cassette_name: 'update_kits_xxx_families_variations_ok' } }
 
-  scenario 'Adding a new family with specific variations', options do
+  scenario 'Adding a new family with variations', options do
     family = Typekit::Record::Family.new(id: 'gkmg')
 
     expect { family.variations }.to raise_error(/Client is not specified/i)

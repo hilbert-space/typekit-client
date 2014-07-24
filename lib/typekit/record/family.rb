@@ -19,6 +19,10 @@ module Typekit
       def load!
         become(load)
       end
+
+      def serialize
+        super(only: [ :id, :subset, :variations ])
+      end
     end
   end
 end
