@@ -67,4 +67,17 @@ RSpec.feature 'Updating a kit' do
     i = kit.families[0].id == 'gkmg' ? 0 : 1
     expect(kit.families[i].variations.map(&:id)).to eq([ 'n4' ])
   end
+
+  options = { vcr: {
+    cassette_name: 'update_kits_xxx_empty_families_ok' } }
+
+  scenario 'Deleting all families', options do
+    expect(kit.families.length).to be 1
+
+    family = kit.families.first
+    kit.families.delete(family)
+
+    expect(kit.save).to be true
+    expect(kit.families).to be_empty
+  end
 end

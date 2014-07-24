@@ -1,0 +1,16 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://typekit.com/api/v1/json/kits/xxx
+    body:
+      encoding: UTF-8
+      string: id=xxx&name=Megakit&analytics=false&badge=true&domains[]=localhost&families=
+  response:
+    status:
+      code: 200
+      message: OK
+    body:
+      encoding: US-ASCII
+      string: ! '{"kit":{"id":"xxx","name":"Megakit","analytics":false,"domains":["localhost"],"families":[]}}'
+  recorded_at: Thu, 24 Jul 2014 00:00:00 GMT

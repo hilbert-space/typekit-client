@@ -10,7 +10,7 @@ module Typekit
       include Serialization
 
       def_delegators :elements, :to_ary, :to_a, :to_json,
-        :[], :each, :size, :length, :empty?
+        :[], :each, :size, :length, :empty?, :delete
       def_delegator :klass, :feature?
 
       def initialize(name, *arguments)
