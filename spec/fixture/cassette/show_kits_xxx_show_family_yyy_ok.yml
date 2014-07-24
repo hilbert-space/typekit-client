@@ -7,9 +7,6 @@ http_interactions:
     status:
       code: 200
       message: OK
-    headers:
-      Status:
-      - 200 OK
     body:
       encoding: UTF-8
       string: '{"kit":{"id":"xxx","name":"Megakit","analytics":false,"badge":false,"domains":["localhost"],"families":[{"id":"vcsm","name":"Proxima
@@ -22,9 +19,6 @@ http_interactions:
     status:
       code: 200
       message: OK
-    headers:
-      Status:
-      - 200 OK
     body:
       encoding: UTF-8
       string: '{"family":{"id":"vcsm","name":"Proxima Nova","slug":"proxima-nova","web_link":"http://typekit.com/fonts/proxima-nova","browse_info":{"capitals":["uppercase-lowercase"],"classification":["sans-serif"],"contrast":["low"],"language":["ca","cs","de","en","es","fr","it","mt","nl","pl","pt","ru","sl","sv"],"number_style":["uppercase"],"recommended_for":["headings","paragraphs"],"weight":["heavy","light","regular"],"width":["regular"],"x_height":["high"]},"css_stack":"sans-serif","description":"Proxima

@@ -7,9 +7,6 @@ http_interactions:
     status:
       code: 302
       message: Found
-    headers:
-      Status:
-      - 302 Found
     body:
       encoding: UTF-8
       string: '{"family":{"id":"vybr","link":"/api/v1/json/families/vybr"}}'

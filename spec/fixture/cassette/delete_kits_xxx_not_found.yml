@@ -7,9 +7,6 @@ http_interactions:
     status:
       code: 404
       message: Not Found
-    headers:
-      Status:
-      - 404 Not Found
     body:
       encoding: UTF-8
       string: '{"errors":["Not Found"]}'

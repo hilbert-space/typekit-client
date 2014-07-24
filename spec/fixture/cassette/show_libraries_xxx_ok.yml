@@ -7,9 +7,6 @@ http_interactions:
     status:
       code: 200
       message: OK
-    headers:
-      Status:
-      - 200 OK
     body:
       encoding: UTF-8
       string: '{"library":{"id":"trial","link":"/api/v1/json/libraries/trial","name":"Trial

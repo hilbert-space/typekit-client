@@ -7,9 +7,6 @@ http_interactions:
     status:
       code: 200
       message: OK
-    headers:
-      Status:
-      - 200 OK
     body:
       encoding: US-ASCII
       string: ! '{"family":{"id":"gkmg","name":"Droid Sans","slug":"droid-sans","web_link":"http://typekit.com/fonts/droid-sans","browse_info":{"capitals":["uppercase-lowercase"],"classification":["sans-serif"],"contrast":["regular"],"language":["ca","cs","de","en","es","fr","it","mt","nl","pl","pt","ru","sl","sv"],"number_style":["uppercase"],"recommended_for":["paragraphs"],"weight":["regular"],"width":["regular"],"x_height":["high"]},"css_stack":"sans-serif","description":null,"foundry":{"name":"Google
@@ -30,9 +27,6 @@ http_interactions:
     status:
       code: 200
       message: OK
-    headers:
-      Status:
-      - 200 OK
     body:
       encoding: US-ASCII
       string: ! '{"kit":{"id":"xxx","name":"Megakit","analytics":false,"badge":true,"domains":["localhost"],"families":[{"id":"gkmg","name":"Droid

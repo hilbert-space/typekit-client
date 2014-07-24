@@ -7,9 +7,6 @@ http_interactions:
     status:
       code: 401
       message: Unauthorized
-    headers:
-      Status:
-      - 401 Unauthorized
     body:
       encoding: UTF-8
       string: '{"errors":["Not authorized"]}'

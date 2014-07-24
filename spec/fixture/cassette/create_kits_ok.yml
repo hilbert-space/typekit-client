@@ -10,9 +10,6 @@ http_interactions:
     status:
       code: 200
       message: OK
-    headers:
-      Status:
-      - 200 OK
     body:
       encoding: UTF-8
       string: '{"kit":{"id":"xxx","name":"Megakit","analytics":false,"badge":true,"domains":["localhost"],"families":[]}}'

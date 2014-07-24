@@ -7,9 +7,6 @@ http_interactions:
     status:
       code: 200
       message: OK
-    headers:
-      Status:
-      - 200 OK
     body:
       encoding: UTF-8
       string: '{"family":{"id":"vybr","name":"Calluna","slug":"calluna","web_link":"http://typekit.com/fonts/calluna","browse_info":{"capitals":["uppercase-lowercase"],"classification":["serif"],"contrast":["regular"],"language":["ca","cs","de","en","es","fr","it","mt","nl","pl","pt","sl","sv"],"number_style":["lowercase"],"recommended_for":["paragraphs"],"weight":["heavy","regular"],"width":["regular"],"x_height":["regular"]},"css_stack":"serif","description":"Calluna

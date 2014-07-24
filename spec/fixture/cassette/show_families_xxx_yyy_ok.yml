@@ -7,9 +7,6 @@ http_interactions:
     status:
       code: 200
       message: OK
-    headers:
-      Status:
-      - 200 OK
     body:
       encoding: UTF-8
       string: '{"variation":{"id":"vcsm:i9","name":"Proxima Nova Black Italic","family":{"id":"vcsm","link":"/api/v1/json/families/vcsm","name":"Proxima

@@ -7,9 +7,6 @@ http_interactions:
     status:
       code: 200
       message: OK
-    headers:
-      Status:
-      - 200 OK
     body:
       encoding: UTF-8
       string: '{"kits":[{"id":"xxx","link":"/api/v1/json/kits/xxx"},{"id":"yyy","link":"/api/v1/json/kits/yyy"},{"id":"zzz","link":"/api/v1/json/kits/zzz"}]}'
@@ -21,9 +18,6 @@ http_interactions:
     status:
       code: 200
       message: OK
-    headers:
-      Status:
-      - 200 OK
     body:
       encoding: UTF-8
       string: '{"kit":{"id":"xxx","name":"Megakit","analytics":false,"badge":false,"domains":["localhost"],"families":[{"id":"vcsm","name":"Proxima
