@@ -58,9 +58,7 @@ below makes use of the following auxiliary function:
 
 ```ruby
 def p(data)
-  puts JSON.pretty_generate(data)
-rescue JSON::GeneratorError
-  puts data.inspect
+  puts JSON.pretty_generate(data, quirks_mode: true)
 end
 ```
 
@@ -168,7 +166,7 @@ Output:
 }
 ```
 
-### Create a new kit
+### Create a kit
 
 Code:
 
@@ -183,7 +181,6 @@ Output:
   "id": "izw0qiq",
   "name": "Megakit",
   "analytics": false,
-  "badge": true,
   "domains": [
     "localhost"
   ],
@@ -193,12 +190,12 @@ Output:
 }
 ```
 
-### Disable the badge of a kit
+### Rename a kit
 
 Code:
 
 ```ruby
-p client.update(:kits, kit.id, badge: false)
+p client.update(:kits, kit.id, name: 'Ultrakit')
 ```
 
 Output:
@@ -206,9 +203,8 @@ Output:
 ```json
 {
   "id": "izw0qiq",
-  "name": "Megakit",
+  "name": "Ultrakit",
   "analytics": false,
-  "badge": false,
   "domains": [
     "localhost"
   ],
@@ -240,7 +236,7 @@ Output:
 Code:
 
 ```ruby
-p client.update(:kits, kit.id, families: { "0" => { id: family.id } })
+p client.update(:kits, kit.id, families: [ { id: family.id } ])
 ```
 
 Output:
@@ -250,7 +246,6 @@ Output:
   "id": "nys8sny",
   "name": "Megakit",
   "analytics": false,
-  "badge": false,
   "domains": [
     "localhost"
   ],
@@ -280,7 +275,7 @@ p client.update(:kits, kit.id, :publish)
 Output:
 
 ```
-#<DateTime: 2014-05-31T06:45:29+00:00 ((2456809j,24329s,0n),+0s,2299161j)>
+"2014-07-24T18:27:04+00:00"
 ```
 
 ### Show the description of a published kit
@@ -298,14 +293,13 @@ Output:
   "id": "vzt4lrg",
   "name": "Megakit",
   "analytics": false,
-  "badge": false,
   "domains": [
     "localhost"
   ],
   "families": [
     ...
   ],
-  "published": "2014-05-31T06:45:29Z"
+  "published": "2014-07-24T18:27:04Z"
 }
 ```
 
