@@ -2,24 +2,6 @@
 
 A Ruby library for accessing the [Typekit API](https://typekit.com/docs/api).
 
-## Requirements
-
-Make sure you have Ruby `>= 2.1` installed:
-
-```bash
-$ ruby -v
-ruby 2.1.2p95 (2014-05-08 revision 45877) [x86_64-darwin13.0]
-```
-
-In case you don’t, here is a one-line solution via [RVM](https://rvm.io/):
-
-```bash
-$ curl -sSL https://get.rvm.io | bash -s stable --ruby=2.1
-```
-
-Check out [Installing Ruby](https://www.ruby-lang.org/en/installation/)
-for other popular options for various platforms.
-
 ## Installation
 
 Add the following line to your `Gemfile`:
