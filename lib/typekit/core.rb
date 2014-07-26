@@ -19,7 +19,7 @@ module Typekit
     resources :libraries, only: [ :index, :show ]
   end
 
-  @dictionary = { :update => :post } # not PUT
+  @dictionary = { :update => :post } # not PATCH
 
   @headers = Proc.new do |token|
     { 'X-Typekit-Token' => token }
