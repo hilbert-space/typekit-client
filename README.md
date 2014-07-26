@@ -4,325 +4,296 @@ A Ruby library for accessing the [Typekit API](https://typekit.com/docs/api).
 
 ## Installation
 
-Add the following line to your `Gemfile`:
+In your `Gemfile`:
 
 ```ruby
 gem 'typekit-client', require: 'typekit'
 ```
 
-Then execute:
-
-```bash
-$ bundle
-```
-
-Alternatively, you can install the gem manually:
+Or in your terminal:
 
 ```bash
 $ gem install typekit-client
 ```
 
-In order to interact with the Typekit API, one should have a valid API token.
-You can generate such a token [here](https://typekit.com/account/tokens).
-For convenience, let us create a shortcut for it:
+## TL;DR
 
-```bash
-$ export tk_token=YOUR_TOKEN_GOES_HERE
-```
-
-## Usage
-
-Here is the basic setup in a Ruby script:
+Here are some typical use cases of the gem:
 
 ```ruby
 require 'typekit'
 
 client = Typekit::Client.new(token: ENV['tk_token'])
+
+# List all kits
+kits = client::Kit.all
+
+# Find a kit by id
+kit = client::Kit.find('bas4cfe')
+
+# Create a kit
+kit = client::Kit.create(name: 'Megakit', domains: ['localhost'],
+  families: [{ id: 'vcsm', subset: 'all', variations: ['n4'] }])
+
+# Update a kit
+kit.update(name: 'Ultrakit', families: [{ id: 'vybr' }])
+
+# Publish a kit
+kit.publish
+
+# Delete a kit
+kit.delete
+
+# Find a font family by id
+family = client::Family.find('vybr')
+
+# Find a font family by slug
+family = client::Family.find('calluna')
+
+# List all font libraries
+libraries = client::Library.all
+
+# Find a library by id and retrieve its first ten font families
+library = client::Library.find('trial', page: 1, per_page: 10)
 ```
 
-`client` has five methods: `index`, `show`, `create`, `update`, and `delete`.
-The signature of each method is `action(*path, parameters = {})`. The
-arguments are as follows:
+## Preliminaries
 
-* `*path` refers to an arbitrary number of arguments needed to identify
-  the endpoint of interest (a plenty of examples are given below);
-* `parameters` is a hash of parameters (optional).
+The Typekit API provides four major resources: kits, font families, font
+variations, and font libraries. The operations concerning kits require
+authentication. To this end, one has to have a valid API token. Such a token
+can be generated on [Your API Tokens](https://typekit.com/account/tokens) on
+Typekit. For convenience, the examples on this page assume that a valid API
+token is stored in an environment variable called `tk_token`.
 
-Before sending the actual request to the Typekit API, the library checks
-whether the endpoint given by `*path` exists and, if it does, whether
-the desired action (`index`, `show`, _etc._) is permitted. So, if you
-receive an exception, check the [API reference](https://typekit.com/docs/api/).
+The four resources are mapped onto the following Ruby classes, respectively:
 
-Now, let us have a look at some typical use cases. For clarity, the code
-below makes use of the following auxiliary function:
+* `Typekit::Record::Kit`,
+* `Typekit::Record::Family`,
+* `Typekit::Record::Variation`, and
+* `Typekit::Record::Library`.
+
+Each resource has its own set of permitted operations, and the corresponding
+routing map can be described as follows, using the DSL of
+[Apitizer](https://github.com/IvanUkhov/apitizer) inspired by the one of
+[Rails](http://guides.rubyonrails.org/routing.html):
 
 ```ruby
-def p(data)
-  puts JSON.pretty_generate(data, quirks_mode: true)
+resources :kits do
+  resources :families, only: [ :show, :update, :delete ]
+  show :published, on: :member
+  update :publish, on: :member
 end
+
+resources :families, only: :show do
+  show ':variation', on: :member
+end
+
+resources :libraries, only: [ :index, :show ]
 ```
 
-### List all kits
+Refer to the [official documentation](https://typekit.com/docs/api) of the
+Typekit API to find out the meaning and parameterization of each endpoint.
 
-Code:
+## High-Level Programming Interface
+
+The preferable way to work with the four Ruby classes given earlier is via
+an instance of `Typekit::Client` as a module:
+
+* `client::Kit`,
+* `client::Family`,
+* `client::Variation`, and
+* `client::Library`.
+
+The kits that are available under your account can be listed as follows:
 
 ```ruby
-p kits = client.index(:kits)
-p kits.map(&:class)
-p kits.first.attributes
-p kits.first.link
+kits = client::Kit.all
 ```
 
-Output:
-
-```json
-[
-  {
-    "id": "bas4cfe",
-    "link": "/api/v1/json/kits/bas4cfe"
-  },
-  {
-    "id": "sfh6bkj",
-    "link": "/api/v1/json/kits/sfh6bkj"
-  },
-  {
-    "id": "kof8zcn",
-    "link": "/api/v1/json/kits/kof8zcn"
-  }
-]
-[
-  "Typekit::Record::Kit",
-  "Typekit::Record::Kit",
-  "Typekit::Record::Kit"
-]
-{
-  "id": "bas4cfe",
-  "link": "/api/v1/json/kits/bas4cfe"
-}
-"/api/v1/json/kits/bas4cfe"
-```
-
-### Show the description of a variation of a font family
-
-Code:
+Each kit is an instance of `Typekit::Record::Kit`, and it contains all
+attributes that the Typekit API returns in response to the corresponding
+API call. In the case of `all`, the Typekit API provides only two attribute,
+namely, `id` and `link`; such kits are referred to as incomplete.
+Here is an example:
 
 ```ruby
-p client.show(:families, 'vcsm', 'i9')
+kit.complete?
+# => false
+
+kit.attributes
+# =>
+# {
+#   "id": "bas4cfe",
+#   "link": "/api/v1/json/kits/bas4cfe"
+# }
+
+kit.id
+# => "bas4cfe"
+
+kit.link
+# => "/api/v1/json/kits/bas4cfe"
 ```
 
-Output:
-
-```json
-{
-  "id": "vcsm:i9",
-  "name": "Proxima Nova Black Italic",
-  "family": {
-    "id": "vcsm",
-    "link": "/api/v1/json/families/vcsm",
-    "name": "Proxima Nova"
-  },
-  "font_style": "italic",
-  "font_variant": "normal",
-  "font_weight": "900",
-  ...
-}
-```
-
-### Show the font families in the trial library with pagination
-
-Code:
+A particular kit can be fetched using its `id`:
 
 ```ruby
-p client.show(:libraries, 'trial', page: 10, per_page: 5)
+kit = client::Kit.find('bas4cfe')
 ```
 
-Output:
-
-```json
-{
-  "id": "trial",
-  "link": "/api/v1/json/libraries/trial",
-  "name": "Trial Library",
-  "families": [
-    {
-      "id": "qnhl",
-      "link": "/api/v1/json/families/qnhl",
-      "name": "Caliban Std"
-    },
-    {
-      "id": "vybr",
-      "link": "/api/v1/json/families/vybr",
-      "name": "Calluna"
-    },
-    ...
-  ],
-  "pagination": {
-    "count": 261,
-    "on": "families",
-    "page": 10,
-    "page_count": 53,
-    "per_page": 5
-  }
-}
-```
-
-### Create a kit
-
-Code:
+In the case of `find`, you get all information about the kit:
 
 ```ruby
-p kit = client.create(:kits, name: 'Megakit', domains: 'localhost')
+kit.complete?
+# => true
+
+kit.attributes
+# =>
+# {
+#   "id": "bas4cfe",
+#   "name": "Megakit",
+#   "analytics": false,
+#   "domains": [
+#     "localhost"
+#   ],
+#   "families": [
+#     ...
+#   ]
+# }
+
+kit.name
+# => "Megakit"
 ```
 
-Output:
-
-```json
-{
-  "id": "izw0qiq",
-  "name": "Megakit",
-  "analytics": false,
-  "domains": [
-    "localhost"
-  ],
-  "families": [
-
-  ]
-}
-```
-
-### Rename a kit
-
-Code:
+In order to reload a kit and/or retrieve missing data, use `load`:
 
 ```ruby
-p client.update(:kits, kit.id, name: 'Ultrakit')
+kit.complete?
+# => false
+
+kit.load
+
+kit.complete?
+# => true
 ```
 
-Output:
-
-```json
-{
-  "id": "izw0qiq",
-  "name": "Ultrakit",
-  "analytics": false,
-  "domains": [
-    "localhost"
-  ],
-  "families": [
-
-  ]
-}
-```
-
-### Look up the id of a font family by its slug
-
-Code:
+In order to change some attribute of a kit, assign a new value to that
+attribute and call `save`:
 
 ```ruby
-p family = client.show(:families, 'proxima-nova')
+kit.name = 'Ultrakit'
+kit.save
 ```
 
-Output:
-
-```json
-{
-  "id": "vcsm",
-  "link": "/api/v1/json/families/vcsm"
-}
-```
-
-### Add a font family into a kit
-
-Code:
+Similarly, the `families` attribute, containing the font families included in
+the kit, can be changed as desired:
 
 ```ruby
-p client.update(:kits, kit.id, families: [ { id: family.id } ])
+# Push a new instance of Typekit::Record::Family
+kit.families << Typekit::Record::Family.new(id: 'vybr')
+
+# Push a hash of attributes
+kit.families << { id: 'vcsm', subset: 'all' }
+
+# Replace with an font family found via client
+kit.families = [client::Family.find('droid-sans')]
+
+# Remove all font families
+kit.families = []
+
+kit.save
 ```
 
-Output:
-
-```json
-{
-  "id": "nys8sny",
-  "name": "Megakit",
-  "analytics": false,
-  "domains": [
-    "localhost"
-  ],
-  "families": [
-    {
-      "id": "vcsm",
-      "name": "Proxima Nova",
-      "slug": "proxima-nova",
-      "css_names": [
-        "proxima-nova-1",
-        "proxima-nova-2"
-      ],
-      ...
-    }
-  ]
-}
-```
-
-### Publish a kit
-
-Code:
+In order to browse the font families hosted on Typekit, one should use
+libraries. All libraries can be listed as follows:
 
 ```ruby
-p client.update(:kits, kit.id, :publish)
+libraries = client::Library.all
 ```
 
-Output:
-
-```
-"2014-07-24T18:27:04+00:00"
-```
-
-### Show the description of a published kit
-
-Code:
+A particular library can be fetched using:
 
 ```ruby
-p client.show(:kits, kit.id, :published)
+library = client::Library.find('trial')
 ```
 
-Output:
-
-```json
-{
-  "id": "vzt4lrg",
-  "name": "Megakit",
-  "analytics": false,
-  "domains": [
-    "localhost"
-  ],
-  "families": [
-    ...
-  ],
-  "published": "2014-07-24T18:27:04Z"
-}
-```
-
-### Delete a kit
-
-Command:
+In this case, along with the library, the Typekit API will return a subset of
+the font families included in the library according to the default pagination.
+The desired pagination can be specified as follows:
 
 ```ruby
-p client.delete(:kits, kit.id)
+library = client::Library.find('trial', page: 1, per_page: 10)
 ```
 
-Output:
+The families are stored in the `families` attribute of the library.
 
+## Low-Level Programming Interface
+
+An instance of `Typekit::Client` has a method called `process` that can be
+used to perform arbitrary API calls. The signature of the method is
+`process(action, *enpoint, parameters = {})`, and the arguments are as follows:
+
+* `action` is one of `:index`, `:show`, `:create`, `:update`, and `:delete`;
+* `*endpoint` refers to an arbitrary number of arguments needed to identify
+  the endpoint of interest;
+* `parameters` is a optional hash of parameters.
+
+Each of the five actions has a shortcut: instead of calling
+`client.process(action, *endpoint, parameters)`, you can just call
+`client.action(*endpoint, parameters)` replacing `action` with `index`, `show`,
+`create`, `update`, or `delete`.
+
+Here are some typical use cases of the gem:
+
+```ruby
+require 'typekit'
+
+client = Typekit::Client.new(token: ENV['tk_token'])
+
+# List all kits
+kits = client.index(:kits)
+
+# Find a kit by id
+kit = client.show(:kits, 'bas4cfe')
+
+# Create a kit
+kit = client.create(:kits, name: 'Megakit', domains: ['localhost'],
+  families: [{ id: 'vcsm', subset: 'all', variations: ['n4'] }])
+
+# Update a kit
+client.update(:kits, 'bas4cfe', name: 'Ultrakit', families: [{ id: 'vybr' }])
+
+# Publish a kit
+client.update(:kits, 'bas4cfe', :publish)
+
+# Delete a kit
+client.delete(:kits, 'bas4cfe')
+
+# Find a font family by id
+family = client.show(:families, 'vybr')
+
+# Find a font family by slug
+family = client.show(:families, 'calluna')
+
+# Show a font family in a kit by id
+family = client.show(:kits, 'bas4cfe', :families, 'vcsm')
+
+# Show a variation of a font family by id
+variation = client.show(:families, 'vybr', 'i4')
+
+# List all font libraries
+libraries = client.index(:libraries)
+
+# Find a library by id and retrieve its first ten font families
+library = client.show(:libraries, 'trial', page: 1, per_page: 10)
 ```
-true
-```
 
-## General Command-line Interface
+## General Command-Line Interface
 
-There is a simple tool provided in order to demonstrate the usage of the
-library and to give the ability to perform basic operations without writing
-any code. The tool is called `typekit-client`, and it should get installed
-along with the gem. Try running:
+There is a command-line tool provided in order to interact with the Typekit
+API without writing any code.  The tool is called `typekit-client`, and
+its capabilities directly reflect the low-level programming interface describe
+earlier:
 
 ```
 $ typekit-client -h
@@ -333,13 +304,6 @@ Required options:
 
 Other options:
     -h, --help                       Show this message
-```
-
-Alternatively, you can install `typekit-client` in the `bin` directory of
-your project using the following command:
-
-```bash
-$ bundle binstubs typekit-client
 ```
 
 The tool has two modes: normal and interactive. If `command` is provided,
@@ -367,17 +331,18 @@ Type 'help' for help and 'exit' to exit.
 Usage: <action> <resource> [parameters]
 
     <action>        index, show, create, update, or delete
-    <resource>      a list separated by whitespaces
+    <endpoint>      a list separated by whitespaces
     [parameters]    a JSON-encoded hash (optional)
 
 Examples:
     index kits
-    show kits bas4cfe families vcsm
-    show families vcsm i9
-    show libraries trial { "page": 10, "per_page": 5 }
-    create kits { "name": "Megakit", "domains": "localhost" }
-    update kits bas4cfe { "name": "Ultrakit" }
+    create kits { "name": "Megakit", domains: ["localhost"] }
+    show kits bas4cfe
+    update kits bas4cfe { families: [{ "id": "vybr" }] }
+    update kits bas4cfe publish
     delete kits bas4cfe
+    show families vybr i4
+    show libraries trial { "page": 10, "per_page": 5 }
 > index kits
 [
   {
@@ -391,7 +356,7 @@ Bye.
 $
 ```
 
-## Publishing Command-line Interface
+## Publishing Command-Line Interface
 
 There is another utility with the sole purpose of publishing kits. The tool
 is called `typekit-publisher`:
