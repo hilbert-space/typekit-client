@@ -33,19 +33,12 @@ Usage: <action> <endpoint> [parameters]
 
 Examples:
     index kits
+    create kits { "name": "Megakit", domains: ["localhost"] }
     show kits bas4cfe
-    create kits { "name": "Megakit", "domains": "localhost", families: [{ "id": "vcsm", "subset": "all", "variations": ["n4"] }] }
-    update kits bas4cfe { "name": "Ultrakit", families: [{ "id": "vybr" }] }
+    update kits bas4cfe { families: [{ "id": "vybr" }] }
     update kits bas4cfe publish
     delete kits bas4cfe
-
-    show families vybr
-    show families caluna
-    show kits bas4cfe families vcsm
-
     show families vybr i4
-
-    index libraries
     show libraries trial { "page": 10, "per_page": 5 }
 HELP
   end
