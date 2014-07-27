@@ -10,10 +10,10 @@ In your `Gemfile`:
 gem 'typekit-client', require: 'typekit'
 ```
 
-Or in your terminal:
+In your terminal:
 
 ```bash
-$ gem install typekit-client
+$ bundle
 ```
 
 ## TL;DR
@@ -66,34 +66,36 @@ can be generated on [Your API Tokens](https://typekit.com/account/tokens) on
 Typekit. For convenience, the examples on this page assume that a valid API
 token is stored in an environment variable called `tk_token`.
 
-The four resources are mapped onto the following Ruby classes, respectively:
+The four resources are mapped to the following Ruby classes, respectively:
 
 * `Typekit::Record::Kit`,
 * `Typekit::Record::Family`,
 * `Typekit::Record::Variation`, and
 * `Typekit::Record::Library`.
 
-Each resource has its own set of permitted operations, and the corresponding
-routing map can be described as follows, using the DSL of
-[Apitizer](https://github.com/IvanUkhov/apitizer) inspired by the one of
-[Rails](http://guides.rubyonrails.org/routing.html):
+Each resource has its own set of permitted operations. The entire routing map
+is as follows:
 
 ```ruby
+resources :families, only: :show do
+  show ':variation', on: :member
+end
+
 resources :kits do
   resources :families, only: [ :show, :update, :delete ]
   show :published, on: :member
   update :publish, on: :member
 end
 
-resources :families, only: :show do
-  show ':variation', on: :member
-end
-
 resources :libraries, only: [ :index, :show ]
 ```
 
+Here, the DSL of [Apitizer](https://github.com/IvanUkhov/apitizer) is utilized,
+which is similar to the one of
+[Rails](http://guides.rubyonrails.org/routing.html).
+
 Refer to the [official documentation](https://typekit.com/docs/api) of the
-Typekit API to find out the meaning and parameterization of each endpoint.
+Typekit API to get a complete description of each endpoint.
 
 ## High-Level Programming Interface
 
@@ -114,7 +116,7 @@ kits = client::Kit.all
 Each kit is an instance of `Typekit::Record::Kit`, and it contains all
 attributes that the Typekit API returns in response to the corresponding
 API call. In the case of `all`, the Typekit API provides only two attribute,
-namely, `id` and `link`; such kits are referred to as incomplete.
+namely, `id` and `link`; such kits will be referred to as incomplete.
 Here is an example:
 
 ```ruby
@@ -165,7 +167,7 @@ kit.name
 # => "Megakit"
 ```
 
-In order to reload a kit and/or retrieve missing data, use `load`:
+In order to reload a kit and/or retrieve missing data, call `load`:
 
 ```ruby
 kit.complete?
@@ -177,7 +179,7 @@ kit.complete?
 # => true
 ```
 
-In order to change some attribute of a kit, assign a new value to that
+In order to change an attribute of a kit, assign a new value to that
 attribute and call `save`:
 
 ```ruby
@@ -204,7 +206,7 @@ kit.families = []
 kit.save
 ```
 
-In order to browse the font families hosted on Typekit, one should use
+If you want to browse the font families hosted on Typekit, you can do so via
 libraries. All libraries can be listed as follows:
 
 ```ruby
@@ -217,15 +219,16 @@ A particular library can be fetched using:
 library = client::Library.find('trial')
 ```
 
-In this case, along with the library, the Typekit API will return a subset of
-the font families included in the library according to the default pagination.
-The desired pagination can be specified as follows:
+In this case, along with some general information about the library itself, the
+Typekit API will return a subset of the font families included in the library
+according to its default pagination. The desired pagination can be specified as
+follows:
 
 ```ruby
 library = client::Library.find('trial', page: 1, per_page: 10)
 ```
 
-The families are stored in the `families` attribute of the library.
+The font families are stored in the `families` attribute of the library.
 
 ## Low-Level Programming Interface
 
@@ -243,7 +246,7 @@ Each of the five actions has a shortcut: instead of calling
 `client.action(*endpoint, parameters)` replacing `action` with `index`, `show`,
 `create`, `update`, or `delete`.
 
-Here are some typical use cases of the gem:
+Here are some examples:
 
 ```ruby
 require 'typekit'
@@ -288,7 +291,7 @@ libraries = client.index(:libraries)
 library = client.show(:libraries, 'trial', page: 1, per_page: 10)
 ```
 
-## General Command-Line Interface
+## Low-Level Command-Line Interface
 
 There is a command-line tool provided in order to interact with the Typekit
 API without writing any code.  The tool is called `typekit-client`, and
