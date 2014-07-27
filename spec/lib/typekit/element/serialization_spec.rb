@@ -3,8 +3,8 @@ require 'fixture/record/article'
 require 'fixture/record/section'
 
 RSpec.describe Typekit::Element::Serialization do
-  let(:subject_class) { Fixture::Record::Article }
-  let(:nested_class) { Fixture::Record::Section }
+  let(:article_class) { Fixture::Record::Article }
+  let(:section_class) { Fixture::Record::Section }
 
   describe '#serialize' do
     let(:attributes) do
@@ -15,8 +15,8 @@ RSpec.describe Typekit::Element::Serialization do
     end
 
     subject do
-      object = subject_class.new(attributes)
-      expect(object.sections.first).to be_kind_of(nested_class)
+      object = article_class.new(attributes)
+      expect(object.sections.first).to be_kind_of(section_class)
       object
     end
 

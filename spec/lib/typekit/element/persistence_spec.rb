@@ -2,10 +2,10 @@ require 'spec_helper'
 require 'fixture/record/article'
 
 RSpec.describe Typekit::Element::Persistence do
-  let(:subject_class) { Fixture::Record::Article }
+  let(:article_class) { Fixture::Record::Article }
   let(:client) { double }
 
-  subject { subject_class.new(client, id: 69) }
+  subject { article_class.new(client, id: 69) }
 
   describe '#new?' do
     it 'returns true for new records' do
@@ -45,7 +45,7 @@ RSpec.describe Typekit::Element::Persistence do
 
   describe '#save' do
     before(:example) do
-      allow(client).to receive(:process).and_return(subject_class.new)
+      allow(client).to receive(:process).and_return(article_class.new)
     end
 
     it 'marks records as not new' do

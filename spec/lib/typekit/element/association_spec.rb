@@ -3,10 +3,10 @@ require 'fixture/record/article'
 require 'fixture/record/section'
 
 RSpec.describe Typekit::Element::Association do
-  describe '.has_many' do
-    let(:subject_class) { Fixture::Record::Article }
-    let(:nested_class) { Fixture::Record::Section }
+  let(:article_class) { Fixture::Record::Article }
+  let(:section_class) { Fixture::Record::Section }
 
+  describe '.has_many' do
     let(:nested_collection_attributes) do
       [ { title: 'First' }, { title: 'Second' } ]
     end
@@ -25,18 +25,18 @@ RSpec.describe Typekit::Element::Association do
     end
 
     it 'defines a getter method' do
-      expect(subject_class.new).to respond_to(:sections)
+      expect(article_class.new).to respond_to(:sections)
     end
 
     describe 'the getter method' do
       context 'when the attributes of the association are given' do
-        subject { subject_class.new(sections: nested_collection_attributes) }
+        subject { article_class.new(sections: nested_collection_attributes) }
 
         it_behaves_like 'an adequate collection accessor'
       end
 
       context 'when the attributes of the association are not given' do
-        subject { subject_class.new }
+        subject { article_class.new }
 
         it 'returns an empty Collection when new' do
           expect(subject).not_to receive(:load!)
@@ -53,11 +53,11 @@ RSpec.describe Typekit::Element::Association do
     end
 
     it 'defines a setter method' do
-      expect(subject_class.new).to respond_to(:sections=)
+      expect(article_class.new).to respond_to(:sections=)
     end
 
     describe 'the setter method' do
-      subject { subject_class.new }
+      subject { article_class.new }
 
       context 'when receives plain attributes' do
         before(:example) { subject.sections = nested_collection_attributes }
@@ -68,7 +68,7 @@ RSpec.describe Typekit::Element::Association do
       context 'when receives arrays of Elements' do
         before(:example) do
           subject.sections = nested_collection_attributes.map do |attributes|
-            nested_class.new(attributes)
+            section_class.new(attributes)
           end
         end
 
@@ -78,15 +78,13 @@ RSpec.describe Typekit::Element::Association do
   end
 
   describe '.belongs_to' do
-    let(:subject_class) { Fixture::Record::Section }
-
     it 'defines a getter method' do
-      expect(subject_class.new).to respond_to(:article)
+      expect(section_class.new).to respond_to(:article)
     end
 
     describe 'the getter method' do
       context 'when the attributes of the association are not given' do
-        subject { subject_class.new }
+        subject { section_class.new }
 
         it 'returns nil' do
           expect(subject.article).to be nil

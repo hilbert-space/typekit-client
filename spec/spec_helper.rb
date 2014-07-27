@@ -10,6 +10,10 @@ RSpec.configure do |config|
   config.disable_monkey_patching!
 end
 
+class RSpec::Core::ExampleGroup
+  alias_method :described_module, :described_class
+end
+
 VCR.configure do |config|
   config.cassette_library_dir = 'spec/fixture/cassette'
   config.hook_into :webmock
