@@ -19,21 +19,21 @@ RSpec.describe Typekit::Element do
 
   describe '.classify' do
     record_dictionary.each do |name, klass|
-      it "converts :#{ name } into the corresponding Record class" do
+      it "converts :#{name} into the corresponding Record class" do
         expect(described_module.classify(name)).to eq(klass)
       end
 
-      it "converts '#{ name }' into the corresponding Record class" do
+      it "converts '#{name}' into the corresponding Record class" do
         expect(described_module.classify(name.to_s)).to eq(klass)
       end
     end
 
     plural_record_dictionary.each do |name, klass|
-      it "converts :#{ name } into the corresponding Record class" do
+      it "converts :#{name} into the corresponding Record class" do
         expect(described_module.classify(name)).to eq(klass)
       end
 
-      it "converts '#{ name }' into the corresponding Record class" do
+      it "converts '#{name}' into the corresponding Record class" do
         expect(described_module.classify(name.to_s)).to eq(klass)
       end
     end

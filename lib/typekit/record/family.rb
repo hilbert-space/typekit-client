@@ -21,7 +21,7 @@ module Typekit
       end
 
       def serialize
-        super(only: [ :id, :subset, :variations ])
+        super(only: [:id, :subset, :variations])
       end
     end
   end

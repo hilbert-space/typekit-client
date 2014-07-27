@@ -10,7 +10,7 @@ RSpec.describe Typekit::Element::Serialization do
     let(:attributes) do
       {
         title: 'Conversation',
-        sections: [ { content: 'Hello' }, { content: 'Bye' } ]
+        sections: [{ content: 'Hello' }, { content: 'Bye' }]
       }
     end
 

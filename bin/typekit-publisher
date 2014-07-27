@@ -60,9 +60,9 @@ kits = process(:index, :kits)
 
 puts 'Which kit would you like to publish?'
 kits.each_with_index do |kit, i|
-  puts "%4d. %s" % [ i + 1, kit.id ]
+  puts "%4d. %s" % [i + 1, kit.id]
 end
-puts "%4d. all" % [ kits.length + 1 ]
+puts "%4d. all" % [kits.length + 1]
 
 k = Readline.readline('> ')
 if k.nil? || k.empty?
@@ -77,10 +77,10 @@ if k < 1 || k > kits.length + 1
   exit
 end
 
-range = k == kits.length + 1 ? 0...kits.length : [ k - 1 ]
+range = k == kits.length + 1 ? 0...kits.length : [k - 1]
 
 range.each do |i|
-  print "Publishing #{ kits[i].id }..."
+  print "Publishing #{kits[i].id}..."
   process(:update, :kits, kits[i].id, :publish)
   puts ' Done.'
 end

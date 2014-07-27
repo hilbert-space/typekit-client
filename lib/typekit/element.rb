@@ -11,7 +11,7 @@ module Typekit
         ObjectSpace.each_object(Class).select do |klass|
           klass < Base && klass.name
         end.map do |klass|
-          [ Helper.tokenize(klass), klass ]
+          [Helper.tokenize(klass), klass]
         end
       ]
     end

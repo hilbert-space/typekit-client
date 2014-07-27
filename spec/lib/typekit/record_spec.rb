@@ -7,21 +7,21 @@ RSpec.describe Typekit::Record do
 
   describe '.identify' do
     record_dictionary.each do |name, klass|
-      it "converts :#{ name } into :element" do
+      it "converts :#{name} into :element" do
         expect(described_module.identify(name)).to eq(:element)
       end
 
-      it "converts '#{ name }' into :element" do
+      it "converts '#{name}' into :element" do
         expect(described_module.identify(name.to_s)).to eq(:element)
       end
     end
 
     plural_record_dictionary.each do |name, klass|
-      it "converts :#{ name } into :collection" do
+      it "converts :#{name} into :collection" do
         expect(described_module.identify(name)).to eq(:collection)
       end
 
-      it "converts '#{ name }' into :collection" do
+      it "converts '#{name}' into :collection" do
         expect(described_module.identify(name.to_s)).to eq(:collection)
       end
     end

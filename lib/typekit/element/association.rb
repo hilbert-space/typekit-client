@@ -39,7 +39,7 @@ module Typekit
             attributes[name] = Collection.build(name, self, value)
           end
 
-          define_method("#{ name }=") do |value|
+          define_method("#{name}=") do |value|
             if value.is_a?(Collection::Base)
               attributes[name] = value
             else

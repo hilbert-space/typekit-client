@@ -8,7 +8,7 @@ module Typekit
           keys.map do |key|
             value = attributes[key]
             value = value.serialize if value.respond_to?(:serialize)
-            [ key, value ]
+            [key, value]
           end
         ]
       end

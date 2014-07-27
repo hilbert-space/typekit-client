@@ -77,17 +77,17 @@ Each resource has its own set of permitted operations. The entire routing map
 is as follows:
 
 ```ruby
-resources :families, only: :show do
-  show ':variation', on: :member
-end
-
 resources :kits do
-  resources :families, only: [ :show, :update, :delete ]
+  resources :families, only: [:show, :update, :delete]
   show :published, on: :member
   update :publish, on: :member
 end
 
-resources :libraries, only: [ :index, :show ]
+resources :families, only: :show do
+  show ':variation', on: :member
+end
+
+resources :libraries, only: [:index, :show]
 ```
 
 Here, the DSL of [Apitizer](https://github.com/IvanUkhov/apitizer) is utilized,

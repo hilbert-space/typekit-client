@@ -11,7 +11,7 @@ module Typekit
     end
 
     module InstanceMethods
-      [ :process, :index, :show, :create, :update, :delete ].each do |method|
+      [:process, :index, :show, :create, :update, :delete].each do |method|
         define_method(method) do |*arguments|
           translate(engine.send(method, *arguments))
         end

@@ -9,9 +9,9 @@ module Typekit
       when /^.*s$/
         word
       when /^(?<root>.*)y$/
-        "#{ Regexp.last_match(:root) }ies"
+        "#{Regexp.last_match(:root)}ies"
       else
-        "#{ word }s"
+        "#{word}s"
       end
     end
 
@@ -22,7 +22,7 @@ module Typekit
     def self.singularize(word)
       case word
       when /^(?<root>.*)ies$/
-        "#{ Regexp.last_match(:root) }y"
+        "#{Regexp.last_match(:root)}y"
       when /^(?<root>.*)s$/
         Regexp.last_match(:root)
       else
@@ -54,7 +54,7 @@ module Typekit
     # @param hash [Hash]
     # @return [Hash]
     def self.symbolize_keys(hash)
-      Hash[hash.map { |k, v| [ k.to_sym, v ] }]
+      Hash[hash.map { |k, v| [k.to_sym, v] }]
     end
 
     # Removes and returns the last element of the given array if that element

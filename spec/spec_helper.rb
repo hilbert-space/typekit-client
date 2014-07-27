@@ -20,7 +20,7 @@ VCR.configure do |config|
   config.configure_rspec_metadata!
   config.default_cassette_options = {
     allow_unused_http_interactions: false,
-    match_requests_on: [ :method, :uri, :body ]
+    match_requests_on: [:method, :uri, :body]
   }
   config.allow_http_connections_when_no_cassette = false
 end

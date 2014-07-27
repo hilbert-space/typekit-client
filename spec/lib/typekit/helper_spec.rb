@@ -12,7 +12,7 @@ RSpec.describe Typekit::Helper do
       'variation' => 'variations',
       'variations' => 'variations'
     }.each do |k, v|
-      it "returns #{ v } for #{ k }" do
+      it "returns #{v} for #{k}" do
         expect(described_module.pluralize(k)).to eq(v)
       end
     end
@@ -29,7 +29,7 @@ RSpec.describe Typekit::Helper do
       'variation' => 'variation',
       'variations' => 'variation'
     }.each do |k, v|
-      it "returns #{ v } for #{ k }" do
+      it "returns #{v} for #{k}" do
         expect(described_module.singularize(k)).to eq(v)
       end
     end
@@ -37,8 +37,8 @@ RSpec.describe Typekit::Helper do
 
   describe '.symbolize_keys' do
     it 'does what it says' do
-      expect(described_module.symbolize_keys('a' => { 'b' => 1 }, 'd' => 2)).to \
-        eq(a: { 'b' => 1 }, d: 2)
+      result = described_module.symbolize_keys('a' => { 'b' => 1 }, 'd' => 2)
+      expect(result).to eq(a: { 'b' => 1 }, d: 2)
     end
   end
 end

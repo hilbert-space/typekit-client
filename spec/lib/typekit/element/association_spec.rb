@@ -8,7 +8,7 @@ RSpec.describe Typekit::Element::Association do
 
   describe '.has_many' do
     let(:nested_collection_attributes) do
-      [ { title: 'First' }, { title: 'Second' } ]
+      [{ title: 'First' }, { title: 'Second' }]
     end
 
     shared_examples 'an adequate collection accessor' do

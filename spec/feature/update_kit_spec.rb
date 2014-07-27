@@ -6,8 +6,8 @@ RSpec.feature 'Updating a kit' do
 
   given(:kit) do
     kit = client::Kit.new(:kits, id: 'xxx', name: 'Megakit',
-      analytics: false, badge: true, domains: [ 'localhost' ],
-      families: [ { id: 'vqgt', subset: 'all', variations: [ 'n4' ] } ])
+      analytics: false, badge: true, domains: ['localhost'],
+      families: [{ id: 'vqgt', subset: 'all', variations: ['n4'] }])
     kit.persistent!
     kit
   end
@@ -55,7 +55,7 @@ RSpec.feature 'Updating a kit' do
     family = Typekit::Record::Family.new(id: 'gkmg')
 
     expect { family.variations }.to raise_error(/Client is not specified/i)
-    family.variations = [ Typekit::Record::Variation.new(id: 'n4') ]
+    family.variations = [Typekit::Record::Variation.new(id: 'n4')]
 
     expect(kit.families).not_to be nil
     kit.families << family
@@ -65,7 +65,7 @@ RSpec.feature 'Updating a kit' do
     expect(kit.families.map(&:id)).to contain_exactly('gkmg', 'vqgt')
 
     i = kit.families[0].id == 'gkmg' ? 0 : 1
-    expect(kit.families[i].variations.map(&:id)).to eq([ 'n4' ])
+    expect(kit.families[i].variations.map(&:id)).to eq(['n4'])
   end
 
   options = { vcr: {

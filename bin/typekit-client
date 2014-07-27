@@ -59,7 +59,7 @@ HELP
     raise 'Invalid action name' unless ACTIONS.include?(action)
     raise 'Missing resource name' if path.empty?
 
-    [ action, path, parameters ]
+    [action, path, parameters]
   end
 
   def extract_parameters!(command)
@@ -132,7 +132,7 @@ puts %{Type 'help' for help and 'exit' to exit.}
 
 COMMANDS = Controller::ACTIONS + Controller::KEYWORDS + %w{help exit}
 Readline.completion_proc = proc do |input|
-  COMMANDS.grep(/^#{ Regexp.escape(input) }/)
+  COMMANDS.grep(/^#{Regexp.escape(input)}/)
 end
 
 loop do
