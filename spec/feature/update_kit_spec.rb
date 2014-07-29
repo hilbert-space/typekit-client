@@ -12,10 +12,16 @@ RSpec.feature 'Updating a kit' do
 
   options = { vcr: { cassette_name: 'update_kits_xxx_name_ok' } }
 
-  scenario 'Changing the name attribute', options do
+  scenario 'Changing the name attribute via #save', options do
     kit.name = 'Ultrakit'
+    kit.save!
 
-    expect(kit.save).to be true
+    expect(kit.name).to eq('Ultrakit')
+  end
+
+  scenario 'Changing the name attribute via #update', options do
+    kit.update!(name: 'Ultrakit')
+
     expect(kit.name).to eq('Ultrakit')
   end
 
@@ -23,8 +29,8 @@ RSpec.feature 'Updating a kit' do
 
   scenario 'Adding a new family', options do
     kit.families << Typekit::Record::Family.new(id: 'gkmg')
+    kit.save!
 
-    expect(kit.save).to be true
     expect(kit.families.length).to be 2
     expect(kit.families.map(&:id)).to contain_exactly('gkmg', 'vqgt')
   end
@@ -40,8 +46,8 @@ RSpec.feature 'Updating a kit' do
     expect(family.variations).not_to be_empty
 
     kit.families << family
+    kit.save!
 
-    expect(kit.save).to be true
     expect(kit.families.length).to be 2
     expect(kit.families.map(&:id)).to contain_exactly('gkmg', 'vqgt')
   end
@@ -56,9 +62,10 @@ RSpec.feature 'Updating a kit' do
     family.variations = [Typekit::Record::Variation.new(id: 'n4')]
 
     expect(kit.families).not_to be nil
-    kit.families << family
 
-    expect(kit.save).to be true
+    kit.families << family
+    kit.save!
+
     expect(kit.families.length).to be 2
     expect(kit.families.map(&:id)).to contain_exactly('gkmg', 'vqgt')
 
@@ -74,8 +81,8 @@ RSpec.feature 'Updating a kit' do
 
     family = kit.families.first
     kit.families.delete(family)
+    kit.save!
 
-    expect(kit.save).to be true
     expect(kit.families).to be_empty
   end
 end

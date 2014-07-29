@@ -10,6 +10,7 @@ module Typekit
 
       def initialize(*arguments)
         @attributes = prepare_attributes(Helper.extract_hash!(arguments))
+        @attributes[:id] = nil unless @attributes.key?(:id)
         connect(arguments.first)
       end
 
@@ -34,12 +35,16 @@ module Typekit
         attributes.key?(name)
       end
 
+      def assign_attributes(*arguments)
+        prepare_attributes(*arguments).each do |name, value|
+          attributes[name] = value
+        end
+      end
+
       private
 
       def prepare_attributes(attributes)
-        attributes = Helper.symbolize_keys(attributes)
-        attributes[:id] = nil unless attributes.key?(:id)
-        attributes
+        Helper.symbolize_keys(attributes)
       end
 
       def method_missing(name, *arguments)

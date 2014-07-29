@@ -24,7 +24,12 @@ module Typekit
           element = process(:update, id, serialize)
         end
         become(element)
-        @deleted = false
+        true
+      end
+
+      def update!(*arguments)
+        assign_attributes(*arguments)
+        become(process(:update, id, serialize))
         true
       end
 
@@ -34,10 +39,10 @@ module Typekit
         true
       end
 
-      [:save, :delete].each do |method|
+      [:save, :update, :delete].each do |method|
         class_eval <<-CODE, __FILE__, __LINE__ + 1
-          def #{method}
-            #{method}!
+          def #{method}(*arguments)
+            #{method}!(*arguments)
           rescue ServerError
             false
           end
