@@ -49,7 +49,7 @@ RSpec.feature 'Reading a kit' do
   end
 
   context 'Using Record' do
-    given(:kit) { client::Kit.find('xxx') }
+    given(:kit) { client::Kit.find!('xxx') }
 
     include_scenarios 'Adequate behavior'
   end

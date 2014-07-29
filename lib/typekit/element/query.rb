@@ -10,8 +10,14 @@ module Typekit
           process(:index)
         end
 
-        def find(id)
+        def find!(id)
           process(:show, id)
+        end
+
+        def find(id)
+          find!(id)
+        rescue ServerError
+          nil
         end
       end
     end

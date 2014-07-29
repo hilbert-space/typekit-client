@@ -140,7 +140,7 @@ kit.link
 A particular kit can be fetched using its `id`:
 
 ```ruby
-kit = client::Kit.find('bas4cfe')
+kit = client::Kit.find('bas4cfe') # or find! to raise an exception if failed
 ```
 
 In the case of `find`, you get all information about the kit:
@@ -173,7 +173,7 @@ In order to reload a kit and/or retrieve missing data, call `load`:
 kit.complete?
 # => false
 
-kit.load
+kit.load # or load! to raise an exception if failed
 
 kit.complete?
 # => true
@@ -184,7 +184,7 @@ attribute and call `save`:
 
 ```ruby
 kit.name = 'Ultrakit'
-kit.save
+kit.save # or save! to raise an exception if failed
 ```
 
 Similarly, the `families` attribute, containing the font families included in
