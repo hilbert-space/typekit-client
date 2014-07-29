@@ -14,22 +14,39 @@ module Typekit
         @deleted = false
       end
 
-      def save
-        if new?
-          become(process(:create, serialize))
-        else
-          become(process(:update, id, serialize))
-        end
-        persistent!
-        true
-      end
-
-      def delete
-        @deleted ||= persistent? ? process(:delete, id) : true
+      def deleted!
+        @deleted = true
       end
 
       def deleted?
         !!@deleted
+      end
+
+      def save!
+        if new?
+          element = process(:create, serialize)
+        else
+          element = process(:update, id, serialize)
+        end
+        become(element)
+        persistent!
+        true
+      end
+
+      def delete!
+        process(:delete, id) if persistent?
+        deleted!
+        true
+      end
+
+      [:save, :delete].each do |method|
+        class_eval <<-CODE, __FILE__, __LINE__ + 1
+          def #{method}
+            #{method}!
+          rescue ServerError
+            false
+          end
+        CODE
       end
     end
   end

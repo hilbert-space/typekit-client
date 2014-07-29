@@ -31,7 +31,7 @@ RSpec.feature 'Deleting a kit' do
       kit
     end
 
-    given(:result) { kit.delete }
+    given(:result) { kit.delete! }
 
     include_scenarios 'Adequate behavior'
   end

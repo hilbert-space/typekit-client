@@ -12,12 +12,15 @@ module Typekit
         !persistent? || attribute?(:families)
       end
 
-      def load
-        process(:show, id)
+      def load!
+        become(process(:show, id))
+        true
       end
 
-      def load!
-        become(load)
+      def load
+        load!
+      rescue ServerError
+        false
       end
     end
   end

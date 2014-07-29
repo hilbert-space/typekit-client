@@ -44,18 +44,35 @@ RSpec.describe Typekit::Element::Persistence do
   end
 
   describe '#save' do
-    before(:example) do
-      allow(client).to receive(:process).and_return(article_class.new)
+    context 'when successful' do
+      before(:example) do
+        allow(client).to receive(:process).and_return(article_class.new)
+      end
+
+      it 'returns true' do
+        expect(subject.save).to be true
+      end
+
+      it 'marks records as not new' do
+        expect { subject.save }.to \
+          change { subject.new? }.from(true).to(false)
+      end
+
+      it 'marks records as persistent' do
+        expect { subject.save }.to \
+          change { subject.persistent? }.from(false).to(true)
+      end
     end
 
-    it 'marks records as not new' do
-      expect { subject.save }.to \
-        change { subject.new? }.from(true).to(false)
-    end
+    context 'when unsuccessful' do
+      before(:example) do
+        allow(client).to \
+          receive(:process).and_raise(Typekit::ServerError.new(404))
+      end
 
-    it 'marks records as persistent' do
-      expect { subject.save }.to \
-        change { subject.persistent? }.from(false).to(true)
+      it 'returns false' do
+        expect(subject.save).to be false
+      end
     end
   end
 
