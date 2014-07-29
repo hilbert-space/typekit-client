@@ -1,0 +1,16 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://typekit.com/api/v1/json/kits
+    body:
+      encoding: UTF-8
+      string: name=Megakit
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    body:
+      encoding: UTF-8
+      string: '{"errors":["Missing ''domains'' parameter"]}'
+  recorded_at: Tue, 29 Jul 2014 00:00:00 GMT

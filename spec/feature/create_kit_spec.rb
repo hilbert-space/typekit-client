@@ -4,20 +4,49 @@ require 'rspec/bdd'
 RSpec.feature 'Creating a new kit' do
   given(:client) { Typekit::Client.new(token: token) }
 
-  options = { vcr: { cassette_name: 'create_kits_ok' } }
+  context 'Successful' do
+    options = { vcr: { cassette_name: 'create_kits_ok' } }
 
-  scenario 'Success via #new and #save', options do
-    kit = client::Kit.new(name: 'Megakit', domains: 'localhost')
-    kit.save
+    scenario 'Using #save', options do
+      kit = client::Kit.new(name: 'Megakit', domains: 'localhost')
+      kit.save
 
-    expect(kit).to be_persistent
-    expect(kit.name).to eq('Megakit')
+      expect(kit).to be_persistent
+      expect(kit.name).to eq('Megakit')
+    end
+
+    scenario 'Using #create', options do
+      kit = client::Kit.create(name: 'Megakit', domains: 'localhost')
+
+      expect(kit).to be_persistent
+      expect(kit.name).to eq('Megakit')
+    end
   end
 
-  scenario 'Success via #create', options do
-    kit = client::Kit.create(name: 'Megakit', domains: 'localhost')
+  context 'Failure' do
+    options = { vcr: { cassette_name: 'create_kits_bad' } }
 
-    expect(kit).to be_persistent
-    expect(kit.name).to eq('Megakit')
+    scenario 'Using #save', options do
+      kit = client::Kit.new(name: 'Megakit')
+
+      expect(kit.save).to be false
+      expect(kit).not_to be_persistent
+    end
+
+    scenario 'Using #save!', options do
+      kit = client::Kit.new(name: 'Megakit')
+
+      expect { kit.save! }.to raise_error(Typekit::ServerError)
+
+      expect(kit).to be_new
+      expect(kit).not_to be_persistent
+    end
+
+    scenario 'Using #create', options do
+      kit = client::Kit.create(name: 'Megakit')
+
+      expect(kit).to be_new
+      expect(kit).not_to be_persistent
+    end
   end
 end

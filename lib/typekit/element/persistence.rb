@@ -52,7 +52,7 @@ module Typekit
       module ClassMethods
         def create(*arguments)
           element = new(*arguments)
-          element.save!
+          element.save
           element
         end
       end
