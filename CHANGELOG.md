@@ -1,4 +1,4 @@
-## Typekit Client (develop)
+## Typekit Client 0.0.6 (July 29, 2014)
 
 * Implementation of an Active-Record-like architecture: each Typekit resource
   (kits, families, libraries, and variations) is ascribed a Ruby class that
