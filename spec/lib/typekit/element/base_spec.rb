@@ -7,23 +7,32 @@ RSpec.describe Typekit::Element::Base do
   let(:section_class) { Fixture::Record::Section }
 
   describe '#new' do
-    it 'treats each option as an attribute' do
-      subject = article_class.new(name: 'Awesome')
-      expect { subject.name = 'Superb' }.to \
-        change { subject.name }.from('Awesome').to('Superb')
+    it 'treats options as attributes' do
+      subject = article_class.new(title: 'Awesome')
+      expect { subject.title = 'Superb' }.to \
+        change { subject.title }.from('Awesome').to('Superb')
     end
 
-    it 'handles attribute names given as strings' do
-      subject = article_class.new('name' => 'Awesome')
-      expect { subject.name = 'Superb' }.to \
-        change { subject.name }.from('Awesome').to('Superb')
+    it 'symbolizes the names of the attributes' do
+      subject = article_class.new('title' => 'Awesome')
+      expect(subject.attributes.keys).to include(:title)
+    end
+
+    it 'appends the id attribute when missing' do
+      subject = article_class.new(title: 'Awesome')
+      expect(subject.id).to be nil
+    end
+
+    it 'does not affect the id attribute when present' do
+      subject = article_class.new(id: 42, title: 'Awesome')
+      expect(subject.id).to be 42
     end
   end
 
   describe '#attributes' do
     it 'returns all attributes' do
-      subject = article_class.new(id: 1, name: 'Awesome')
-      expect(subject.attributes).to eq(id: 1, name: 'Awesome')
+      subject = article_class.new(id: 1, title: 'Awesome')
+      expect(subject.attributes).to eq(id: 1, title: 'Awesome')
     end
 
     it 'reflects attribute assignments' do
@@ -34,12 +43,12 @@ RSpec.describe Typekit::Element::Base do
   end
 
   describe '#become' do
-    subject { article_class.new(id: 42, name: 'Awesome') }
+    subject { article_class.new(id: 1, title: 'Awesome') }
 
     it 'copies the attributes of another element' do
-      another = article_class.new(name: 'Superb', surname: 'Squared')
+      another = article_class.new(id: 2, name: 'Superb')
       subject.become(another)
-      expect(subject.attributes).to eq(name: 'Superb', surname: 'Squared')
+      expect(subject.attributes).to  eq(id: 2, name: 'Superb')
     end
 
     it 'raises an exception when the classes do not match' do

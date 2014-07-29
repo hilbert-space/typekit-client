@@ -9,7 +9,7 @@ module Typekit
       def_delegators :attributes, :to_hash, :to_h, :to_json
 
       def initialize(*arguments)
-        @attributes = Helper.symbolize_keys(Helper.extract_hash!(arguments))
+        @attributes = prepare_attributes(Helper.extract_hash!(arguments))
         connect(arguments.first)
       end
 
@@ -35,6 +35,12 @@ module Typekit
       end
 
       private
+
+      def prepare_attributes(attributes)
+        attributes = Helper.symbolize_keys(attributes)
+        attributes[:id] = nil unless attributes.key?(:id)
+        attributes
+      end
 
       def method_missing(name, *arguments)
         if name.to_s =~ /^(?<name>.*)=$/
