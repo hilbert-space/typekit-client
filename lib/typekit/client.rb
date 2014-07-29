@@ -43,7 +43,7 @@ module Typekit
 
       def translate(result)
         unless result.is_a?(Hash) && result.length == 1
-          raise Error, 'Unknown server response'
+          raise ServerError.new(result.code)
         end
         name, object = *result.first
         converter(name).process(result, object)

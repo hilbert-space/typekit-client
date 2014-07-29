@@ -1,6 +1,4 @@
 module Typekit
-  Error = Class.new(StandardError)
-
   @defaults = { version: 1, format: :json }
 
   @schema = Proc.new do |version, format|

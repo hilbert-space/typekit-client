@@ -37,7 +37,7 @@ RSpec.feature 'Listing kits' do
     options = { vcr: { cassette_name: 'index_kits_unauthorized' } }
 
     scenario 'Failure', options do
-      expect { kits }.to raise_error(Typekit::Error, /Not authorized/i)
+      expect { kits }.to raise_error(Typekit::ServerError, /Not authorized/i)
     end
   end
 

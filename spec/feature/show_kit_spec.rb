@@ -38,7 +38,7 @@ RSpec.feature 'Reading a kit' do
     options = { vcr: { cassette_name: 'show_kits_xxx_not_found' } }
 
     scenario 'Failure', options do
-      expect { kit }.to raise_error(Typekit::Error, /Not found/i)
+      expect { kit }.to raise_error(Typekit::ServerError, /Not found/i)
     end
   end
 

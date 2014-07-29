@@ -14,7 +14,7 @@ RSpec.feature 'Deleting a kit' do
     options = { vcr: { cassette_name: 'delete_kits_xxx_not_found' } }
 
     scenario 'Failure', options do
-      expect { result }.to raise_error(Typekit::Error, /Not found/i)
+      expect { result }.to raise_error(Typekit::ServerError, /Not found/i)
     end
   end
 

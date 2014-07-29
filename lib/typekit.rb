@@ -2,6 +2,7 @@ require 'forwardable'
 require 'apitizer'
 
 require_relative 'typekit/core'
+require_relative 'typekit/error'
 require_relative 'typekit/helper'
 
 require_relative 'typekit/converter'
