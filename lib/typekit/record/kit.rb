@@ -17,10 +17,18 @@ module Typekit
         true
       end
 
-      def load
-        load!
-      rescue ServerError
-        false
+      def publish!
+        process(:update, id, :publish)
+      end
+
+      [:load, :publish].each do |method|
+        class_eval <<-CODE, __FILE__, __LINE__ + 1
+          def #{method}(*arguments)
+            #{method}!(*arguments)
+          rescue ServerError
+            false
+          end
+        CODE
       end
     end
   end

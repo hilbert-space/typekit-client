@@ -1,0 +1,16 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://typekit.com/api/v1/json/kits/yzs8dte/publish
+    body:
+      encoding: UTF-8
+      string: ''
+  response:
+    status:
+      code: 200
+      message: OK
+    body:
+      encoding: UTF-8
+      string: '{"published":"2014-07-29T13:32:22Z"}'
+  recorded_at: Tue, 29 Jul 2014 00:00:00 GMT
