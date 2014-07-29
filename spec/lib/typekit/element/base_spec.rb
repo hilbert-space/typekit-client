@@ -42,6 +42,16 @@ RSpec.describe Typekit::Element::Base do
     end
   end
 
+  describe '#attribute=' do
+    it 'assigns arbitrary attributes' do
+      subject = article_class.new
+      subject.fourty_second = 42
+
+      expect(subject.fourty_second).to be 42
+      expect(subject.attributes.keys).to include(:fourty_second)
+    end
+  end
+
   describe '#become' do
     subject { article_class.new(id: 1, title: 'Awesome') }
 

@@ -45,8 +45,7 @@ module Typekit
       def method_missing(name, *arguments)
         if name.to_s =~ /^(?<name>.*)=$/
           name = Regexp.last_match(:name).to_sym
-          return super unless attributes.key?(name)
-          attributes[name] = arguments.first
+          attributes.send(:[]=, name, *arguments)
         else
           return super unless attributes.key?(name)
           attributes[name]
