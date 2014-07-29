@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://typekit.com/api/v1/json/kits/yzs8dte/publish
+    uri: https://typekit.com/api/v1/json/kits/xxx/publish
     body:
       encoding: UTF-8
       string: ''

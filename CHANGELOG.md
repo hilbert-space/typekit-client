@@ -1,9 +1,9 @@
 ## Typekit Client (develop)
 
 * Implementation of an Active-Record-like architecture: each Typekit resource
-  (families, kits, libraries, and variations) is ascribed an adequate Ruby
-  class that provides various methods for manipulating the corresponding data
-  (e.g., `Kit.all`, `Kit.find`, `kit.save`, and `kit.delete`).
+  (kits, families, libraries, and variations) is ascribed a Ruby class that
+  provides various methods for manipulating the corresponding data (`Kit.all`,
+  `Kit.find`, `kit.save`, `kit.delete`, etc.).
 * Support for Ruby >= 1.9.3 instead of Ruby >= 2.1.
 
 ## Typekit Client 0.0.5 (June 10, 2014)

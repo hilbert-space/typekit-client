@@ -3,7 +3,7 @@ require 'rspec/bdd'
 
 RSpec.feature 'Publishing a kit' do
   given(:client) { Typekit::Client.new(token: token) }
-  given(:kit) { client::Kit.new(:kits, id: 'yzs8dte') }
+  given(:kit) { client::Kit.new(:kits, id: 'xxx') }
 
   options = { vcr: { cassette_name: 'update_kits_xxx_publish_ok' } }
 
