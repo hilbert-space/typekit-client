@@ -1,6 +1,10 @@
 module Typekit
   module Element
     module Persistence
+      def self.included(base)
+        base.extend(ClassMethods)
+      end
+
       def new?
         id.to_s.empty?
       end
@@ -38,6 +42,14 @@ module Typekit
             false
           end
         CODE
+      end
+
+      module ClassMethods
+        def create(*arguments)
+          element = new(*arguments)
+          element.save!
+          element
+        end
       end
     end
   end
