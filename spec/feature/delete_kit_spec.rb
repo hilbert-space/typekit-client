@@ -25,12 +25,7 @@ RSpec.feature 'Deleting a kit' do
   end
 
   context 'Using Record' do
-    given(:kit) do
-      kit = client::Kit.new(id: 'xxx')
-      kit.persistent!
-      kit
-    end
-
+    given(:kit) { client::Kit.new(id: 'xxx') }
     given(:result) { kit.delete! }
 
     include_scenarios 'Adequate behavior'

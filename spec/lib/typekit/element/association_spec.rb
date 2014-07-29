@@ -36,16 +36,17 @@ RSpec.describe Typekit::Element::Association do
       end
 
       context 'when the attributes of the association are not given' do
-        subject { article_class.new }
-
         it 'returns an empty Collection when new' do
+          subject = article_class.new
+
           expect(subject).not_to receive(:load!)
           expect(subject.sections).to be_kind_of(Typekit::Collection::Base)
           expect(subject.sections).to be_empty
         end
 
         it 'loads the association when not new' do
-          subject.persistent!
+          subject = article_class.new(id: 42)
+
           expect(subject).to receive(:load!).and_throw(:break)
           catch(:break) { subject.sections }
         end

@@ -5,11 +5,9 @@ RSpec.feature 'Updating a kit' do
   given(:client) { Typekit::Client.new(token: token) }
 
   given(:kit) do
-    kit = client::Kit.new(:kits, id: 'xxx', name: 'Megakit',
+    client::Kit.new(:kits, id: 'xxx', name: 'Megakit',
       analytics: false, badge: true, domains: ['localhost'],
       families: [{ id: 'vqgt', subset: 'all', variations: ['n4'] }])
-    kit.persistent!
-    kit
   end
 
   options = { vcr: { cassette_name: 'update_kits_xxx_name_ok' } }

@@ -17,12 +17,6 @@ RSpec.describe Typekit::Collection do
           expect(element).to be_an_instance_of(article_class)
         end
       end
-
-      it 'contains Elements that are persistent' do
-        subject.each do |element|
-          expect(element).to be_persistent
-        end
-      end
     end
   end
 end

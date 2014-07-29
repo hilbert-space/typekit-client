@@ -2,20 +2,11 @@ module Typekit
   module Element
     module Persistence
       def new?
-        defined?(@new) ? @new : true
+        id.to_s.empty?
       end
 
       def persistent?
         !(new? || deleted?)
-      end
-
-      def persistent!
-        @new = false
-        @deleted = false
-      end
-
-      def deleted!
-        @deleted = true
       end
 
       def deleted?
@@ -29,13 +20,13 @@ module Typekit
           element = process(:update, id, serialize)
         end
         become(element)
-        persistent!
+        @deleted = false
         true
       end
 
       def delete!
         process(:delete, id) if persistent?
-        deleted!
+        @deleted = true
         true
       end
 

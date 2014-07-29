@@ -6,7 +6,6 @@ module Typekit
 
       include Client::Proxy
 
-      include Persistence
       include Serialization
 
       def_delegators :elements, :to_ary, :to_a, :to_json,

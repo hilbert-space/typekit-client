@@ -54,9 +54,5 @@ RSpec.describe Typekit::Element do
     it 'creates an instance of an Element class' do
       expect(subject).to be_an_instance_of(article_class)
     end
-
-    describe 'the instance of an Element class' do
-      it { should be_persistent }
-    end
   end
 end

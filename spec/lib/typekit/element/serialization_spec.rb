@@ -9,8 +9,9 @@ RSpec.describe Typekit::Element::Serialization do
   describe '#serialize' do
     let(:attributes) do
       {
+        id: 1,
         title: 'Conversation',
-        sections: [{ content: 'Hello' }, { content: 'Bye' }]
+        sections: [{ id: 1, content: 'Hello' }, { id: 2, content: 'Bye' }]
       }
     end
 
