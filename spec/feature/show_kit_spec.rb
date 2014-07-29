@@ -9,7 +9,7 @@ RSpec.feature 'Reading a kit' do
 
     scenario 'Success', options do
       expect(kit).to be_kind_of(Typekit::Record::Kit)
-      expect(kit).to be_loaded
+      expect(kit).to be_complete
 
       families = kit.families
 
@@ -18,12 +18,12 @@ RSpec.feature 'Reading a kit' do
 
       families.each do |family|
         expect(family).to be_kind_of(Typekit::Record::Family)
-        expect(family).not_to be_loaded
+        expect(family).not_to be_complete
       end
 
       family = families.first
       expect(family.load!).to be true
-      expect(family).to be_loaded
+      expect(family).to be_complete
 
       variations = family.variations
 

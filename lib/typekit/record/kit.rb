@@ -8,7 +8,7 @@ module Typekit
 
       has_many :families
 
-      def loaded?
+      def complete?
         !persistent? || attribute?(:families)
       end
 

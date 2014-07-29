@@ -60,12 +60,12 @@ RSpec.feature 'Reading a family' do
         expect(variation).to be_kind_of(Typekit::Record::Variation)
       end
 
-      expect(family).not_to be_loaded
+      expect(family).not_to be_complete
 
       libraries = family.libraries
       expect(variations).to be_kind_of(Typekit::Collection::Base)
 
-      expect(family).to be_loaded
+      expect(family).to be_complete
 
       libraries.each do |library|
         expect(library).to be_kind_of(Typekit::Record::Library)

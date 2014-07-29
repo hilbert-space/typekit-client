@@ -8,7 +8,7 @@ module Typekit
       has_many :libraries
       has_many :variations
 
-      def loaded?
+      def complete?
         attribute?(:libraries) && attribute?(:variations)
       end
 

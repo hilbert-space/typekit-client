@@ -37,7 +37,7 @@ RSpec.feature 'Updating a kit' do
   scenario 'Adding a family fetched earlier', options do
     family = client::Family.find('gkmg')
 
-    expect(family).to be_loaded
+    expect(family).to be_complete
     expect(family.libraries).not_to be_empty
     expect(family.variations).not_to be_empty
 

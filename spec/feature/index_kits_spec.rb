@@ -18,7 +18,7 @@ RSpec.feature 'Listing kits' do
 
         expect(kit).to be_persistent
         expect(kit).not_to be_new
-        expect(kit).not_to be_loaded
+        expect(kit).not_to be_complete
 
         expect(kit.attributes.keys).to contain_exactly(:id, :link)
       end
@@ -29,7 +29,7 @@ RSpec.feature 'Listing kits' do
 
       expect(kit).to be_persistent
       expect(kit).not_to be_new
-      expect(kit).to be_loaded
+      expect(kit).to be_complete
 
       expect(kit.families).to be_kind_of(Typekit::Collection::Base)
     end
