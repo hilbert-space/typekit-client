@@ -6,8 +6,8 @@ require 'typekit/version'
 Gem::Specification.new do |spec|
   spec.name          = 'typekit-client'
   spec.version       = Typekit::VERSION
-  spec.authors       = [ 'Ivan Ukhov' ]
-  spec.email         = [ 'ivan.ukhov@gmail.com' ]
+  spec.authors       = ['Ivan Ukhov']
+  spec.email         = ['ivan.ukhov@gmail.com']
   spec.summary       = 'A Ruby library for accessing the Typekit API'
   spec.description   = 'A Ruby library for manipulating the resources ' \
                        'provided by the Typekit Web service.'
@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^spec/})
-  spec.require_paths = [ 'lib' ]
+  spec.require_paths = ['lib']
 
   spec.required_ruby_version = '>= 1.9.3'
 
