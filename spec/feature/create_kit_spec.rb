@@ -1,4 +1,3 @@
-require 'spec_helper'
 require 'rspec/bdd'
 
 RSpec.feature 'Creating a new kit' do

@@ -1,4 +1,3 @@
-require 'spec_helper'
 require 'fixture/record/article'
 
 RSpec.describe Typekit::Element do

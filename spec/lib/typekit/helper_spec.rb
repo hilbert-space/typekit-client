@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe Typekit::Helper do
   describe '.pluralize' do
     {

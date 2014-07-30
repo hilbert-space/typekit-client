@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe Typekit::Converter do
   def create(name)
     Typekit::Converter.build(name)
