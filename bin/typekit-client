@@ -161,4 +161,4 @@ end
 
 puts 'Bye.'
 
-# vim: set ft=ruby
+# vim: ft=ruby
